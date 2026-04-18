@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Ingeniería Mecánica & R&D</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  :root {
+    --black: #0a0a0a;
+    --gray:  #8a8a8a;
+    --gray-light: #d4d4d4;
+    --gray-bg: #f5f5f3;
+    --white: #ffffff;
+    --border: #e8e8e5;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2.5rem; height: 68px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--black); text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--gray); font-weight: 400; }
+  .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+  .nav-links { display: flex; gap: 2rem; margin-right: 1rem; }
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500;
+    color: var(--gray); text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--black); }
+  .btn-nav {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem; font-weight: 600;
+    padding: 0.55rem 1.25rem;
+    background: var(--black); color: var(--white);
+    border: none; border-radius: 100px;
+    cursor: pointer; text-decoration: none;
+    transition: opacity .15s;
+  }
+  .btn-nav:hover { opacity: 0.8; }
+  .btn-menu {
+    width: 40px; height: 40px;
+    border: 1.5px solid var(--border);
+    border-radius: 100px; background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; gap: 3px; flex-direction: column;
+    padding: 0;
+  }
+  .btn-menu span {
+    display: block; width: 14px; height: 1.5px;
+    background: var(--black); border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 10rem 2.5rem 5rem;
+    max-width: 1200px; margin: 0 auto;
+    position: relative;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.78rem; font-weight: 500;
+    color: var(--gray);
+    background: var(--gray-bg);
+    border: 1px solid var(--border);
+    padding: 0.4rem 1rem; border-radius: 100px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    margin-bottom: 2.5rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 6px; height: 6px;
+    border-radius: 50%; background: #22c55e;
+    flex-shrink: 0;
+  }
+  .hero h1 {
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    max-width: 900px;
+  }
+  .hero h1 .muted { color: var(--gray); font-weight: 900; }
+  .hero h1 .block { display: block; }
+  .hero-bottom {
+    display: flex; align-items: flex-end;
+    justify-content: space-between; flex-wrap: wrap;
+    gap: 2rem; margin-top: 3.5rem;
+  }
+  .hero-desc {
+    font-size: 1.05rem; color: var(--gray);
+    max-width: 420px; line-height: 1.7; font-weight: 400;
+  }
+  .hero-ctas { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem; font-weight: 700;
+    padding: 1rem 2rem;
+    background: var(--black); color: var(--white);
+    border: none; border-radius: 100px;
+    cursor: pointer; text-decoration: none;
+    transition: opacity .15s;
+  }
+  .btn-primary:hover { opacity: 0.8; }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem; font-weight: 600;
+    padding: 1rem 2rem;
+    background: transparent; color: var(--black);
+    border: 1.5px solid var(--border); border-radius: 100px;
+    cursor: pointer; text-decoration: none;
+    transition: border-color .15s;
+  }
+  .btn-outline:hover { border-color: var(--black); }
+
+  /* ── SOCIAL LINKS ── */
+  .social-bar {
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 2.5rem 4rem;
+    display: flex; gap: 2rem;
+  }
+  .social-bar a {
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--black); text-decoration: underline;
+    text-underline-offset: 3px; letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .social-bar a:hover { color: var(--gray); }
+
+  /* ── SECTION ── */
+  .section-wrap {
+    border-top: 1px solid var(--border);
+    padding: 5rem 2.5rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .section-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; color: var(--gray);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 900; letter-spacing: -0.03em;
+    line-height: 1.05; margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--gray);
+    max-width: 500px; line-height: 1.7;
+  }
+
+  /* ── FEATURED PROJECT CARD ── */
+  .project-featured {
+    margin-top: 3rem;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--gray-bg);
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .project-featured-info {
+    padding: 3rem;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .project-tag {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem; font-weight: 600;
+    color: var(--gray);
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.75rem; border-radius: 100px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    width: fit-content; margin-bottom: 1.5rem;
+  }
+  .project-featured-title {
+    font-size: 1.9rem; font-weight: 900;
+    letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .project-featured-desc {
+    font-size: 0.9rem; color: var(--gray);
+    line-height: 1.7; margin-bottom: 2rem;
+    flex: 1;
+  }
+  .metrics-row { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+  .metric-pill {
+    text-align: center;
+  }
+  .metric-pill .val {
+    font-size: 1.5rem; font-weight: 900;
+    letter-spacing: -0.03em; line-height: 1;
+  }
+  .metric-pill .lbl {
+    font-size: 0.7rem; color: var(--gray);
+    font-weight: 500; margin-top: 0.2rem;
+    letter-spacing: 0.04em;
+  }
+  .project-featured-visual {
+    background: var(--black);
+    display: flex; align-items: center; justify-content: center;
+    min-height: 380px; padding: 2rem;
+    position: relative; overflow: hidden;
+  }
+
+  /* ── BRACKET SVG PREVIEW ── */
+  .bracket-preview {
+    width: 100%; max-width: 340px;
+  }
+
+  /* ── PROJECT GRID ── */
+  .projects-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-top: 1.5rem;
+  }
+  .project-card {
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+    background: var(--white);
+    transition: border-color .2s, background .2s;
+    text-decoration: none; color: inherit; display: block;
+    cursor: pointer;
+  }
+  .project-card:hover {
+    border-color: var(--black);
+    background: var(--gray-bg);
+  }
+  .card-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 1.5rem;
+  }
+  .card-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--gray-bg); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .card-arrow {
+    font-size: 1.1rem; color: var(--gray);
+    transition: transform .2s, color .2s;
+  }
+  .project-card:hover .card-arrow { transform: translate(3px,-3px); color: var(--black); }
+  .card-title {
+    font-size: 1.1rem; font-weight: 800;
+    letter-spacing: -0.02em; margin-bottom: 0.5rem;
+  }
+  .card-desc {
+    font-size: 0.83rem; color: var(--gray);
+    line-height: 1.6;
+  }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.25rem; }
+  .tag {
+    font-size: 0.68rem; font-weight: 600;
+    color: var(--gray);
+    background: var(--gray-bg); border: 1px solid var(--border);
+    padding: 0.25rem 0.6rem; border-radius: 100px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+
+  /* ── REPO SECTION ── */
+  .repo-card {
+    border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+    margin-top: 2.5rem;
+  }
+  .repo-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .repo-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .repo-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem; font-weight: 500; color: var(--black);
+  }
+  .repo-body {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem; line-height: 2;
+    padding: 1.75rem 2rem;
+    background: var(--white);
+    color: var(--black);
+  }
+  .repo-folder { color: var(--black); font-weight: 500; }
+  .repo-file { color: var(--gray); }
+  .repo-comment { color: var(--gray-light); }
+
+  /* ── STACK SECTION ── */
+  .stack-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1rem; margin-top: 2.5rem;
+  }
+  .stack-card {
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.75rem;
+    transition: border-color .2s;
+  }
+  .stack-card:hover { border-color: var(--black); }
+  .stack-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--black); color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; margin-bottom: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .stack-name {
+    font-size: 0.95rem; font-weight: 800;
+    letter-spacing: -0.01em; margin-bottom: 0.4rem;
+  }
+  .stack-use {
+    font-size: 0.78rem; color: var(--gray); line-height: 1.5;
+  }
+
+  /* ── CONTACT ── */
+  .contact-wrap {
+    border-top: 1px solid var(--border);
+    padding: 5rem 2.5rem;
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 2.5rem;
+  }
+  .contact-left h2 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900; letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+  .contact-left h2 .muted { color: var(--gray); }
+  .contact-right { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-item {
+    font-size: 0.9rem; color: var(--gray);
+    text-decoration: none;
+    transition: color .15s;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .contact-item:hover { color: var(--black); }
+  .contact-item strong { color: var(--black); font-weight: 600; min-width: 80px; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-brand {
+    font-size: 0.85rem; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .footer-brand span { color: var(--gray); font-weight: 400; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.78rem; color: var(--gray);
+    text-decoration: none; font-weight: 500;
+  }
+  .footer-links a:hover { color: var(--black); }
+  .footer-copy {
+    font-size: 0.75rem; color: var(--gray-light);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    .hero, .social-bar, .section-wrap, .contact-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .hero { padding-top: 7rem; }
+    .project-featured { grid-template-columns: 1fr; }
+    .project-featured-visual { min-height: 220px; }
+    .projects-grid, .stack-grid { grid-template-columns: 1fr; }
+    footer { padding: 1.5rem 1.25rem; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">mech<span>.</span>folio</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#stack">Stack</a>
+      <a href="#repo">Repositorio</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <a href="#contacto" class="btn-nav">Contratar →</a>
+    <button class="btn-menu" aria-label="Menú">
+      <span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Disponible para proyectos Freelance</div>
+  <h1>
+    <span class="muted">Soy</span> Ingeniero
+    <span class="block">Mecánico,</span>
+    <span class="muted">especialista en</span>
+    <span class="block">R&amp;D</span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Diseño estructural, simulación FEA y optimización topológica para sistemas industriales reales. MATLAB · SolidWorks · Análisis de falla.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com" target="_blank" class="btn-primary">Ver GitHub →</a>
+      <a href="#proyectos" class="btn-outline">Mis proyectos</a>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL BAR -->
+<div class="social-bar">
+  <a href="https://github.com" target="_blank">GITHUB</a>
+  <a href="https://linkedin.com" target="_blank">LINKEDIN</a>
+  <a href="mailto:tu@email.com">EMAIL</a>
+</div>
+
+<!-- FEATURED PROJECT -->
+<div id="proyectos" class="section-wrap">
+  <div class="section-tag">// Proyecto destacado</div>
+  <h2 class="section-title">Optimización topológica<br>de soporte de motor</h2>
+  <p class="section-sub">Reducción de masa estructural mediante FEA iterativo y algoritmo SIMP. Diseño validado con MATLAB y SolidWorks.</p>
+
+  <div class="project-featured">
+    <div class="project-featured-info">
+      <div>
+        <div class="project-tag">R&amp;D · Estructural</div>
+        <div class="project-featured-title">Motor Bracket — Topology Optimization</div>
+        <p class="project-featured-desc">
+          Soporte industrial sometido a cargas combinadas (4 500 N). Reducción de masa del 42% manteniendo FS ≥ 2.8 mediante el método SIMP implementado en MATLAB con validación cruzada en SolidWorks Simulation.
+        </p>
+      </div>
+      <div>
+        <div class="metrics-row">
+          <div class="metric-pill">
+            <div class="val">−42%</div>
+            <div class="lbl">Masa</div>
+          </div>
+          <div class="metric-pill">
+            <div class="val">2.8</div>
+            <div class="lbl">Factor seg.</div>
+          </div>
+          <div class="metric-pill">
+            <div class="val">187</div>
+            <div class="lbl">MPa σ_max</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+          <a href="https://github.com" target="_blank" class="btn-primary" style="font-size:0.82rem;padding:0.75rem 1.5rem">Ver repositorio →</a>
+          <a href="#repo" class="btn-outline" style="font-size:0.82rem;padding:0.75rem 1.5rem">Estructura</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual panel -->
+    <div class="project-featured-visual">
+      <svg class="bracket-preview" viewBox="0 0 340 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid background -->
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+          </pattern>
+          <linearGradient id="topo" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#111"/>
+            <stop offset="50%" stop-color="#e5e5e5"/>
+            <stop offset="100%" stop-color="#fff"/>
+          </linearGradient>
+        </defs>
+        <rect width="340" height="280" fill="url(#grid)"/>
+
+        <!-- Topology result representation -->
+        <!-- Domain boundary -->
+        <rect x="40" y="30" width="260" height="180" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="4 4"/>
+
+        <!-- Solid material zones (white = material) -->
+        <rect x="40" y="30" width="40" height="180" fill="#ffffff" opacity="0.95"/>
+        <rect x="260" y="30" width="40" height="180" fill="#ffffff" opacity="0.95"/>
+        <rect x="40" y="30" width="260" height="35" fill="#ffffff" opacity="0.9"/>
+        <rect x="40" y="175" width="260" height="35" fill="#ffffff" opacity="0.9"/>
+        <!-- Diagonal struts -->
+        <polygon points="80,65 140,65 80,175" fill="#ffffff" opacity="0.8"/>
+        <polygon points="220,65 260,65 260,175" fill="#ffffff" opacity="0.8"/>
+        <!-- Center beam -->
+        <rect x="140" y="120" width="80" height="35" fill="#ffffff" opacity="0.7"/>
+        <!-- Partial density zones -->
+        <rect x="140" y="65" width="80" height="55" fill="#ffffff" opacity="0.25"/>
+        <rect x="140" y="155" width="80" height="20" fill="#ffffff" opacity="0.25"/>
+
+        <!-- Load arrow -->
+        <line x1="170" y1="0" x2="170" y2="30" stroke="#fff" stroke-width="1.5"/>
+        <polygon points="163,26 177,26 170,38" fill="#fff"/>
+        <text x="182" y="16" fill="#888" font-family="'JetBrains Mono',monospace" font-size="9">4500 N</text>
+
+        <!-- Fixed BC -->
+        <g>
+          <line x1="20" y1="30" x2="20" y2="210" stroke="#555" stroke-width="1"/>
+          <line x1="20" y1="50" x2="40" y2="50" stroke="#555" stroke-width="0.5"/>
+          <line x1="20" y1="90" x2="40" y2="90" stroke="#555" stroke-width="0.5"/>
+          <line x1="20" y1="130" x2="40" y2="130" stroke="#555" stroke-width="0.5"/>
+          <line x1="20" y1="170" x2="40" y2="170" stroke="#555" stroke-width="0.5"/>
+          <line x1="20" y1="190" x2="40" y2="190" stroke="#555" stroke-width="0.5"/>
+        </g>
+
+        <!-- Labels -->
+        <text x="40" y="240" fill="#555" font-family="'JetBrains Mono',monospace" font-size="8">ITERACIÓN 87 / 100</text>
+        <text x="40" y="256" fill="#888" font-family="'JetBrains Mono',monospace" font-size="8">COMPLIANCE: 42.31</text>
+        <text x="40" y="272" fill="#fff" font-family="'JetBrains Mono',monospace" font-size="8">VOL. FRAC: 0.551 ✓</text>
+
+        <!-- Color scale -->
+        <defs>
+          <linearGradient id="scale" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#111"/>
+            <stop offset="100%" stop-color="#ffffff"/>
+          </linearGradient>
+        </defs>
+        <rect x="230" y="240" width="90" height="8" fill="url(#scale)" rx="2"/>
+        <text x="230" y="236" fill="#555" font-family="'JetBrains Mono',monospace" font-size="7">ρ = 0</text>
+        <text x="295" y="236" fill="#fff" font-family="'JetBrains Mono',monospace" font-size="7">ρ = 1</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Other projects grid -->
+  <div class="projects-grid" style="margin-top:1rem">
+    <div class="project-card">
+      <div class="card-header">
+        <div class="card-icon">⬡</div>
+        <span class="card-arrow">↗</span>
+      </div>
+      <div class="card-title">Análisis de fatiga — eje de transmisión</div>
+      <p class="card-desc">Simulación de vida útil bajo cargas cíclicas. Diagrama de Goodman y verificación ASME. Próximamente.</p>
+      <div class="card-tags">
+        <span class="tag">FEA</span>
+        <span class="tag">SolidWorks</span>
+        <span class="tag">MATLAB</span>
+        <span class="tag">Fatiga</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="card-header">
+        <div class="card-icon">∿</div>
+        <span class="card-arrow">↗</span>
+      </div>
+      <div class="card-title">Diseño de sistema de suspensión — vehículo industrial</div>
+      <p class="card-desc">Análisis dinámico multi-body. Optimización de geometría de doble horquilla. Próximamente.</p>
+      <div class="card-tags">
+        <span class="tag">Dinámica</span>
+        <span class="tag">CREO</span>
+        <span class="tag">MATLAB</span>
+        <span class="tag">MBS</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REPO SECTION -->
+<div id="repo" class="section-wrap">
+  <div class="section-tag">// Repositorio</div>
+  <h2 class="section-title">Estructura del proyecto<br>en GitHub</h2>
+  <p class="section-sub">Código, modelos, datos y documentación organizados para reproducibilidad y revisión técnica.</p>
+
+  <div class="repo-card">
+    <div class="repo-header">
+      <div class="repo-dot" style="background:#ef4444"></div>
+      <div class="repo-dot" style="background:#f59e0b"></div>
+      <div class="repo-dot" style="background:#22c55e"></div>
+      <div class="repo-name">bracket-motor-topology /</div>
+    </div>
+    <div class="repo-body">
+<span class="repo-folder">📁 01_CAD/</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">soporte_original.SLDPRT</span>    <span class="repo-comment">← Diseño base paramétrico</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">soporte_optimizado.SLDPRT</span>  <span class="repo-comment">← Post-optimización</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">exports/</span>                    <span class="repo-comment">← STL · STEP · DXF</span><br>
+<br>
+<span class="repo-folder">📁 02_FEA/</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">simulacion_original.CWR</span>    <span class="repo-comment">← Resultados SolidWorks Sim.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">simulacion_optim.CWR</span>       <span class="repo-comment">← Validación diseño final</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">mesh_quality_report.pdf</span>    <span class="repo-comment">← Reporte calidad de malla</span><br>
+<br>
+<span class="repo-folder">📁 03_MATLAB/</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">top88_soporte_motor.m</span>      <span class="repo-comment">← Algoritmo SIMP principal</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">validacion_analitica.m</span>     <span class="repo-comment">← Verificación tensiones</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">plot_convergencia.m</span>        <span class="repo-comment">← Visualización compliance</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">resultados/</span>                <span class="repo-comment">← Figuras y datos .mat</span><br>
+<br>
+<span class="repo-folder">📁 04_Docs/</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">reporte_tecnico.pdf</span>        <span class="repo-comment">← Informe completo A–Z</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="repo-file">imagenes/</span>                  <span class="repo-comment">← Renders · capturas FEA</span><br>
+<br>
+<span class="repo-file">README.md</span>                         <span class="repo-comment">← Descripción · resultados · uso</span><br>
+<span class="repo-file">LICENSE</span>                           <span class="repo-comment">← MIT</span>
+    </div>
+  </div>
+</div>
+
+<!-- STACK -->
+<div id="stack" class="section-wrap">
+  <div class="section-tag">// Stack técnico</div>
+  <h2 class="section-title">Herramientas y<br>tecnologías</h2>
+  <p class="section-sub">Software especializado para ingeniería mecánica y simulación estructural.</p>
+
+  <div class="stack-grid">
+    <div class="stack-card">
+      <div class="stack-icon">SW</div>
+      <div class="stack-name">SolidWorks</div>
+      <div class="stack-use">CAD paramétrico, ensambles y Simulation para FEA estático, modal y de fatiga.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-icon">ML</div>
+      <div class="stack-name">MATLAB</div>
+      <div class="stack-use">Implementación de algoritmos SIMP, validación analítica y post-procesamiento de datos.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-icon">CR</div>
+      <div class="stack-name">CREO Parametric</div>
+      <div class="stack-use">CAD avanzado para ensambles complejos. En proceso de certificación.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-icon">AN</div>
+      <div class="stack-name">ANSYS Student</div>
+      <div class="stack-use">FEA de verificación cruzada. Análisis térmico y estructural no-lineal.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-icon">GH</div>
+      <div class="stack-name">GitHub</div>
+      <div class="stack-use">Control de versiones, documentación técnica y portafolio de proyectos de ingeniería.</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-icon">PY</div>
+      <div class="stack-name">Python</div>
+      <div class="stack-use">Scripts de automatización, análisis de datos y visualizaciones de resultados FEA.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contacto" class="contact-wrap">
+  <div class="contact-left">
+    <h2>
+      <span class="muted">¿Tienes un</span><br>
+      proyecto<br>en mente?
+    </h2>
+    <a href="mailto:tu@email.com" class="btn-primary" style="margin-top:2rem;display:inline-flex">Hablemos →</a>
+  </div>
+  <div class="contact-right">
+    <a href="mailto:tu@email.com" class="contact-item">
+      <strong>Email</strong> tu@email.com
+    </a>
+    <a href="https://linkedin.com" class="contact-item" target="_blank">
+      <strong>LinkedIn</strong> /in/tu-usuario
+    </a>
+    <a href="https://github.com" class="contact-item" target="_blank">
+      <strong>GitHub</strong> /tu-usuario
+    </a>
+    <a href="#" class="contact-item">
+      <strong>Ubicación</strong> Puebla, México
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">mech<span>.folio</span></div>
+  <div class="footer-links">
+    <a href="https://github.com" target="_blank">GitHub</a>
+    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+    <a href="mailto:tu@email.com">Email</a>
+  </div>
+  <div class="footer-copy">© 2024 — Ing. Mecánico R&D</div>
+</footer>
+
+</body>
+</html>
