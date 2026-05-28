@@ -1,0 +1,2521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor de Calidad del Sueño · SleepSense</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #08090F;
+  --bg-2: #0E1019;
+  --surface: #13151F;
+  --surface-2: #1A1D2C;
+  --border: rgba(255,255,255,0.07);
+  --border-glow: rgba(123,110,246,0.25);
+  --accent: #7B6EF6;
+  --accent-2: #A89CF7;
+  --accent-soft: rgba(123,110,246,0.12);
+  --accent-glow: rgba(123,110,246,0.35);
+  --text: #F0EDF8;
+  --text-2: #9896B4;
+  --text-3: #5C5A78;
+  --teal: #5FC8C0;
+  --teal-soft: rgba(95,200,192,0.1);
+  --gold: #E8C97A;
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 40px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(8,9,15,0.80);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-logo-dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-glow);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+.nav-cta:hover { background: var(--accent-2); transform: translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 40px 60px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+}
+.orb-1 {
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(123,110,246,0.6) 0%, transparent 70%);
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(95,200,192,0.3) 0%, transparent 70%);
+  bottom: 0; right: -100px;
+}
+.orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(232,201,122,0.15) 0%, transparent 70%);
+  bottom: 100px; left: -80px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border-glow);
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-2);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp .8s .1s forwards;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(42px, 7vw, 82px);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: 0.01em;
+  max-width: 820px;
+  opacity: 0;
+  animation: fadeUp .9s .25s forwards;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--accent-2);
+}
+
+.hero-sub {
+  font-size: clamp(17px, 2vw, 20px);
+  color: var(--text-2);
+  max-width: 520px;
+  margin: 24px auto 40px;
+  font-weight: 300;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeUp .9s .4s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp .9s .55s forwards;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 16px 34px;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s;
+  box-shadow: 0 0 30px var(--accent-glow), 0 8px 30px rgba(0,0,0,0.4);
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-primary:hover {
+  background: var(--accent-2);
+  transform: translateY(-2px);
+  box-shadow: 0 0 45px var(--accent-glow), 0 12px 40px rgba(0,0,0,0.5);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  padding: 16px 34px;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .25s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--accent-soft);
+}
+
+/* ── HERO DASHBOARD MOCKUP ── */
+.hero-mockup {
+  margin-top: 64px;
+  position: relative;
+  max-width: 780px;
+  width: 100%;
+  opacity: 0;
+  animation: fadeUp .9s .7s forwards;
+}
+
+.mockup-frame {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.mockup-frame::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(123,110,246,0.6), transparent);
+}
+
+.mockup-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.mockup-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.d-red { background: #FF5F57; }
+.d-yellow { background: #FEBC2E; }
+.d-green { background: #28C840; }
+.mockup-title {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-left: 8px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.dash-greeting { font-size: 13px; color: var(--text-2); }
+.dash-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.dash-date {
+  text-align: right;
+  font-size: 13px;
+  color: var(--text-3);
+}
+.dash-date span {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+/* Score card */
+.score-card {
+  background: linear-gradient(135deg, #7B6EF6, #5B5EA6);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.score-card::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+}
+
+.score-left {}
+.score-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.score-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 80px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.score-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 6px;
+}
+
+.score-ring {
+  width: 90px; height: 90px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.score-ring svg {
+  transform: rotate(-90deg);
+}
+
+/* Metric cards */
+.metric-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 18px 16px;
+  text-align: center;
+  transition: border-color .2s, transform .2s;
+}
+.metric-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-2px);
+}
+
+.metric-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+  display: block;
+}
+.metric-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+}
+.metric-lbl {
+  font-size: 11px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* Chart */
+.chart-section {}
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 80px;
+}
+
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar-fill {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  transition: height .3s ease;
+}
+.bar-fill.active { background: var(--accent); }
+.bar-fill.inactive { background: var(--surface-2); }
+
+.bar-day {
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+/* ── SECTION BASE ── */
+section { padding: 120px 40px; }
+.container { max-width: 1100px; margin: 0 auto; }
+
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.section-body {
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--text-2);
+  font-weight: 300;
+  max-width: 540px;
+}
+
+/* ── PROBLEM ── */
+.problem {
+  background: var(--bg-2);
+  position: relative;
+  overflow: hidden;
+}
+
+.problem::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -200px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(123,110,246,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.problem-stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.big-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.big-stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--teal));
+}
+
+.big-stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-2);
+  letter-spacing: 0.02em;
+}
+
+.big-stat-text {
+  font-size: 16px;
+  color: var(--text-2);
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.stat-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: var(--text-2);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all .2s;
+}
+.pill:hover {
+  border-color: var(--border-glow);
+  color: var(--text);
+  background: var(--accent-soft);
+}
+
+.problem-text {}
+.rhetorical {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text);
+  margin-bottom: 24px;
+  letter-spacing: 0.02em;
+}
+
+/* ── SOLUTION ── */
+.solution-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.device-visual {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.device-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(123,110,246,0.12) 0%, transparent 70%);
+}
+
+.device-3d {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.device-body {
+  width: 180px;
+  height: 120px;
+  background: linear-gradient(145deg, #1E2035, #141526);
+  border-radius: 18px;
+  border: 1px solid rgba(123,110,246,0.3);
+  box-shadow: 
+    0 30px 60px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(255,255,255,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  position: absolute;
+  top: 40px; left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.device-led {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.device-screen {
+  width: 100px;
+  height: 50px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid rgba(123,110,246,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent-2);
+}
+
+.device-pins {
+  position: absolute;
+  bottom: -12px; right: 20px;
+  display: flex;
+  gap: 5px;
+}
+.pin {
+  width: 4px; height: 14px;
+  background: #888;
+  border-radius: 2px;
+}
+
+.sensor-tags {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  right: 0;
+  top: 20px;
+}
+
+.sensor-tag {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 11px;
+  color: var(--text-2);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ── FEATURES ── */
+.features {
+  background: var(--bg-2);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 56px;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: all .3s;
+}
+.feature-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(123,110,246,0.1);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.fc-cam::before { background: linear-gradient(90deg, #7B6EF6, #A89CF7); }
+.fc-curtain::before { background: linear-gradient(90deg, #5FC8C0, #7DD5CF); }
+.fc-api::before { background: linear-gradient(90deg, #E8C97A, #F0D98A); }
+
+/* Curtain control widget */
+.curtain-control {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.curtain-label {
+  font-size: 13px;
+  color: var(--text-2);
+  font-weight: 600;
+}
+.curtain-sub {
+  font-size: 11px;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.curtain-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border-glow);
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-2);
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.curtain-toggle:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.curtain-open {
+  background: var(--teal-soft);
+  border-color: rgba(95,200,192,0.3);
+  color: var(--teal);
+}
+.curtain-open:hover {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+}
+
+/* Sleep state badge */
+.sleep-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.sleep-badge.dormido {
+  background: rgba(123,110,246,0.15);
+  color: var(--accent-2);
+  border: 1px solid rgba(123,110,246,0.25);
+}
+.sleep-badge.despierto {
+  background: rgba(232,201,122,0.15);
+  color: var(--gold);
+  border: 1px solid rgba(232,201,122,0.25);
+}
+
+/* API temperature badge */
+.api-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(95,200,192,0.1);
+  border: 1px solid rgba(95,200,192,0.2);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+
+.fc-icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+}
+
+.fc-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.fc-metric {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.fc-temp .fc-metric { color: #FF6B6B; }
+.fc-noise .fc-metric { color: #5FC8C0; }
+.fc-light .fc-metric { color: #E8C97A; }
+
+.fc-desc {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.fc-benefit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+/* ── HOW IT WORKS ── */
+.how-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  gap: 28px;
+  padding: 28px 0;
+  position: relative;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 23px;
+  top: 72px;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.step-num {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid var(--border-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--accent-2);
+  flex-shrink: 0;
+}
+
+.step-content {}
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.step-desc {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.how-visual {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.how-visual::before {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(95,200,192,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.night-display {
+  text-align: center;
+}
+
+.night-time {
+  font-family: 'Syne', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.04em;
+}
+.night-label {
+  font-size: 12px;
+  color: var(--text-3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.mini-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.mini-metric {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+}
+.mini-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+.mini-lbl {
+  font-size: 10px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 3px;
+}
+
+.monitoring-bar {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.monitoring-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 10px var(--teal);
+  animation: pulse 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.monitoring-text {
+  flex: 1;
+}
+.monitoring-text strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.monitoring-text span {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.monitoring-time {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+/* ── USER ── */
+.user-section {
+  background: var(--bg-2);
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.user-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.user-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 24px 28px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  transition: all .2s;
+}
+.user-card:hover {
+  border-color: var(--border-glow);
+  background: var(--surface-2);
+}
+
+.user-card-icon {
+  width: 44px; height: 44px;
+  background: var(--accent-soft);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.user-card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.user-card-desc {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+
+.user-profile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-profile::before {
+  content: '';
+  position: absolute;
+  top: -50px; left: 50%;
+  transform: translateX(-50%);
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(123,110,246,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.avatar-ring {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--teal));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin: 0 auto 24px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 30px rgba(123,110,246,0.4);
+}
+
+.profile-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.profile-tag {
+  font-size: 13px;
+  color: var(--accent-2);
+  font-weight: 600;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.profile-bio {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.pstat {
+  background: var(--bg-2);
+  padding: 16px 12px;
+  text-align: center;
+}
+.pstat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+}
+.pstat-lbl {
+  font-size: 11px;
+  color: var(--text-3);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── TECH STACK ── */
+.tech-section {}
+
+.tech-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  margin-bottom: 56px;
+}
+
+.tech-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 28px 20px;
+  text-align: center;
+  transition: all .25s;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.tech-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.tech-card:hover .tc-icon { transform: scale(1.1); }
+
+.tc-icon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 14px;
+  transition: transform .2s;
+}
+.tc-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.tc-role {
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.4;
+}
+
+.tech-flow {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.flow-node {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 22px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.flow-node.active {
+  border-color: var(--border-glow);
+  background: var(--accent-soft);
+  color: var(--accent-2);
+}
+
+.flow-arrow {
+  font-size: 18px;
+  color: var(--text-3);
+  padding: 0 12px;
+}
+
+/* ── DASHBOARD PREVIEW ── */
+.dashboard-section {
+  background: var(--bg-2);
+}
+
+.dashboard-preview {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 40px;
+  margin-top: 56px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-preview::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(123,110,246,0.8), rgba(95,200,192,0.5), transparent);
+}
+
+.dp-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dp-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+.dp-date {
+  font-size: 13px;
+  color: var(--text-3);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.dp-main {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+}
+
+.dp-score-col {}
+.dp-score-card {
+  background: linear-gradient(145deg, #7B6EF6, #5244C1);
+  border-radius: 20px;
+  padding: 32px 28px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.dp-score-card::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 150px; height: 150px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 50%;
+}
+
+.dp-score-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.dp-score-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 72px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+.dp-score-status {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.dp-mini-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dp-mini {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dp-mini-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dp-mini-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+}
+.icon-temp { background: rgba(255,107,107,0.12); }
+.icon-noise { background: rgba(95,200,192,0.12); }
+.icon-light { background: rgba(232,201,122,0.12); }
+
+.dp-mini-name {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 2px;
+}
+.dp-mini-detail {
+  font-size: 11px;
+  color: var(--text-3);
+}
+.dp-mini-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+.val-temp { color: #FF6B6B; }
+.val-noise { color: #5FC8C0; }
+.val-light { color: #E8C97A; }
+
+.dp-chart-col {}
+.dp-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.dp-chart-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.dp-chart-legend {
+  display: flex;
+  gap: 16px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+.legend-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+
+.weekly-chart {
+  height: 150px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.week-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.week-bar-fill {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  min-height: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.week-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 30%;
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px 6px 0 0;
+}
+
+.week-bar-day {
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 600;
+}
+
+.insight-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.insight-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.insight-title {
+  font-size: 11px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.insight-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+.insight-sub {
+  font-size: 11px;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+
+/* ── CTA FINAL ── */
+.cta-section {
+  text-align: center;
+  padding: 140px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px; height: 500px;
+  background: radial-gradient(ellipse, rgba(123,110,246,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cta-section .section-title { margin-bottom: 20px; }
+.cta-body {
+  font-size: 18px;
+  color: var(--text-2);
+  max-width: 480px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.cta-form {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 500px;
+  margin: 0 auto 32px;
+}
+
+.cta-input {
+  flex: 1;
+  min-width: 220px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 16px 24px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color .2s;
+}
+.cta-input:focus { border-color: var(--accent); }
+.cta-input::placeholder { color: var(--text-3); }
+
+.cta-note {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  padding: 60px 40px 40px;
+}
+
+.footer-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {}
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.footer-tagline {
+  font-size: 14px;
+  color: var(--text-3);
+  line-height: 1.65;
+  max-width: 260px;
+  margin-bottom: 24px;
+}
+.social-links {
+  display: flex;
+  gap: 10px;
+}
+.social-btn {
+  width: 38px; height: 38px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+}
+.social-btn:hover {
+  border-color: var(--border-glow);
+  background: var(--accent-soft);
+}
+
+.footer-col {}
+.footer-col-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-3);
+  margin-bottom: 20px;
+}
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+}
+.footer-links a {
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color .2s;
+}
+.footer-links a:hover { color: var(--text); }
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.footer-tech {
+  display: flex;
+  gap: 20px;
+}
+.ft-item {
+  font-size: 12px;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.9); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  section { padding: 80px 24px; }
+  .problem-grid,
+  .solution-grid,
+  .how-grid,
+  .user-grid { grid-template-columns: 1fr; gap: 40px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .tech-grid { grid-template-columns: repeat(3, 1fr); }
+  .dp-main { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .hero { padding: 90px 24px 40px; }
+  .cta-section { padding: 90px 24px; }
+}
+
+@media (max-width: 600px) {
+  .tech-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .metric-row { gap: 10px; }
+  .cta-form { flex-direction: column; }
+  .cta-input { border-radius: 12px; }
+  .btn-primary, .btn-secondary { border-radius: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    SleepSense
+  </a>
+  <ul class="nav-links">
+    <li><a href="#problema">Problema</a></li>
+    <li><a href="#solucion">Solución</a></li>
+    <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#tecnologia">Tecnología</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Ver reporte</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-orb orb-3"></div>
+  </div>
+
+  <div class="hero-badge">
+    ✦ Monitoreo ambiental inteligente
+  </div>
+
+  <h1>Descubre qué <em>arruina</em><br>tu sueño cada noche</h1>
+
+  <p class="hero-sub">
+    El Monitor de Calidad del Sueño analiza temperatura, ruido y luz mientras descansas, 
+    y te entrega un reporte claro cada mañana.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#contacto" class="btn-primary">Ver reporte de ejemplo</a>
+    <a href="#solucion" class="btn-secondary">Conocer el dispositivo</a>
+  </div>
+
+  <!-- DASHBOARD MOCKUP -->
+  <div class="hero-mockup">
+    <div class="mockup-frame">
+      <div class="mockup-bar">
+        <div class="mockup-dot d-red"></div>
+        <div class="mockup-dot d-yellow"></div>
+        <div class="mockup-dot d-green"></div>
+        <span class="mockup-title">SleepSense · Dashboard</span>
+      </div>
+
+      <div class="dashboard-header">
+        <div>
+          <div class="dash-greeting">Buenas noches,</div>
+          <div class="dash-name">Carlos</div>
+        </div>
+        <div class="dash-date">
+          Jueves, 26 Mar
+          <span>02:14 AM</span>
+        </div>
+      </div>
+
+      <div class="score-card">
+        <div class="score-left">
+          <div class="score-label">Puntuación de sueño</div>
+          <div class="score-num">82</div>
+          <div class="score-sub">↑ 12 pts vs ayer · Muy bueno</div>
+        </div>
+        <svg class="score-ring" viewBox="0 0 90 90">
+          <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="7"/>
+          <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="7"
+            stroke-dasharray="239" stroke-dashoffset="43" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-card">
+          <span class="metric-icon">🌡️</span>
+          <span class="metric-val">19°C</span>
+          <div class="metric-lbl">Interior</div>
+        </div>
+        <div class="metric-card">
+          <span class="metric-icon">📷</span>
+          <span class="metric-val" style="font-size:16px;color:var(--accent-2);">Dormido</span>
+          <div class="metric-lbl">Estado</div>
+        </div>
+        <div class="metric-card">
+          <span class="metric-icon">🪟</span>
+          <span class="metric-val" style="font-size:16px;color:var(--teal);">Cerradas</span>
+          <div class="metric-lbl">Cortinas</div>
+        </div>
+      </div>
+
+      <div class="chart-title">Esta semana</div>
+      <div class="bars">
+        <div class="bar-col"><div class="bar-fill inactive" style="height:70%"></div><span class="bar-day">L</span></div>
+        <div class="bar-col"><div class="bar-fill inactive" style="height:55%"></div><span class="bar-day">M</span></div>
+        <div class="bar-col"><div class="bar-fill inactive" style="height:80%"></div><span class="bar-day">X</span></div>
+        <div class="bar-col"><div class="bar-fill inactive" style="height:65%"></div><span class="bar-day">J</span></div>
+        <div class="bar-col"><div class="bar-fill inactive" style="height:75%"></div><span class="bar-day">V</span></div>
+        <div class="bar-col"><div class="bar-fill inactive" style="height:50%"></div><span class="bar-day">S</span></div>
+        <div class="bar-col"><div class="bar-fill active" style="height:82%"></div><span class="bar-day" style="color:var(--accent-2)">D</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="problem" id="problema">
+  <div class="container">
+    <div class="problem-grid">
+      <div class="problem-stat-block reveal">
+        <div class="big-stat">
+          <div class="big-stat-num">62%</div>
+          <div class="big-stat-text">de los adultos en México reporta no dormir bien, sin saber exactamente qué factores ambientales están arruinando su descanso nocturno.</div>
+        </div>
+        <div class="stat-pills">
+          <div class="pill">🌡️ Temperatura alta → menos sueño profundo</div>
+          <div class="pill">📷 Sin visión nocturna → no sabes cuándo dormiste</div>
+          <div class="pill">💡 Luz artificial → bloquea melatonina</div>
+          <div class="pill">🪟 Cortinas sin control → luz entrando al amanecer</div>
+        </div>
+      </div>
+
+      <div class="problem-text reveal reveal-delay-2">
+        <div class="section-label">El problema</div>
+        <p class="rhetorical">¿Y si tu cuarto es el que no te deja dormir bien?</p>
+        <p class="section-body">
+          La mayoría de las personas culpa el estrés o el celular, pero los factores ambientales 
+          son igual de dañinos. La temperatura elevada fragmenta el sueño profundo. 
+          La luz artificial, aunque tenue, inhibe la producción de melatonina. Y sin saber 
+          exactamente cuándo te dormiste o despertaste, mejorar tu descanso es un juego de adivinanzas.
+        </p>
+        <br>
+        <p class="section-body">
+          SleepSense detecta tu estado de sueño en tiempo real con cámara, consulta la temperatura 
+          exterior vía API y te permite controlar tus cortinas desde el teléfono — todo integrado, 
+          sin intervención.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUCIÓN -->
+<section id="solucion" style="background:var(--bg);">
+  <div class="container">
+    <div class="solution-grid">
+      <div class="reveal">
+        <div class="section-label">Nuestra solución</div>
+        <h2 class="section-title">Mide lo que realmente importa</h2>
+        <br>
+        <p class="section-body">
+          El Monitor de Calidad del Sueño es un dispositivo basado en Raspberry Pi 5. 
+          Lo colocas en tu habitación antes de dormir y trabaja toda la noche — detectando 
+          tu estado de sueño con cámara, consultando la temperatura exterior vía API y 
+          controlando tus cortinas de forma automática o desde tu teléfono.
+        </p>
+        <br>
+        <p class="section-body">
+          Al despertar, tienes un reporte completo: puntuación, métricas de la noche y 
+          recomendaciones personalizadas — sin pulseras, sin suscripciones.
+        </p>
+        <br>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);"></div>
+            <span style="font-size:14px;color:var(--text-2);">Monitoreo continuo toda la noche</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent-glow);"></div>
+            <span style="font-size:14px;color:var(--text-2);">Reporte diario automático</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="device-visual reveal reveal-delay-2">
+        <div class="device-3d">
+          <div class="device-body" style="animation: float 4s ease-in-out infinite;">
+            <div class="device-led"></div>
+            <div class="device-screen">82</div>
+            <div class="device-pins">
+              <div class="pin"></div><div class="pin"></div>
+              <div class="pin"></div><div class="pin"></div>
+            </div>
+          </div>
+          <div class="sensor-tags" style="animation: float 4s ease-in-out infinite; animation-delay:.5s;">
+            <div class="sensor-tag">DHT22 · Temp</div>
+            <div class="sensor-tag">PiCam · Visión</div>
+            <div class="sensor-tag">LDR · Luz</div>
+            <div class="sensor-tag">Servo · Cortinas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARACTERÍSTICAS -->
+<section class="features" id="caracteristicas">
+  <div class="container">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-label">Qué hace</div>
+      <h2 class="section-title">Cuatro funciones. Un sueño mejor.</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card fc-temp reveal reveal-delay-1">
+        <span class="fc-icon">🌡️</span>
+        <div class="fc-title">Temperatura · API</div>
+        <div class="fc-metric" style="color:#FF6B6B;">°C</div>
+        <p class="fc-desc">
+          El sensor DHT22 registra la temperatura interior toda la noche. Además, consulta 
+          automáticamente la temperatura exterior vía API (OpenWeatherMap) para comparar 
+          ambientes y detectar si abrir ventana mejoraría tu sueño.
+        </p>
+        <div class="fc-benefit">✦ Interior vs exterior en tiempo real</div>
+        <div class="api-badge">⚡ OpenWeatherMap API</div>
+      </div>
+
+      <div class="feature-card fc-cam reveal reveal-delay-2">
+        <span class="fc-icon">📷</span>
+        <div class="fc-title">Cámara · Estado de sueño</div>
+        <div class="fc-metric" style="color:var(--accent-2);">ZZZ</div>
+        <p class="fc-desc">
+          La Pi Camera con visión nocturna analiza tu postura y movimiento para detectar 
+          si estás dormido o despierto. El procesamiento ocurre localmente en la Raspberry Pi — 
+          sin enviar imágenes a la nube.
+        </p>
+        <div class="fc-benefit">✦ Detección de sueño 100% local y privada</div>
+      </div>
+
+      <div class="feature-card fc-light reveal reveal-delay-3">
+        <span class="fc-icon">💡</span>
+        <div class="fc-title">Intensidad de luz</div>
+        <div class="fc-metric" style="color:#E8C97A;">lux</div>
+        <p class="fc-desc">
+          La fotorresistencia LDR mide la luz residual en tu cuarto. Incluso niveles bajos 
+          de luz artificial pueden suprimir la melatonina y retrasar el inicio del sueño profundo.
+        </p>
+        <div class="fc-benefit">✦ Detecta fuentes de luz que no habías considerado</div>
+      </div>
+
+      <div class="feature-card fc-curtain reveal reveal-delay-4">
+        <span class="fc-icon">🪟</span>
+        <div class="fc-title">Control de cortinas</div>
+        <div class="fc-metric" style="color:var(--teal);">APP</div>
+        <p class="fc-desc">
+          Abre o cierra tus cortinas desde el teléfono con un toque. El sistema también puede 
+          automatizarlas: cerrar al detectar que te dormiste y abrir gradualmente al acercarse 
+          tu hora de despertar.
+        </p>
+        <div class="fc-benefit">✦ Control remoto desde cualquier lugar con WiFi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como-funciona" style="background:var(--bg);">
+  <div class="container">
+    <div class="how-grid">
+      <div class="reveal">
+        <div class="section-label">Proceso</div>
+        <h2 class="section-title">Simple como dormir</h2>
+        <br>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <div class="step-title">Coloca el dispositivo en tu habitación</div>
+              <p class="step-desc">Conecta el Monitor cerca de tu cama. La cámara apunta hacia ti, el DHT22 mide el ambiente y los servos quedan conectados a tus cortinas. Solo enchufas y listo.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <div class="step-title">Monitoreo automático toda la noche</div>
+              <p class="step-desc">La cámara detecta cuándo te dormiste. El sensor registra temperatura y luz. La API consulta el clima exterior. Al dormirte, las cortinas se cierran automáticamente.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <div class="step-title">Controla tus cortinas desde el teléfono</div>
+              <p class="step-desc">En cualquier momento, abre o cierra las cortinas desde la app. También puedes programarlas para que abran gradualmente 20 minutos antes de tu despertador.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <div class="step-title">Recibe tu reporte al despertar</div>
+              <p class="step-desc">El dashboard muestra tu puntuación de sueño, cuándo te dormiste, temperatura interior vs exterior, y qué factores afectaron tu descanso.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how-visual reveal reveal-delay-2">
+        <div class="night-display">
+          <div class="night-time">02:14</div>
+          <div class="night-label">Monitoreando tu sueño</div>
+        </div>
+
+        <div class="mini-metrics">
+          <div class="mini-metric">
+            <div class="mini-val" style="color:#FF6B6B;">19°C</div>
+            <div class="mini-lbl">Interior</div>
+          </div>
+          <div class="mini-metric">
+            <div class="mini-val" style="color:#5FC8C0;">14°C</div>
+            <div class="mini-lbl">Exterior API</div>
+          </div>
+          <div class="mini-metric">
+            <div class="mini-val" style="color:#E8C97A;">0lux</div>
+            <div class="mini-lbl">Luz</div>
+          </div>
+        </div>
+
+        <div class="monitoring-bar">
+          <div class="monitoring-dot"></div>
+          <div class="monitoring-text">
+            <strong>Cámara activa · Dormido detectado</strong>
+            <span>Cortinas cerradas automáticamente · 23:18</span>
+          </div>
+          <div class="monitoring-time">😴</div>
+        </div>
+
+        <div class="curtain-control">
+          <div>
+            <div class="curtain-label">🪟 Cortinas</div>
+            <div class="curtain-sub">Cerradas · desde las 23:18</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <div class="curtain-toggle">Cerrar</div>
+            <div class="curtain-toggle curtain-open">Abrir</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USUARIO META -->
+<section class="user-section">
+  <div class="container">
+    <div class="user-grid">
+      <div class="user-profile reveal">
+        <div class="avatar-ring">😴</div>
+        <div class="profile-name">Usuario típico</div>
+        <div class="profile-tag">Adulto · Zona urbana · 18–45 años</div>
+        <p class="profile-bio">
+          Persona que se despierta cansada sin entender por qué, que vive en una ciudad 
+          con variaciones constantes de ruido y temperatura, y que busca mejorar su 
+          calidad de vida sin gastar en dispositivos costosos.
+        </p>
+        <div class="profile-stats">
+          <div class="pstat">
+            <div class="pstat-val">6.2h</div>
+            <div class="pstat-lbl">Sueño promedio</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-val">67%</div>
+            <div class="pstat-lbl">Satisfacción</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-val">3x</div>
+            <div class="pstat-lbl">Despertares/noche</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-2">
+        <div class="section-label">Perfil de usuario</div>
+        <h2 class="section-title">Diseñado para quien ya no puede más</h2>
+        <br>
+        <div class="user-cards">
+          <div class="user-card">
+            <div class="user-card-icon">🏙️</div>
+            <div>
+              <div class="user-card-title">Entorno urbano</div>
+              <p class="user-card-desc">Vive en ciudad con tráfico, vecinos y contaminación lumínica que afectan el sueño sin que lo note.</p>
+            </div>
+          </div>
+          <div class="user-card">
+            <div class="user-card-icon">💤</div>
+            <div>
+              <div class="user-card-title">Cansancio crónico</div>
+              <p class="user-card-desc">Reporta fatiga diurna frecuente y dificultad para concentrarse, sin diagnóstico médico claro.</p>
+            </div>
+          </div>
+          <div class="user-card">
+            <div class="user-card-icon">💰</div>
+            <div>
+              <div class="user-card-title">Sin presupuesto para wearables</div>
+              <p class="user-card-desc">No quiere invertir en anillos o pulseras de $3,000+. Prefiere una solución accesible y efectiva.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGÍA -->
+<section class="tech-section" id="tecnologia" style="background:var(--bg);">
+  <div class="container">
+    <div class="tech-header reveal">
+      <div class="section-label">Stack técnico</div>
+      <h2 class="section-title">Tecnología real. Resultados reales.</h2>
+      <p style="font-size:17px;color:var(--text-2);max-width:520px;margin:16px auto 0;line-height:1.7;font-weight:300;">
+        Construido sobre hardware de código abierto y herramientas de análisis de datos 
+        profesionales. No hay magia negra, solo ingeniería bien hecha.
+      </p>
+    </div>
+
+    <div class="tech-grid reveal" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="tech-card">
+        <span class="tc-icon">🖥️</span>
+        <div class="tc-name">Raspberry Pi 5</div>
+        <div class="tc-role">Unidad central de procesamiento</div>
+      </div>
+      <div class="tech-card">
+        <span class="tc-icon">🌡️</span>
+        <div class="tc-name">DHT22 + API</div>
+        <div class="tc-role">Temp. interior + OpenWeatherMap exterior</div>
+      </div>
+      <div class="tech-card">
+        <span class="tc-icon">📷</span>
+        <div class="tc-name">Pi Camera</div>
+        <div class="tc-role">Detección local de estado de sueño</div>
+      </div>
+      <div class="tech-card">
+        <span class="tc-icon">🔆</span>
+        <div class="tc-name">LDR</div>
+        <div class="tc-role">Fotorresistencia para medir luz</div>
+      </div>
+      <div class="tech-card">
+        <span class="tc-icon">🪟</span>
+        <div class="tc-name">Servo Motor</div>
+        <div class="tc-role">Control de cortinas vía app</div>
+      </div>
+      <div class="tech-card">
+        <span class="tc-icon">📱</span>
+        <div class="tc-name">App Móvil</div>
+        <div class="tc-role">Control remoto de cortinas y alertas</div>
+      </div>
+      <div class="tech-card">
+        <span class="tc-icon">🐍</span>
+        <div class="tc-name">Python & Pandas</div>
+        <div class="tc-role">Registro y análisis de datos de sensores</div>
+      </div>
+      <div class="tech-card">
+        <span class="tc-icon">☁️</span>
+        <div class="tc-name">OpenWeatherMap</div>
+        <div class="tc-role">API de temperatura exterior en tiempo real</div>
+      </div>
+    </div>
+
+    <div class="tech-flow reveal" style="gap:0;flex-wrap:wrap;row-gap:12px;">
+      <div class="flow-node active">Sensores + Cámara</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">Raspberry Pi 5</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">API Clima</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">Python</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node active">Dashboard + App</div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard-section">
+  <div class="container">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-label">Vista previa</div>
+      <h2 class="section-title">Tu reporte. Cada mañana.</h2>
+    </div>
+
+    <div class="dashboard-preview reveal">
+      <div class="dp-top">
+        <div class="dp-title">Reporte de sueño · Anoche</div>
+        <div class="dp-date">Jueves, 26 de marzo de 2026</div>
+      </div>
+
+      <div class="dp-main">
+        <div class="dp-score-col">
+          <div class="dp-score-card">
+            <div class="dp-score-lbl">Puntuación de sueño</div>
+            <div class="dp-score-num">82</div>
+            <div class="dp-score-status">✓ Muy bueno</div>
+          </div>
+
+          <div class="dp-mini-metrics">
+            <div class="dp-mini">
+              <div class="dp-mini-left">
+                <div class="dp-mini-icon icon-temp">🌡️</div>
+                <div>
+                  <div class="dp-mini-name">Temp. Interior · DHT22</div>
+                  <div class="dp-mini-detail">Óptima para dormir</div>
+                </div>
+              </div>
+              <div class="dp-mini-val val-temp">19°C</div>
+            </div>
+            <div class="dp-mini">
+              <div class="dp-mini-left">
+                <div class="dp-mini-icon" style="background:rgba(95,200,192,0.12);">☁️</div>
+                <div>
+                  <div class="dp-mini-name">Temp. Exterior · API</div>
+                  <div class="dp-mini-detail">OpenWeatherMap · Puebla</div>
+                </div>
+              </div>
+              <div class="dp-mini-val" style="color:var(--teal);">14°C</div>
+            </div>
+            <div class="dp-mini">
+              <div class="dp-mini-left">
+                <div class="dp-mini-icon" style="background:rgba(123,110,246,0.12);">📷</div>
+                <div>
+                  <div class="dp-mini-name">Estado de sueño</div>
+                  <div class="dp-mini-detail">Cámara · detección local</div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+                <div class="sleep-badge dormido">😴 Dormido</div>
+              </div>
+            </div>
+            <div class="dp-mini">
+              <div class="dp-mini-left">
+                <div class="dp-mini-icon icon-light">💡</div>
+                <div>
+                  <div class="dp-mini-name">Luz</div>
+                  <div class="dp-mini-detail">Oscuridad completa</div>
+                </div>
+              </div>
+              <div class="dp-mini-val val-light">0 lux</div>
+            </div>
+            <div class="dp-mini">
+              <div class="dp-mini-left">
+                <div class="dp-mini-icon" style="background:rgba(95,200,192,0.12);">🪟</div>
+                <div>
+                  <div class="dp-mini-name">Cortinas</div>
+                  <div class="dp-mini-detail">Cerradas desde las 23:18</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <div class="curtain-toggle" style="font-size:10px;padding:5px 10px;">Cerrar</div>
+                <div class="curtain-toggle curtain-open" style="font-size:10px;padding:5px 10px;">Abrir</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dp-chart-col">
+          <div class="dp-chart-header">
+            <div class="dp-chart-title">Calidad del sueño — Esta semana</div>
+            <div class="dp-chart-legend">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:var(--accent);"></div>
+                Puntuación
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:var(--surface-2);"></div>
+                Promedio
+              </div>
+            </div>
+          </div>
+
+          <div class="weekly-chart">
+            <div class="week-bar">
+              <div class="week-bar-fill" style="height:70%;background:var(--accent);opacity:0.6;"></div>
+              <div class="week-bar-day">L</div>
+            </div>
+            <div class="week-bar">
+              <div class="week-bar-fill" style="height:55%;background:var(--accent);opacity:0.5;"></div>
+              <div class="week-bar-day">M</div>
+            </div>
+            <div class="week-bar">
+              <div class="week-bar-fill" style="height:80%;background:var(--accent);opacity:0.7;"></div>
+              <div class="week-bar-day">X</div>
+            </div>
+            <div class="week-bar">
+              <div class="week-bar-fill" style="height:65%;background:var(--accent);opacity:0.6;"></div>
+              <div class="week-bar-day">J</div>
+            </div>
+            <div class="week-bar">
+              <div class="week-bar-fill" style="height:75%;background:var(--accent);opacity:0.65;"></div>
+              <div class="week-bar-day">V</div>
+            </div>
+            <div class="week-bar">
+              <div class="week-bar-fill" style="height:50%;background:var(--surface-2);"></div>
+              <div class="week-bar-day">S</div>
+            </div>
+            <div class="week-bar">
+              <div class="week-bar-fill" style="height:82%;background:linear-gradient(to top, #7B6EF6, #A89CF7);box-shadow:0 0 20px rgba(123,110,246,0.5);"></div>
+              <div class="week-bar-day" style="color:var(--accent-2);font-weight:700;">D</div>
+            </div>
+          </div>
+
+          <div class="insight-row">
+            <div class="insight-card">
+              <div class="insight-title">Duración</div>
+              <div class="insight-val">8h 14m</div>
+              <div class="insight-sub">+42min vs promedio</div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-title">Hora de dormir</div>
+              <div class="insight-val">23:18</div>
+              <div class="insight-sub">Detectado por cámara</div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-title">Factor principal</div>
+              <div class="insight-val">Temperatura</div>
+              <div class="insight-sub">Interior 5°C > exterior</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section" id="contacto">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal">
+      <div class="section-label">Empezar</div>
+      <h2 class="section-title">Empieza a entender<br>tu sueño hoy</h2>
+      <p class="cta-body">
+        Déjanos tu correo y te enviamos el reporte de ejemplo completo, 
+        las especificaciones del hardware y el código fuente del dashboard.
+      </p>
+      <div class="cta-form">
+        <input type="email" class="cta-input" placeholder="tu@correo.com">
+        <button class="btn-primary" onclick="handleSubmit()">Solicitar información</button>
+      </div>
+      <p class="cta-note">Sin spam. Solo información del proyecto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">SleepSense ✦</div>
+      <p class="footer-tagline">
+        Monitor de Calidad del Sueño basado en Raspberry Pi 5. 
+        Tecnología accesible para entender tu descanso.
+      </p>
+      <div class="social-links">
+        <a class="social-btn" href="#" title="GitHub">📁</a>
+        <a class="social-btn" href="#" title="Instagram">📷</a>
+        <a class="social-btn" href="#" title="LinkedIn">💼</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Producto</div>
+      <ul class="footer-links">
+        <li><a href="#problema">El problema</a></li>
+        <li><a href="#solucion">Solución</a></li>
+        <li><a href="#caracteristicas">Características</a></li>
+        <li><a href="#como-funciona">Cómo funciona</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Tecnología</div>
+      <ul class="footer-links">
+        <li><a href="#tecnologia">Raspberry Pi 5</a></li>
+        <li><a href="#tecnologia">Sensores</a></li>
+        <li><a href="#tecnologia">Python & Pandas</a></li>
+        <li><a href="#tecnologia">Dashboard HTML</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Equipo</div>
+      <ul class="footer-links">
+        <li><a href="#">Arith Maldonado</a></li>
+        <li><a href="#">Ximena Verdi</a></li>
+        <li><a href="#">Fernando Ramírez</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 SleepSense · Monitor de Calidad del Sueño. Proyecto académico.</div>
+    <div class="footer-tech">
+      <div class="ft-item">🖥️ Raspberry Pi 5</div>
+      <div class="ft-item">📷 Pi Camera</div>
+      <div class="ft-item">☁️ OpenWeatherMap API</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// CTA submit
+function handleSubmit() {
+  const input = document.querySelector('.cta-input');
+  const btn = document.querySelector('.cta-section .btn-primary');
+  if (input.value && input.value.includes('@')) {
+    btn.textContent = '✓ ¡Listo! Te contactamos pronto';
+    btn.style.background = '#5FC8C0';
+    btn.style.boxShadow = '0 0 30px rgba(95,200,192,0.4)';
+    input.value = '';
+    input.placeholder = 'Solicitud enviada';
+    setTimeout(() => {
+      btn.textContent = 'Solicitar información';
+      btn.style.background = '';
+      btn.style.boxShadow = '';
+      input.placeholder = 'tu@correo.com';
+    }, 4000);
+  } else {
+    input.style.borderColor = '#FF6B6B';
+    input.placeholder = 'Ingresa un correo válido';
+    setTimeout(() => {
+      input.style.borderColor = '';
+      input.placeholder = 'tu@correo.com';
+    }, 3000);
+  }
+}
+
+// Animated score ring on hero scroll
+document.addEventListener('scroll', () => {
+  const hero = document.querySelector('.hero-mockup');
+  if (!hero) return;
+  const rect = hero.getBoundingClientRect();
+  if (rect.top < window.innerHeight * 0.9) {
+    hero.style.opacity = '1';
+  }
+});
+
+// Curtain toggle interactivity
+document.querySelectorAll('.curtain-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const isOpen = btn.classList.contains('curtain-open');
+    const parent = btn.closest('.curtain-control') || btn.closest('.dp-mini');
+    const sub = parent ? parent.querySelector('.curtain-sub, .dp-mini-detail') : null;
+    if (isOpen) {
+      if (sub) sub.textContent = 'Abiertas · ahora';
+      btn.textContent = 'Abierto ✓';
+      btn.style.background = 'var(--teal)';
+      btn.style.color = '#fff';
+      setTimeout(() => { btn.textContent = 'Abrir'; btn.style.background=''; btn.style.color=''; }, 3000);
+    } else {
+      if (sub) sub.textContent = 'Cerradas · ahora';
+      btn.textContent = 'Cerrado ✓';
+      btn.style.background = 'var(--accent)';
+      btn.style.color = '#fff';
+      setTimeout(() => { btn.textContent = 'Cerrar'; btn.style.background=''; btn.style.color=''; }, 3000);
+    }
+  });
+});
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--accent-2)' : '';
+  });
+});
+</script>
+
+</body>
+</html>
