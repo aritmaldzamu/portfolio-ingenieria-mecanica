@@ -13,6 +13,6 @@ Portafolio profesional de Arith Maldonado Zamudio: estudiante de Ingenieria Meca
 
 ## Perfil
 
-- LinkedIn: https://www.linkedin.com/in/arith-maldonado-zamudio
+- LinkedIn: https://www.linkedin.com/in/arith-maldonado-zamudio-4038262b5
 - GitHub: https://github.com/aritmaldzamu
 - Email: maldonado.zamudio.arith@gmail.com
