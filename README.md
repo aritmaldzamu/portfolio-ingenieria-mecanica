@@ -18,6 +18,7 @@ La página carga por defecto en inglés para entrevistadores internacionales e i
 - 3DOF Ball Balancing Platform: plataforma de tres brazos con ESP32, servos, Bluetooth, OpenCV y control PID/PD para centrar una pelota con visión por computadora.
 - Somnus Sleep Monitor: sistema IoT de habitación inteligente con Raspberry Pi 5, dashboard local, Firebase, visión por cámara y app FlutterFlow.
 - Transradial Prosthesis Tool Holder: rediseño y validación por elemento finito de un sistema de sujeción de herramientas odontológicas, presentado en el contexto de ISPO 20th World Congress 2025.
+- Laser-Cut Hot Air Balloon Prototype: modelo decorativo y estructural de un globo aerostático fabricado por corte láser en MDF, ensamblado exclusivamente mediante uniones por encastre (slot-tab) sin tornillos ni adhesivos.
 
 ## Secciones actuales
 

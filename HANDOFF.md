@@ -20,6 +20,7 @@ Este documento resume el estado del portafolio para continuar el trabajo en otra
   - 3DOF Ball Balancing Platform
   - Somnus Sleep Monitor
   - Transradial Prosthesis Tool Holder
+  - Laser-Cut Hot Air Balloon Prototype (id: `globo`)
 - Se agregó una sección de certificaciones desde `C:\Users\arith\Downloads\CERTIFICACIONES`.
 - Se agregaron videos del proyecto 3DOF sin audio.
 - Se eliminó la sección de artículos científicos porque visualmente no convenció.
