@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arith Maldonado Zamudio - Portafolio</title>
+<title>Arith Maldonado Zamudio - Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -84,6 +84,24 @@
     font-size: 0.82rem; font-weight: 700;
     padding: 0.55rem 1.25rem;
     background: var(--black); color: var(--white);
+  }
+  .lang-toggle {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 2.8rem; height: 2.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, transform .15s;
+  }
+  .lang-toggle:hover {
+    border-color: var(--black);
+    background: var(--gray-bg);
   }
   .btn-primary {
     font-size: 0.92rem; font-weight: 800;
@@ -766,7 +784,7 @@
       gap: 1rem;
       margin-right: 0;
       overflow-x: auto;
-      max-width: calc(100vw - 9rem);
+      max-width: calc(100vw - 12rem);
       padding-bottom: 0.15rem;
     }
     .nav-links a { flex: 0 0 auto; }
@@ -826,6 +844,7 @@
       <a href="#proyectos" data-view="projects">Proyectos</a>
       <a href="#contacto">Contacto</a>
     </div>
+    <button type="button" class="lang-toggle" id="languageToggle" aria-label="Cambiar idioma">ES</button>
     <a href="assets/docs/CV_Arith_Maldonado_Zamudio_Automation_Intern_EN.pdf" target="_blank" rel="noopener" class="btn-nav">CV -&gt;</a>
   </div>
 </nav>
@@ -2429,6 +2448,483 @@
 </footer>
 
 <script>
+  const manualTranslations = {
+    title: 'Arith Maldonado Zamudio - Portfolio',
+    text: {
+      'Sobre mi': 'About',
+      'Certificaciones': 'Certifications',
+      'Proyectos': 'Projects',
+      'Contacto': 'Contact',
+      'Disponible para practicas y proyectos tecnicos': 'Available for internships and technical projects',
+      'Soy': 'I am',
+      'mecatronica,': 'mechatronics,',
+      'biomedica y prototipos.': 'biomedical engineering, and prototypes.',
+      'Estudiante de Ingenieria Mecatronica e Ingeniero Biomedico con mencion honorifica. Construyo sistemas donde conviven software, hardware, CAD, automatizacion, vision por computadora y datos reales.': 'Mechatronics Engineering student and Biomedical Engineer with honors. I build systems that bring together software, hardware, CAD, automation, computer vision, and real-world data.',
+      'Conocer perfil ->': 'View profile ->',
+      'Descargar CV': 'Download CV',
+      '// Sobre mi': '// About',
+      'Ingenieria aplicada': 'Applied engineering',
+      'con mentalidad de prototipo': 'with a prototyping mindset',
+      'Mi perfil mezcla automatizacion, diseno mecanico, electronica embebida, analisis de datos y experiencia tecnica con equipo medico. Busco construir soluciones funcionales, medibles y bien documentadas.': 'My profile combines automation, mechanical design, embedded electronics, data analysis, and technical experience with medical equipment. I aim to build functional, measurable, and well-documented solutions.',
+      'Perfil profesional': 'Professional Profile',
+      'Actualmente estudio Ingenieria Mecatronica en la Universidad Iberoamericana Puebla, con graduacion esperada en diciembre de 2026. Tambien soy Ingeniero Biomedico graduado con mencion honorifica. Me interesan roles de automatizacion, manufactura, prototipado y sistemas embebidos, especialmente donde el trabajo tenga impacto real.': 'I am currently studying Mechatronics Engineering at Universidad Iberoamericana Puebla, with expected graduation in December 2026. I also hold a Biomedical Engineering degree with honors. I am interested in automation, manufacturing, prototyping, and embedded systems roles, especially where the work has real-world impact.',
+      'Base tecnica': 'Technical Foundation',
+      'Experiencia profesional': 'Professional Experience',
+      'Servicio, instalacion, diagnostico y documentacion tecnica de ultrasonidos, rayos X, paneles planos y triggers en Punto Focal Equipo Medico.': 'Service, installation, diagnostics, and technical documentation for ultrasound systems, X-ray equipment, flat panels, and triggers at Punto Focal Equipo Medico.',
+      'Proyectos seleccionados': 'Selected Projects',
+      'Plataforma 3-DOF Ball-Balancing con ESP32, servos, OpenCV, PID y Bluetooth; XGIO Smart Cane GPS Tracking Ecosystem.': '3-DOF ball-balancing platform with ESP32, servos, OpenCV, PID, and Bluetooth; XGIO Smart Cane GPS Tracking Ecosystem.',
+      'Certificaciones y herramientas': 'Certifications and Tools',
+      'CSWA, SolidWorks Simulation Associate, SolidWorks Additive Manufacturing Associate, Google Project Management, EF SET B2, Python, MATLAB, Arduino, ESP32, Firebase, Altium, Power BI y manufactura digital.': 'CSWA, SolidWorks Simulation Associate, SolidWorks Additive Manufacturing Associate, Google Project Management, EF SET B2, Python, MATLAB, Arduino, ESP32, Firebase, Altium, Power BI, and digital manufacturing.',
+      '// Certificaciones': '// Certifications',
+      'Credenciales tecnicas': 'Technical credentials',
+      'y logros academicos': 'and academic achievements',
+      'Certificaciones y reconocimientos que respaldan mi base en CAD, simulacion, manufactura aditiva, gestion de proyectos y desempeno academico.': 'Certifications and recognitions that support my background in CAD, simulation, additive manufacturing, project management, and academic performance.',
+      'Certificacion academica en diseno CAD con SOLIDWORKS.': 'Academic certification in CAD design with SOLIDWORKS.',
+      'Validacion de competencias en simulacion y analisis estructural.': 'Validation of skills in simulation and structural analysis.',
+      'Certificacion enfocada en manufactura aditiva y preparacion para impresion 3D.': 'Certification focused on additive manufacturing and preparation for 3D printing.',
+      'Programa profesional de siete cursos sobre planeacion, ejecucion, agile y gestion de proyectos.': 'Seven-course professional program covering planning, execution, Agile, and project management.',
+      'Credencial digital complementaria del certificado profesional de Google.': 'Digital credential supporting the Google Professional Certificate.',
+      'Mencion Honorifica en Ingenieria Biomedica': 'Honorable Mention in Biomedical Engineering',
+      'Reconocimiento por excelencia academica al obtener el grado de Licenciatura en Ingenieria Biomedica.': 'Recognition for academic excellence upon earning the Biomedical Engineering degree.',
+      '// Catalogo de proyectos': '// Project Catalog',
+      'Proyectos construidos': 'Projects built',
+      'con evidencia real': 'with real evidence',
+      'Esta seccion crecera como un catalogo profesional: cada tarjeta resume un proyecto con una imagen, una descripcion corta y acceso a su ficha completa con detalles, stack, repositorio, documentos e imagenes.': 'This section is structured as a professional catalog: each card summarizes a project with an image, a short description, and access to a complete case study with details, stack, repository, documents, and images.',
+      'App movil, dashboard web, backend GPS, firmware ESP32, documentacion y prototipo mecanico para un baston inteligente.': 'Mobile app, web dashboard, GPS backend, ESP32 firmware, documentation, and mechanical prototype for a smart cane.',
+      'Control discreto · PID · Prototipo': 'Discrete Control · PID · Prototype',
+      'Plataforma inestable para validar PID discreto, filtros digitales y actuacion con NEMA 17, driver DRV8825 y sensor de posicion.': 'Unstable platform for validating discrete PID control, digital filters, and actuation with a NEMA 17 motor, DRV8825 driver, and position sensor.',
+      'Vision · ESP32 · PID/PD': 'Vision · ESP32 · PID/PD',
+      'Plataforma con tres brazos que centra una pelota usando OpenCV, Bluetooth, ESP32 y control realimentado.': 'Three-arm platform that centers a ball using OpenCV, Bluetooth, ESP32, and feedback control.',
+      'Habitacion inteligente con Raspberry Pi 5, sensores, actuadores, vision por camara, dashboard local y app FlutterFlow.': 'Smart room with Raspberry Pi 5, sensors, actuators, camera-based vision, local dashboard, and FlutterFlow app.',
+      'Biomecanica / FEA / ISPO 2025': 'Biomechanics / FEA / ISPO 2025',
+      'Rediseno y validacion de un sistema de sujecion de herramientas odontologicas para una protesis transradial.': 'Redesign and validation of a dental tool holder system for a transradial prosthesis.',
+      '// Proyecto 01': '// Project 01',
+      'XGIO: Sistema de Rastreo GPS': 'XGIO: GPS Tracking System',
+      'para Baston Inteligente': 'for a Smart Cane',
+      'Primer proyecto publicado en este portafolio. XGIO muestra mi forma de trabajar: integrar app movil, dashboard web, backend geoespacial, firmware, CAD, prototipo fisico y documentacion tecnica en un solo ecosistema funcional.': 'The first project published in this portfolio. XGIO shows how I work: integrating a mobile app, web dashboard, geospatial backend, firmware, CAD, physical prototype, and technical documentation into one functional ecosystem.',
+      'Que resolvi': 'What I Solved',
+      'El reto fue convertir un baston inteligente en un sistema completo de seguimiento: registrar ubicacion, limpiar ruido del GPS, mostrar rutas en tiempo real, alertar eventos criticos y dejar evidencia tecnica suficiente para que el proyecto pudiera revisarse, instalarse y evolucionar.': 'The challenge was turning a smart cane into a complete tracking system: recording location, cleaning GPS noise, displaying routes in real time, alerting critical events, and leaving enough technical evidence for the project to be reviewed, installed, and evolved.',
+      'Resultado integrado': 'Integrated Result',
+      'App:': 'App:',
+      'rol de cuidador, mapas, historial y alertas.': 'caregiver role, maps, history, and alerts.',
+      'Nube:': 'Cloud:',
+      'Firestore, APIs Python y funciones serverless.': 'Firestore, Python APIs, and serverless functions.',
+      'Hardware:': 'Hardware:',
+      'ESP32/T-Beam, GPS, MPU6050, S.O.S y CAD.': 'ESP32/T-Beam, GPS, MPU6050, S.O.S, and CAD.',
+      'modulos': 'modules',
+      'm/s filtro': 'm/s filter',
+      'sistema': 'system',
+      'Monorepo completo: app, nube, firmware, analitica GPS y diseno mecanico.': 'Complete monorepo: app, cloud, firmware, GPS analytics, and mechanical design.',
+      'XGIO integra un baston inteligente con GPS, deteccion de caidas, boton S.O.S, app para cuidadores, panel administrativo y procesamiento de rutas. El repositorio documenta codigo, pruebas, renders CAD, prototipos impresos, reportes tecnicos y despliegue.': 'XGIO integrates a smart cane with GPS, fall detection, S.O.S button, caregiver app, admin dashboard, and route processing. The repository documents code, tests, CAD renders, printed prototypes, technical reports, and deployment.',
+      'Modulos del repo': 'Repository Modules',
+      'Filtro GPS': 'GPS Filter',
+      'Ver repositorio ->': 'View repository ->',
+      'Ver evidencia': 'View evidence',
+      'Aplicacion movil para cuidadores': 'Mobile App for Caregivers',
+      'React Native y Expo con roles, mapas, historial de rutas, estado del baston, Bluetooth y alertas criticas por S.O.S o caida.': 'React Native and Expo with roles, maps, route history, cane status, Bluetooth, and critical alerts for S.O.S or fall events.',
+      'Backend geoespacial': 'Geospatial Backend',
+      'Funciones Python para limpieza de polilineas, comparacion de rutas, dispersion GPS, exportacion de datos y visualizaciones con Matplotlib/Folium.': 'Python functions for polyline cleaning, route comparison, GPS dispersion, data export, and visualizations with Matplotlib/Folium.',
+      'Firmware y prototipo fisico': 'Firmware and Physical Prototype',
+      'ESP32/T-Beam con GPS, MPU6050, boton S.O.S, buzzer, vibracion y carcasa modelada en SolidWorks para integrar electronica y antena.': 'ESP32/T-Beam with GPS, MPU6050, S.O.S button, buzzer, vibration, and a SolidWorks enclosure to integrate electronics and antenna.',
+      '// Evidencia visual': '// Visual Evidence',
+      'Pantallas, prototipos': 'Screens, prototypes',
+      'y pruebas del sistema': 'and system tests',
+      'La documentacion de XGIO incluye capturas de la app, panel administrativo, diseno mecanico, fotos de impresion 3D y graficas de desempeno GPS generadas desde datos del proyecto.': 'XGIO documentation includes app screenshots, the admin dashboard, mechanical design, 3D printing photos, and GPS performance charts generated from project data.',
+      'Dashboard administrativo': 'Admin Dashboard',
+      'Usuarios, bastones vinculados, rutas y alertas activas.': 'Users, linked canes, routes, and active alerts.',
+      'App movil': 'Mobile App',
+      'Experiencia en modo oscuro para monitoreo del baston.': 'Dark-mode experience for cane monitoring.',
+      'Diseno mecanico': 'Mechanical Design',
+      'Carcasa superior para T-Beam, cableado y antena LoRaWAN.': 'Upper enclosure for T-Beam, wiring, and LoRaWAN antenna.',
+      'Filtro de rutas': 'Route Filter',
+      'Backend elimina lecturas anomalias por velocidad peatonal.': 'Backend removes anomalous readings using a pedestrian-speed threshold.',
+      'Alertas criticas': 'Critical Alerts',
+      'S.O.S y caidas notificadas al cuidador.': 'S.O.S and fall events notified to the caregiver.',
+      'Prototipo impreso': 'Printed Prototype',
+      'Validacion fisica de geometria, tolerancias y montaje.': 'Physical validation of geometry, tolerances, and assembly.',
+      '// Repositorio': '// Repository',
+      'Estructura del monorepo': 'Monorepo Structure',
+      'en GitHub': 'on GitHub',
+      'El proyecto esta organizado para separar aplicacion, dashboard, API, firmware, documentacion, assets CAD, graficas y herramientas de soporte.': 'The project is organized to separate the application, dashboard, API, firmware, documentation, CAD assets, charts, and support tools.',
+      '# app movil, roles, mapas, historial y alertas': '# mobile app, roles, maps, history, and alerts',
+      '# panel web para usuarios, rutas, dispositivos y configuracion': '# web dashboard for users, routes, devices, and settings',
+      '# limpieza de ruido GPS con Haversine': '# GPS noise cleaning with Haversine',
+      '# comparacion de rutas reales vs ideales': '# comparison of real vs. ideal routes',
+      '# mapas y reportes geoespaciales': '# maps and geospatial reports',
+      '# firmware ESP32/Arduino para sensores y telemetria': '# ESP32/Arduino firmware for sensors and telemetry',
+      '# documentacion tecnica publicada con MkDocs': '# technical documentation published with MkDocs',
+      '# SolidWorks, STL y paquetes de impresion': '# SolidWorks, STL, and print packages',
+      '# app, dashboard, prototipo y renders CAD': '# app, dashboard, prototype, and CAD renders',
+      '# dispersion GPS estatica': '# static GPS dispersion',
+      '# ruta filtrada por umbral peatonal': '# route filtered by pedestrian threshold',
+      '# codigos QR para bastones/dispositivos': '# QR codes for canes/devices',
+      '# sitio publico de documentacion': '# public documentation site',
+      '# resumen del ecosistema XGIO': '# XGIO ecosystem summary',
+      '// Stack tecnico': '// Technical Stack',
+      'Herramientas y': 'Tools and',
+      'tecnologias usadas': 'technologies used',
+      'XGIO combina desarrollo movil, web, nube, analisis de datos, electronica embebida y diseno mecanico.': 'XGIO combines mobile, web, cloud, data analysis, embedded electronics, and mechanical design work.',
+      'Aplicacion movil con pantallas por rol, mapas, historial, Bluetooth y estados del baston.': 'Mobile app with role-based screens, maps, history, Bluetooth, and cane status.',
+      'Dashboard administrativo en modo oscuro con metricas, tablas, mapas y configuracion.': 'Dark-mode admin dashboard with metrics, tables, maps, and configuration.',
+      'Sincronizacion de usuarios, ubicaciones, alertas, baterias y estados del dispositivo.': 'Synchronization of users, locations, alerts, battery levels, and device status.',
+      'Python geoespacial': 'Geospatial Python',
+      'Limpieza de coordenadas, calculo de dispersion, comparacion de rutas y graficas.': 'Coordinate cleaning, dispersion calculation, route comparison, and charts.',
+      'Lectura GPS, acelerometro, boton S.O.S, comunicacion y publicacion de telemetria.': 'GPS reading, accelerometer, S.O.S button, communication, and telemetry publishing.',
+      'Carcasa, ensamble, archivos editables y modelos para impresion 3D del prototipo.': 'Enclosure, assembly, editable files, and 3D-printable prototype models.',
+      '// Documentos y entregables': '// Documents and Deliverables',
+      'Material listo para': 'Material ready for',
+      'revision profesional': 'professional review',
+      'Ademas del codigo, el proyecto tiene sitio de documentacion, poster, resumen, reporte de ingenieria, guia de despliegue, capturas y archivos CAD.': 'Beyond the code, the project includes a documentation site, poster, summary, engineering report, deployment guide, screenshots, and CAD files.',
+      'Sitio de documentacion': 'Documentation Site',
+      'MkDocs Material con instalacion, componentes, laboratorio de codigo, pruebas GPS y descargas.': 'MkDocs Material site with installation, components, code lab, GPS tests, and downloads.',
+      'Reportes tecnicos': 'Technical Reports',
+      'Documento de proyecto, poster y resumen academico incluidos en la carpeta docs.': 'Project document, poster, and academic summary included in the docs folder.',
+      'Archivos mecanicos': 'Mechanical Files',
+      'Paquetes SolidWorks, ensambles, piezas SLDPRT y STL final para impresion 3D.': 'SolidWorks packages, assemblies, SLDPRT parts, and final STL for 3D printing.',
+      '// Proyecto 02': '// Project 02',
+      'Ball & Beam: Control Discreto': 'Ball & Beam: Discrete Control',
+      'para sistema inestable': 'for an unstable system',
+      'Prototipo mecatronico presentado en Expo Ibero Primavera 2026. El proyecto se centro en modelar, discretizar e implementar un controlador PID digital para estabilizar la posicion de una esfera sobre una barra actuada por motor paso a paso.': 'Mechatronic prototype presented at Expo Ibero Spring 2026. The project focused on modeling, discretizing, and implementing a digital PID controller to stabilize the position of a ball on a beam actuated by a stepper motor.',
+      'Enfoque de control': 'Control Approach',
+      'El Ball and Beam es un sistema subactuado e inestable en lazo abierto: cualquier perturbacion desplaza la bola si no existe accion de control. El trabajo conecto el modelo Euler-Lagrange, la discretizacion por ZOH y varias implementaciones PID en Arduino para comparar ruido, retardo, derivada e integral numerica.': 'The Ball and Beam is an underactuated, open-loop unstable system: any disturbance moves the ball if there is no control action. The work connected the Euler-Lagrange model, ZOH discretization, and several Arduino PID implementations to compare noise, delay, derivative behavior, and numerical integration.',
+      'Resultado de simulacion': 'Simulation Result',
+      'Modelo:': 'Model:',
+      'funcion de transferencia discreta con retenedor ZOH.': 'discrete transfer function with a ZOH hold.',
+      'Control:': 'Control:',
+      'PID discreto con ajuste inicial Ziegler-Nichols y refinamiento por ISE.': 'discrete PID with initial Ziegler-Nichols tuning and ISE refinement.',
+      'Prototipo:': 'Prototype:',
+      'NEMA 17, DRV8825, sensor de posicion y piezas CAD/impresion 3D.': 'NEMA 17, DRV8825, position sensor, and CAD/3D-printed parts.',
+      'Ts simulacion': 'Simulation Ts',
+      'limite actuador': 'actuator limit',
+      'Banco de pruebas para estudiar estabilizacion, ruido de sensor y accion derivativa.': 'Test bench for studying stabilization, sensor noise, and derivative action.',
+      'El sistema usa una barra articulada, una esfera como masa movil, sensor de posicion y actuacion con motor paso a paso. Se desarrollaron variantes del controlador para evaluar filtros EMA, filtro pasa-altas en la derivada, compensacion proporcional modificada e integracion trapezoidal.': 'The system uses an articulated beam, a ball as the moving mass, a position sensor, and stepper-motor actuation. Controller variants were developed to evaluate EMA filters, high-pass derivative filtering, modified proportional compensation, and trapezoidal integration.',
+      'Ver control ->': 'View control ->',
+      '// Control discreto': '// Discrete Control',
+      'PID digital, filtros': 'Digital PID, filters',
+      'y aproximaciones numericas': 'and numerical approximations',
+      'El proyecto no se quedo en "mover un motor": se compararon variantes del algoritmo discreto para atacar problemas reales del prototipo, como ruido de medicion, kick derivativo, saturacion y acumulacion integral.': 'The project went beyond simply "moving a motor": variants of the discrete algorithm were compared to address real prototype issues such as measurement noise, derivative kick, saturation, and integral windup.',
+      'Metodo 2: EMA': 'Method 2: EMA',
+      'Filtra la lectura de posicion antes de calcular el error para reducir ruido del sensor sin introducir un retardo excesivo.': 'Filters the position reading before calculating error to reduce sensor noise without introducing excessive delay.',
+      'Metodo 3: HPF': 'Method 3: HPF',
+      'Reemplaza la derivada directa por un filtro pasa-altas sobre posicion, evitando amplificar ruido por diferencias finitas.': 'Replaces the direct derivative with a high-pass filter on position, avoiding finite-difference noise amplification.',
+      'Metodo 4: PID modificado': 'Method 4: Modified PID',
+      'Agrega accion proporcional sobre posicion para reducir el golpe de control cuando cambia el setpoint.': 'Adds proportional action on position to reduce the control kick when the setpoint changes.',
+      'Metodo 5: Trapezoidal': 'Method 5: Trapezoidal',
+      'Integra el error con regla trapezoidal, una aproximacion mas precisa que Euler para el acumulador integral.': 'Integrates error using the trapezoidal rule, a more accurate approximation than Euler for the integral accumulator.',
+      'PID_Metodo5_Trapezoidal.ino / fragmento principal': 'PID_Method5_Trapezoidal.ino / main snippet',
+      '// Ts = 50 ms en Arduino, anti-windup y actuacion limitada a +/-15 deg': '// Ts = 50 ms on Arduino, anti-windup, and actuation limited to +/-15 deg',
+      '// integral trapezoidal': '// trapezoidal integral',
+      'CAD, simulacion': 'CAD, simulation',
+      'y control discreto': 'and discrete control',
+      'La ficha combina las vistas finales del prototipo y los resultados del resumen tecnico para mostrar tanto el diseno fisico como la base matematica del controlador.': 'The case study combines final prototype views and technical-summary results to show both the physical design and the mathematical basis of the controller.',
+      'Vista isometrica final': 'Final Isometric View',
+      'Vista isometrica final del ensamble con actuador, sensor y base.': 'Final isometric view of the assembly with actuator, sensor, and base.',
+      'Vista lateral final': 'Final Side View',
+      'Alineacion de barra, soportes, sensor ultrasonico y transmision.': 'Alignment of beam, supports, ultrasonic sensor, and transmission.',
+      'Vista posterior final': 'Final Rear View',
+      'Distribucion del motor, soportes curvos, caja electronica y sensor.': 'Layout of the motor, curved supports, electronics box, and sensor.',
+      'Respuesta simulada': 'Simulated Response',
+      'Tiempo de establecimiento de 2.8 s y sobreimpulso de 12%.': 'Settling time of 2.8 s and 12% overshoot.',
+      'Metricas de desempeno': 'Performance Metrics',
+      'Comparacion contra criterios de estabilidad y error.': 'Comparison against stability and error criteria.',
+      'Hardware, software': 'Hardware, software',
+      'y entregables': 'and deliverables',
+      'El proyecto une modelado matematico, simulacion, diseno CAD, manufactura de bajo costo e implementacion embebida del controlador.': 'The project brings together mathematical modeling, simulation, CAD design, low-cost manufacturing, and embedded controller implementation.',
+      'Control discreto': 'Discrete Control',
+      'PID digital, ZOH, asignacion de polos, Ziegler-Nichols e indice ISE para ajuste de respuesta.': 'Digital PID, ZOH, pole placement, Ziegler-Nichols, and ISE index for response tuning.',
+      'Lectura de posicion, calculo del control cada 50 ms y actuacion por pulsos STEP/DIR.': 'Position reading, control calculation every 50 ms, and actuation through STEP/DIR pulses.',
+      'Motor paso a paso con microstepping 1/8 y limite mecanico/controlado de +/-15 grados.': 'Stepper motor with 1/8 microstepping and a mechanical/controlled limit of +/-15 degrees.',
+      'Sensor de posicion': 'Position Sensor',
+      'Medicion de la posicion de la esfera y filtrado digital para reducir ruido en la realimentacion.': 'Measurement of the ball position and digital filtering to reduce feedback noise.',
+      'Modelo linealizado, respuesta al escalon, sensibilidad y validacion previa a la implementacion.': 'Linearized model, step response, sensitivity, and pre-implementation validation.',
+      'Diseno de soportes, ensamble, montaje y comunicacion visual del prototipo.': 'Support design, assembly, mounting, and visual communication of the prototype.',
+      'Resumen tecnico': 'Technical Summary',
+      'Documento con introduccion, metodologia, resultados de simulacion, conclusiones y referencias.': 'Document with introduction, methodology, simulation results, conclusions, and references.',
+      'Poster Expo Ibero': 'Expo Ibero Poster',
+      'Material de presentacion del proyecto para Expo Ibero Primavera 2026.': 'Project presentation material for Expo Ibero Spring 2026.',
+      'Codigo PID': 'PID Code',
+      'Implementacion Arduino del metodo trapezoidal con anti-windup y comandos seriales.': 'Arduino implementation of the trapezoidal method with anti-windup and serial commands.',
+      '// Proyecto 03': '// Project 03',
+      'Plataforma 3DOF:': '3DOF Platform:',
+      'balanceo de pelota con vision': 'vision-based ball balancing',
+      'Plataforma robotica de tres grados de libertad accionada por tres brazos. El sistema detecta la pelota con una camara, calcula el error respecto al centro y envia comandos por Bluetooth a un ESP32 para ajustar tres servos en tiempo real.': 'Three-degree-of-freedom robotic platform actuated by three arms. The system detects the ball with a camera, calculates the error relative to the center, and sends Bluetooth commands to an ESP32 to adjust three servos in real time.',
+      'Que problema resolvio': 'Problem Solved',
+      'El reto fue cerrar el ciclo entre vision por computadora, control y actuacion fisica: medir la posicion de una pelota en movimiento, convertir el error visual en angulos de servos y estabilizar la plataforma sin movimientos bruscos ni perdida de referencia.': 'The challenge was closing the loop between computer vision, control, and physical actuation: measuring a moving ball position, converting visual error into servo angles, and stabilizing the platform without abrupt motion or loss of reference.',
+      'Arquitectura integrada': 'Integrated Architecture',
+      'Vision:': 'Vision:',
+      'OpenCV, umbral HSV, contorno dominante y centro calibrado.': 'OpenCV, HSV thresholding, dominant contour, and calibrated center.',
+      'lazo realimentado PID/PD con saturacion, derivada filtrada y ajuste de ejes.': 'PID/PD feedback loop with saturation, filtered derivative, and axis tuning.',
+      'ESP32, Bluetooth serial, PWM y tres servos para plataforma 3DOF.': 'ESP32, Bluetooth serial, PWM, and three servos for the 3DOF platform.',
+      'servos': 'servos',
+      'cmd max': 'max cmd',
+      'vision': 'vision',
+      'Mecatronica / Vision / ESP32': 'Mechatronics / Vision / ESP32',
+      'Un sistema fisico que traduce pixeles en movimiento coordinado de tres brazos.': 'A physical system that translates pixels into coordinated three-arm motion.',
+      'El proyecto combina CAD en SolidWorks, firmware embebido, comunicacion Bluetooth y procesamiento de imagen. El firmware recibe comandos `ANG:izq,der,vert`, suaviza los cambios con una rampa y regresa al centro si se pierde la pelota o se interrumpe la comunicacion.': 'The project combines SolidWorks CAD, embedded firmware, Bluetooth communication, and image processing. The firmware receives `ANG:left,right,vertical` commands, smooths changes with a ramp, and returns to center if the ball is lost or communication is interrupted.',
+      'control': 'control',
+      'mecanica': 'mechanics',
+      'Ver demos ->': 'View demos ->',
+      'Ver control': 'View control',
+      '// Vision y control': '// Vision and Control',
+      'Del centro visual': 'From visual center',
+      'a los angulos de servo': 'to servo angles',
+      'La computadora detecta la pelota, normaliza el error en X/Y y envia al ESP32 los angulos objetivo. El firmware separa la logica de alto nivel del movimiento fisico: invierte el mapeo de servos, limita rangos, aplica rampa y usa timeout de seguridad.': 'The computer detects the ball, normalizes the X/Y error, and sends target angles to the ESP32. The firmware separates high-level logic from physical motion: it inverts servo mapping, limits ranges, applies ramping, and uses a safety timeout.',
+      'Deteccion': 'Detection',
+      'La pelota se extrae por color y se calcula su centro usando el circulo minimo del contorno dominante.': 'The ball is extracted by color and its center is calculated using the minimum enclosing circle of the dominant contour.',
+      'El error se normaliza contra el centro calibrado de la plataforma para convertir pixeles en accion de control.': 'The error is normalized against the calibrated platform center to convert pixels into control action.',
+      'Comando': 'Command',
+      'Python envia angulos absolutos por Bluetooth serial hacia el ESP32 a una frecuencia limitada.': 'Python sends absolute angles to the ESP32 over serial Bluetooth at a limited frequency.',
+      'Seguridad': 'Safety',
+      'Si se pierde la pelota o no llegan comandos, la plataforma vuelve al centro para evitar movimientos no controlados.': 'If the ball is lost or commands stop arriving, the platform returns to center to avoid uncontrolled motion.',
+      '# Python: vision, control y envio Bluetooth': '# Python: vision, control, and Bluetooth transmission',
+      '// ESP32: recepcion, rampa y PWM': '// ESP32: reception, ramping, and PWM',
+      'CAD, control manual': 'CAD, manual control',
+      'y balanceo autonomo': 'and autonomous balancing',
+      'La evidencia muestra el modelo mecanico y dos pruebas clave: control manual de la plataforma con la mano y balanceo de la pelota con el controlador realimentado.': 'The evidence shows the mechanical model and two key tests: manual hand control of the platform and ball balancing with the feedback controller.',
+      'Ensamble 3DOF': '3DOF Assembly',
+      'Modelo de la plataforma y configuracion de tres brazos.': 'Platform model and three-arm configuration.',
+      'Detalle mecanico': 'Mechanical Detail',
+      'Piezas y geometria de soporte modeladas en SolidWorks.': 'Parts and support geometry modeled in SolidWorks.',
+      'Control manual': 'Manual Control',
+      'Prueba de respuesta de la plataforma controlada con la mano.': 'Response test of the platform controlled by hand.',
+      'Balanceo con PID/PD': 'Balancing with PID/PD',
+      'Demostracion de centrado y estabilizacion de la pelota con vision por computadora.': 'Demonstration of ball centering and stabilization with computer vision.',
+      '// Stack y entregables': '// Stack and Deliverables',
+      'Codigo embebido,': 'Embedded code,',
+      'vision y prototipo fisico': 'vision, and physical prototype',
+      'El proyecto funciona como evidencia de integracion mecatronica: diseno mecanico, firmware, comunicacion serial, procesamiento de imagen y validacion experimental sobre hardware real.': 'The project serves as evidence of mechatronic integration: mechanical design, firmware, serial communication, image processing, and experimental validation on real hardware.',
+      'Deteccion por HSV, limpieza morfologica, contornos y centro calibrado de la pelota.': 'HSV detection, morphological cleanup, contours, and calibrated ball center.',
+      'Control realimentado': 'Feedback Control',
+      'Control tipo PID/PD con ganancias ajustables, derivada filtrada y saturacion de salida.': 'PID/PD-type control with tunable gains, filtered derivative, and output saturation.',
+      'Protocolo simple de comandos para separar la vision en PC del control fisico en ESP32.': 'Simple command protocol to separate PC-based vision from physical control on the ESP32.',
+      'PWM para servos, lectura no bloqueante, timeout de seguridad y rampa de movimiento.': 'PWM for servos, non-blocking reading, safety timeout, and motion ramping.',
+      'Modelado de plataforma, brazos y ensamble para comunicar la solucion mecanica.': 'Modeling of the platform, arms, and assembly to communicate the mechanical solution.',
+      'Pruebas fisicas': 'Physical Tests',
+      'Validacion con control manual, deteccion de pelota y balanceo autonomo sobre el prototipo.': 'Validation with manual control, ball detection, and autonomous balancing on the prototype.',
+      'Control de servos, Bluetooth, parser de comandos, rampa de movimiento y timeout.': 'Servo control, Bluetooth, command parser, motion ramp, and timeout.',
+      'Vision y control': 'Vision and Control',
+      'Script OpenCV para detectar la pelota, calcular error y enviar angulos al ESP32.': 'OpenCV script to detect the ball, calculate error, and send angles to the ESP32.',
+      'Notas tecnicas': 'Technical Notes',
+      'Dependencias, flujo de ejecucion, controles en vivo y nota sobre PID/PD.': 'Dependencies, execution flow, live controls, and note on PID/PD.',
+      '// Proyecto 04': '// Project 04',
+      'Somnus Sleep Monitor:': 'Somnus Sleep Monitor:',
+      'habitacion inteligente IoT': 'IoT smart room',
+      'Prototipo funcional para monitoreo y control de un ambiente de descanso. Integra Raspberry Pi 5, sensores fisicos, actuadores, vision por camara, dashboard local, Firebase Firestore y una app de usuario construida en FlutterFlow.': 'Functional prototype for monitoring and controlling a sleep environment. It integrates Raspberry Pi 5, physical sensors, actuators, camera vision, a local dashboard, Firebase Firestore, and a user app built in FlutterFlow.',
+      'Durante el descanso, variables como movimiento, ventilacion, luz, temperatura y cortinas afectan la comodidad del usuario. Somnus centraliza esas senales y permite controlar actuadores fisicos desde una interfaz local y desde una app remota sincronizada en la nube.': 'During rest, variables such as movement, ventilation, light, temperature, and curtains affect user comfort. Somnus centralizes those signals and enables physical actuator control from a local interface and a cloud-synchronized remote app.',
+      'Fisica:': 'Physical:',
+      'PIR, LED, relevadores, ventiladores, L298N, motor DC y camara USB.': 'PIR, LED, relays, fans, L298N, DC motor, and USB camera.',
+      'Control local:': 'Local Control:',
+      'Python, PyQt5, gpiozero/lgpio, OpenCV y Open-Meteo.': 'Python, PyQt5, gpiozero/lgpio, OpenCV, and Open-Meteo.',
+      'Nube/app:': 'Cloud/App:',
+      'Firestore para estado, historial y comandos remotos desde FlutterFlow.': 'Firestore for status, history, and remote commands from FlutterFlow.',
+      'capas': 'layers',
+      'Sistema local-remoto para observar una habitacion y accionar ventilacion/cortina.': 'Local-remote system for monitoring a room and actuating ventilation/curtain control.',
+      'El dashboard corre en Raspberry Pi 5, lee movimiento mediante PIR, controla LED y ventiladores con relevadores active-low, mueve una cortina con L298N y consulta temperatura exterior por Open-Meteo. Firestore funciona como puente para historial, estado actual y comandos desde FlutterFlow.': 'The dashboard runs on a Raspberry Pi 5, reads movement through PIR, controls an LED and fans with active-low relays, moves a curtain with L298N, and queries outdoor temperature through Open-Meteo. Firestore acts as the bridge for history, current state, and commands from FlutterFlow.',
+      'relevadores': 'relays',
+      'Ver arquitectura ->': 'View architecture ->',
+      '// Arquitectura IoT': '// IoT Architecture',
+      'Sensores, actuadores,': 'Sensors, actuators,',
+      'nube y app remota': 'cloud, and remote app',
+      'La Raspberry Pi funciona como controlador central. El flujo de datos sube lecturas e historial a Firestore, mientras que la app escribe comandos para que el hardware responda fisicamente.': 'The Raspberry Pi works as the central controller. The data flow uploads readings and history to Firestore, while the app writes commands so the hardware can respond physically.',
+      'Capa fisica': 'Physical Layer',
+      'Movimiento, indicador visual y ventiladores conectados a Raspberry Pi con relevadores active-low.': 'Motion, visual indicator, and fans connected to the Raspberry Pi with active-low relays.',
+      'Cortina motorizada': 'Motorized Curtain',
+      'Motor DC controlado por direccion y PWM para abrir/cerrar una cortina del prototipo.': 'DC motor controlled by direction and PWM to open/close a prototype curtain.',
+      'Dashboard local': 'Local Dashboard',
+      'Interfaz de control y monitoreo con graficas, historial, exportacion CSV/Excel y clima en linea.': 'Control and monitoring interface with charts, history, CSV/Excel export, and online weather.',
+      'Sincronizacion': 'Synchronization',
+      'Firestore mantiene estado actual, lecturas historicas y comandos remotos para la app FlutterFlow.': 'Firestore maintains current state, historical readings, and remote commands for the FlutterFlow app.',
+      'hardware_real.py / pinout final': 'hardware_real.py / final pinout',
+      '# HC-SR501 movimiento': '# HC-SR501 motion',
+      '# indicador fisico': '# physical indicator',
+      '# ventiladores active-low': '# active-low fans',
+      '# movimiento lento y controlado': '# slow, controlled motion',
+      '# tiempo de recorrido': '# travel time',
+      'Prototipo fisico,': 'Physical prototype,',
+      'dashboard y app': 'dashboard, and app',
+      'Las imagenes vienen del reporte y de la landing del proyecto: maqueta fisica, cableado, dashboard local, app FlutterFlow y Firestore.': 'The images come from the report and the project landing page: physical mockup, wiring, local dashboard, FlutterFlow app, and Firestore.',
+      'Comunicacion visual del monitor de calidad del sueno.': 'Visual communication of the sleep-quality monitor.',
+      'Maqueta fisica': 'Physical Mockup',
+      'Habitacion inteligente con sensores, ventiladores y actuadores.': 'Smart room with sensors, fans, and actuators.',
+      'Electronica': 'Electronics',
+      'Relevadores, cableado, protoboard y conexiones a Raspberry Pi.': 'Relays, wiring, breadboard, and Raspberry Pi connections.',
+      'Interior de habitacion': 'Room Interior',
+      'Disposicion de actuadores y componentes dentro de la maqueta.': 'Arrangement of actuators and components inside the mockup.',
+      'Estado actual, historial y comandos remotos sincronizados.': 'Current state, history, and synchronized remote commands.',
+      'Monitoreo, graficas, estado de actuadores y exportacion.': 'Monitoring, charts, actuator status, and export.',
+      'Login, dashboard, historial y configuracion para usuario.': 'Login, dashboard, history, and user settings.',
+      'Hardware real,': 'Real hardware,',
+      'software local y nube': 'local software, and cloud',
+      'Somnus demuestra integracion de hardware real con una interfaz de escritorio, servicios cloud y aplicacion de usuario.': 'Somnus demonstrates real-hardware integration with a desktop interface, cloud services, and a user application.',
+      'Controlador central con GPIO, lgpio/gpiozero, sensores, actuadores y ejecucion del dashboard.': 'Central controller with GPIO, lgpio/gpiozero, sensors, actuators, and dashboard execution.',
+      'Dashboard local con graficas, estados, controles, historial y exportacion CSV/Excel.': 'Local dashboard with charts, states, controls, history, and CSV/Excel export.',
+      'Deteccion visual experimental para estimar estado de sueno mediante camara USB.': 'Experimental visual detection to estimate sleep state using a USB camera.',
+      'Sincronizacion de estado vivo, historial y comandos remotos entre app y Raspberry Pi.': 'Synchronization of live state, history, and remote commands between the app and Raspberry Pi.',
+      'Aplicacion de usuario con login, dashboard, historial y configuracion del sistema.': 'User application with login, dashboard, history, and system settings.',
+      'Temperatura exterior en linea para alimentar logica de ventilacion y contexto ambiental.': 'Online outdoor temperature to support ventilation logic and environmental context.',
+      'Reporte tecnico': 'Technical Report',
+      'Documento completo con arquitectura, pinout, pruebas, resultados y anexos de codigo.': 'Complete document with architecture, pinout, tests, results, and code appendices.',
+      'Pagina visual del concepto, problema, solucion, tecnologia y preview del dashboard.': 'Visual page for the concept, problem, solution, technology, and dashboard preview.',
+      'Control hardware': 'Hardware Control',
+      'Clase Python para PIR, LED, relevadores, ventiladores y motor de cortina con L298N.': 'Python class for PIR, LED, relays, fans, and curtain motor with L298N.',
+      '// Proyecto 05': '// Project 05',
+      'Tool holder para': 'Tool holder for',
+      'protesis transradial': 'a transradial prosthesis',
+      'Rediseno y validacion de un sistema de sujecion de herramientas para una protesis transradial usada por un estudiante de estomatologia. El proyecto combina diseno mecanico, seleccion de materiales, simulacion por elemento finito y evaluacion de satisfaccion del usuario; fue presentado en el contexto del ISPO 20th World Congress 2025 en Stockholm, Sweden.': 'Redesign and validation of a tool holder system for a transradial prosthesis used by a dentistry student. The project combines mechanical design, material selection, finite element simulation, and user satisfaction assessment; it was presented in the context of the ISPO 20th World Congress 2025 in Stockholm, Sweden.',
+      'Reto de diseno': 'Design Challenge',
+      'El usuario necesitaba un sistema mas durable y funcional para sostener herramientas odontologicas. Los prototipos previos resolvian la adaptacion inicial, pero el mecanismo requeria mayor resistencia, mejor sujecion y validacion estructural antes de usarse en actividades academicas reales.': 'The user needed a more durable and functional system to hold dental tools. Previous prototypes solved the initial adaptation, but the mechanism required greater strength, better fixation, and structural validation before use in real academic activities.',
+      'Validacion principal': 'Main Validation',
+      'Carga:': 'Load:',
+      '50 N aplicada al espejo dental con 70 mm desde el centro del espejo hasta el mango.': '50 N applied to the dental mirror with 70 mm from the mirror center to the handle.',
+      'Materiales:': 'Materials:',
+      'Siraya Tech Blu Tough Resin, acero inoxidable AISI 304 y PETG.': 'Siraya Tech Blu Tough Resin, AISI 304 stainless steel, and PETG.',
+      'Evaluacion:': 'Evaluation:',
+      'SolidWorks Simulation, PIADS y QUEST 2.0.': 'SolidWorks Simulation, PIADS, and QUEST 2.0.',
+      'Abrazadera': 'Clamp',
+      'abrazadera': 'clamp',
+      'TornilloUD': 'UD Screw',
+      'servicio': 'service',
+      'Un adaptador odontologico validado con simulacion y retroalimentacion del usuario.': 'A dental adapter validated with simulation and user feedback.',
+      'El trabajo se centro en convertir necesidades clinicas y ergonomicas en un mecanismo imprimible, ensamblable y verificable. La simulacion reviso concentraciones de esfuerzo en abrazadera, tornillos, eslabones y eje principal para confirmar que el sistema trabajara por debajo de los limites de material.': 'The work focused on converting clinical and ergonomic needs into a printable, assemblable, and verifiable mechanism. The simulation reviewed stress concentrations in the clamp, screws, links, and main shaft to confirm that the system would work below material limits.',
+      'Ver validacion ->': 'View validation ->',
+      '// Validacion por elemento finito': '// Finite Element Validation',
+      'Esfuerzo, seguridad': 'Stress, safety',
+      'y vida de uso': 'and service life',
+      'La validacion fue modelada en SolidWorks Simulation con geometria simplificada para analisis: se eliminaron tolerancias de modelado, se incorporaron tornillos exactos y se evaluaron piezas criticas del mecanismo bajo carga en el espejo dental.': 'The validation was modeled in SolidWorks Simulation with simplified geometry for analysis: modeling tolerances were removed, exact screws were incorporated, and critical mechanism parts were evaluated under load on the dental mirror.',
+      'La concentracion critica aparece cerca del contacto con el espejo; el esfuerzo se mantiene debajo del limite elastico reportado para la resina.': 'The critical concentration appears near the contact with the mirror; stress remains below the elastic limit reported for the resin.',
+      'El tornillo trabaja cerca del 50.58% del limite usado en la evaluacion, conservando margen estructural.': 'The screw works near 50.58% of the limit used in the evaluation, preserving structural margin.',
+      'Eslabon F': 'Link F',
+      'El eslabon presenta esfuerzos bajos frente al material, lo que confirma que no es el componente dominante del riesgo.': 'The link shows low stresses relative to the material, confirming it is not the dominant risk component.',
+      'Fatiga local': 'Local Fatigue',
+      'La zona critica se interpreto como posible holgura local por friccion; el resto del ensamble supera ciclos equivalentes a mas de cinco anos.': 'The critical area was interpreted as possible local play due to friction; the rest of the assembly exceeds cycles equivalent to more than five years.',
+      'resumen tecnico / resultados clave': 'technical summary / key results',
+      'Carga = 50 N': 'Load = 50 N',
+      '# espejo dental con brazo de 70 mm': '# dental mirror with 70 mm lever arm',
+      'Factor de seguridad minimo = 2.883': 'Minimum factor of safety = 2.883',
+      '# punto critico de ensamble': '# critical assembly point',
+      'Deformacion max = 0.007-0.011 ESTRN': 'Max deformation = 0.007-0.011 ESTRN',
+      '# abrazadera': '# clamp',
+      'Evaluacion de usuario': 'User Evaluation',
+      'PIADS: competencia/adaptabilidad = 3; autoestima = 2': 'PIADS: competence/adaptability = 3; self-esteem = 2',
+      'QUEST 2.0: dispositivo = 4.8; servicio = 5; satisfaccion = 5': 'QUEST 2.0: device = 4.8; service = 5; satisfaction = 5',
+      'y comunicacion tecnica': 'and technical communication',
+      'La evidencia visual se organiza como una narrativa: primero el mecanismo, despues los mapas de simulacion y finalmente la documentacion presentada para comunicar el proyecto.': 'The visual evidence is organized as a narrative: first the mechanism, then the simulation maps, and finally the documentation used to communicate the project.',
+      'Vision del proyecto': 'Project Overview',
+      'CAD, simulacion y evidencia de comunicacion tecnica.': 'CAD, simulation, and technical communication evidence.',
+      'Eslabon principal': 'Main Link',
+      'Geometria del componente de transmision y bloqueo.': 'Geometry of the transmission and locking component.',
+      'Iteracion CAD': 'CAD Iteration',
+      'Revision de forma para montaje y sujecion.': 'Shape review for assembly and fixation.',
+      'Mapa general FEA': 'General FEA Map',
+      'Distribucion de esfuerzo bajo carga de 50 N.': 'Stress distribution under 50 N load.',
+      'Zona critica alrededor del contacto con el espejo dental.': 'Critical area around contact with the dental mirror.',
+      'Factor de seguridad': 'Factor of Safety',
+      'Minimo reportado cercano a 2.883 en el ensamble.': 'Reported minimum near 2.883 in the assembly.',
+      'Revision de ciclos y posible holgura en puntos de contacto.': 'Review of cycles and possible play at contact points.',
+      'Resumen ejecutivo': 'Executive Summary',
+      'Documento tecnico con metodologia, resultados y conclusiones.': 'Technical document with methodology, results, and conclusions.',
+      'Contexto de publicacion internacional del proyecto.': 'International publication context for the project.',
+      '// Herramientas y entregables': '// Tools and Deliverables',
+      'Diseno mecanico,': 'Mechanical design,',
+      'materiales y validacion': 'materials, and validation',
+      'El proyecto tiene valor como evidencia de ingenieria aplicada: parte de una necesidad de usuario, pasa por diseno CAD, valida riesgos con simulacion y cierra con evaluaciones normalizadas de satisfaccion.': 'The project is valuable evidence of applied engineering: it starts from a user need, moves through CAD design, validates risks with simulation, and closes with standardized satisfaction assessments.',
+      'Modelado de piezas, ensamble, revision de tolerancias y preparacion de geometria para analisis.': 'Part modeling, assembly, tolerance review, and geometry preparation for analysis.',
+      'Mapas de esfuerzo, deformacion, factor de seguridad y fatiga para componentes criticos.': 'Stress, deformation, factor of safety, and fatigue maps for critical components.',
+      'Materiales': 'Materials',
+      'Resina Siraya Tech Blu Tough, acero inoxidable AISI 304 y PETG para piezas funcionales.': 'Siraya Tech Blu Tough resin, AISI 304 stainless steel, and PETG for functional parts.',
+      'Evaluacion de impacto percibido, satisfaccion con el dispositivo y calidad del servicio.': 'Assessment of perceived impact, device satisfaction, and service quality.',
+      'Estomatologia': 'Dentistry',
+      'Adaptacion de herramientas odontologicas a un contexto de uso academico y profesional.': 'Adaptation of dental tools to an academic and professional use context.',
+      'Proyecto comunicado como contribucion de practica e innovacion en protesis y ortesis.': 'Project communicated as a practice and innovation contribution in prosthetics and orthotics.',
+      'Documento tecnico con contexto, metodologia, simulacion, resultados y referencias del proyecto.': 'Technical document with project context, methodology, simulation, results, and references.',
+      'Validacion estructural': 'Structural Validation',
+      'Lectura curada de esfuerzos, factor de seguridad, deformacion, fatiga y resultados de usuario.': 'Curated reading of stresses, factor of safety, deformation, fatigue, and user results.',
+      'Galeria tecnica': 'Technical Gallery',
+      'Renders CAD, mapas de SolidWorks Simulation y evidencia de comunicacion internacional.': 'CAD renders, SolidWorks Simulation maps, and international communication evidence.',
+      'Hablemos de': "Let's talk about",
+      'automatizacion,': 'automation,',
+      'prototipos o IoT.': 'prototypes, or IoT.',
+      'Enviar correo ->': 'Send email ->',
+      'Ubicacion': 'Location'
+    },
+    attr: {
+      'Foto y resumen de Arith Maldonado Zamudio': 'Photo and summary of Arith Maldonado Zamudio',
+      'Certificaciones de Arith Maldonado Zamudio': 'Certifications of Arith Maldonado Zamudio',
+      'Catalogo de proyectos de Arith': 'Arith project catalog',
+      'Vista CAD del proyecto XGIO': 'CAD view of the XGIO project',
+      'Vista isometrica final del prototipo Ball and Beam': 'Final isometric view of the Ball and Beam prototype',
+      'Vista CAD de la plataforma 3DOF para balanceo de pelota': 'CAD view of the 3DOF ball-balancing platform',
+      'Landing visual del proyecto Somnus Sleep Monitor': 'Visual landing page for the Somnus Sleep Monitor project',
+      'Collage tecnico del sistema de sujecion para protesis transradial': 'Technical collage of the transradial prosthesis holder system'
+    }
+  };
+
+  const originalTextNodes = [];
+  const originalAttributes = [];
+  let activeLanguage = 'es';
+
+  function normalizeCopy(text) {
+    return text.replace(/\s+/g, ' ').trim();
+  }
+
+  function collectOriginalCopy() {
+    if (originalTextNodes.length) return;
+    const skip = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT']);
+    document.querySelectorAll('body *').forEach((element) => {
+      if (skip.has(element.tagName)) return;
+      element.childNodes.forEach((node) => {
+        if (node.nodeType !== Node.TEXT_NODE) return;
+        const original = normalizeCopy(node.nodeValue);
+        if (original) originalTextNodes.push({ node, original });
+      });
+      ['alt', 'aria-label', 'title'].forEach((attribute) => {
+        if (!element.hasAttribute(attribute)) return;
+        originalAttributes.push({ element, attribute, original: element.getAttribute(attribute) });
+      });
+    });
+  }
+
+  function setTextPreservingWhitespace(node, original, next) {
+    const current = node.nodeValue;
+    const leading = current.match(/^\s*/)[0];
+    const trailing = current.match(/\s*$/)[0];
+    node.nodeValue = `${leading}${next || original}${trailing}`;
+  }
+
+  function applyLanguage(language) {
+    collectOriginalCopy();
+    activeLanguage = language;
+    document.documentElement.lang = language;
+    document.title = language === 'en' ? manualTranslations.title : 'Arith Maldonado Zamudio - Portafolio';
+
+    originalTextNodes.forEach(({ node, original }) => {
+      const translated = language === 'en' ? manualTranslations.text[original] : original;
+      setTextPreservingWhitespace(node, original, translated);
+    });
+
+    originalAttributes.forEach(({ element, attribute, original }) => {
+      const translated = language === 'en' ? manualTranslations.attr[original] : original;
+      element.setAttribute(attribute, translated || original);
+    });
+
+    const toggle = document.getElementById('languageToggle');
+    if (toggle) {
+      toggle.textContent = language === 'en' ? 'ES' : 'EN';
+      toggle.setAttribute('aria-label', language === 'en' ? 'Cambiar a espanol' : 'Switch to English');
+      toggle.setAttribute('title', language === 'en' ? 'Cambiar a espanol' : 'Switch to English');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyLanguage('en');
+    const toggle = document.getElementById('languageToggle');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        applyLanguage(activeLanguage === 'en' ? 'es' : 'en');
+      });
+    }
+  });
+
   const projectDetailIds = new Set([
     'xgio',
     'xgio-galeria',
