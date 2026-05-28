@@ -374,14 +374,14 @@
     aspect-ratio: 16 / 10;
     background: var(--black);
     border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
+    position: relative;
   }
   .catalog-thumb img {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
     object-fit: contain;
   }
   .catalog-body {
@@ -438,14 +438,14 @@
     aspect-ratio: 4 / 3;
     background: var(--gray-bg);
     border-bottom: 1px solid var(--border);
-    padding: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative;
   }
   .cert-thumb img {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    width: calc(100% - 1.5rem);
+    height: calc(100% - 1.5rem);
     object-fit: contain;
   }
   .cert-body {
