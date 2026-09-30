@@ -1,0 +1,49 @@
+Arith Maldonado Zamudio
+Puebla, Mexico | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+LinkedIn: www.linkedin.com/in/arith-maldonado-zamudio-4038262b5
+GPA: 9.1/10.0 | Engineering portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica/
+Professional Summary
+Mechatronics Engineering student and Biomedical Engineer enthusiastic about automation, production, mechanical design, and R&D within
+advanced manufacturing environments. Hands-on experience in medical equipment service, FEA, embedded prototyping, computer vision,
+and GPS-based software systems; skilled in building functional prototypes and solving technical problems across hardware, software, and
+manufacturing.
+Education
+B.S. in Mechatronics Engineering (In progress)
+Universidad Iberoamericana Puebla
+Expected Dec. 2026
+• GPA: 9.1/10.0. Relevant coursework: Strength of Materials, Advanced Control Systems, Embedded Systems, Mechanical Design,
+Industrial Automation.
+B.S. in Biomedical Engineering (Graduated with Honorable Mention)
+Universidad Iberoamericana Puebla
+2020 - 2024
+• GPA: 9.1/10.0. Focus in biomechanics, medical device design, finite element analysis, and prototyping.
+Relevant Experience
+Technical Specialist & Medical Equipment Application Representative
+Punto Focal Equipo Médico, Puebla, Mexico
+Jul. 2024 - Dec. 2024
+• Performed preventive/corrective maintenance, installation, and troubleshooting of ultrasound devices, X-ray systems, flat panels, and
+triggers.
+• Supported 15+ ultrasound-related service cases, preparing technical reports, client follow-up, warranty/ticket documentation, and basic
+diagnostics.
+• Delivered technical training and product demonstrations to physicians, technicians, and customers.
+• Identified a functional replacement for a medical power supply, reducing client cost from approx. MXN $15,000 to MXN $1,500.
+Selected Projects
+3-DOF Ball-Balancing Platform
+ESP32, SG90 servos, Python, OpenCV, PID control, Bluetooth communication
+Mechatronics
+• Built a functional closed-loop mechatronic platform that uses camera-based feedback and continuous PID control to balance a ball at the
+center of the plate.
+• Integrated embedded control, servo actuation, real-time vision processing, and PC-to-microcontroller communication for mechatronic
+prototyping.
+XGIO Smart Cane GPS Tracking Ecosystem
+Mobile app, backend, admin dashboard, Firebase, Vercel, CAD/SolidWorks documentation
+Social Service
+• Developed a functional GPS-based system for people with visual impairment, including app, backend, administrative dashboard, user-
+device registration workflows, and technical documentation.
+Honors, Certifications and Skills
+• Honors: Poster accepted at ISPO 20th World Congress 2025, Stockholm: “Redesign and validation of a tool holding system for a
+transradial prosthesis for a stomatology student”; Honorable Mention in Biomedical Engineering, Dec. 2024.
+• Certifications: CSWA, Certified SOLIDWORKS Simulation Associate, Certified SOLIDWORKS Additive Manufacturing Associate, Google
+Project Management Certificate, EF SET English B2.
+• Technical skills: SolidWorks, SolidWorks Simulation, MATLAB, Python, OpenCV, Arduino, ESP32, Firebase, Altium Designer, Power BI,
+Excel, CNC/router CNC, lathe, milling, laser cutting, 3D printing, drawing interpretation, and metrology.

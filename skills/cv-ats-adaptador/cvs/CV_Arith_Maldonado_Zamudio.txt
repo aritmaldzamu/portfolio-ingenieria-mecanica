@@ -1,0 +1,51 @@
+Arith Maldonado Zamudio
+Puebla, Mexico | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+LinkedIn: www.linkedin.com/in/arith-maldonado-zamudio-4038262b5
+Promedio: 9.1/10.0 | Portafolio de ingeniería: aritmaldzamu.github.io/portfolio-ingenieria-mecanica/
+Perfil Profesional
+Estudiante de Ingeniería Mecatrónica e Ingeniero Biomédico titulado, entusiasta por la automatización, producción, diseño mecánico y R&D
+en entornos de manufactura avanzada. Experiencia práctica en servicio técnico de equipos médicos, FEA, prototipado embebido, visión
+artificial y sistemas GPS; con capacidad para construir prototipos funcionales y resolver problemas técnicos integrando hardware, software y
+manufactura.
+Educación
+Ingeniería Mecatrónica (En curso)
+Universidad Iberoamericana Puebla
+Esperado dic. 2026
+• Promedio: 9.1/10.0. Materias relevantes: Resistencia de Materiales, Sistemas de Control Avanzado, Sistemas Embebidos, Diseño
+Mecánico y Automatización Industrial.
+Ingeniería Biomédica (Titulado con Mención Honorífica)
+Universidad Iberoamericana Puebla
+2020 - 2024
+• Promedio: 9.1/10.0. Enfoque en biomecánica, diseño de dispositivos médicos, análisis por elemento finito y prototipado.
+Experiencia Relevante
+Especialista Técnico y Aplicacionista de Equipo Médico
+Punto Focal Equipo Médico, Puebla, México
+jul. 2024 - dic. 2024
+• Realicé mantenimiento preventivo/correctivo, instalación y diagnóstico de equipos de ultrasonido, sistemas de rayos X, flat panels y
+disparadores.
+• Atendí más de 15 casos relacionados con ultrasonido, elaborando reportes técnicos, seguimiento a clientes, garantías/tickets y
+diagnósticos básicos.
+• Capacité a médicos, técnicos y clientes, además de apoyar en demostraciones técnicas y comerciales de producto.
+• Identifiqué un reemplazo funcional para una fuente de poder médica, reduciendo el costo para el cliente de aprox. MXN $15,000 a MXN
+$1,500.
+Proyectos Seleccionados
+Plataforma 3-DOF para Balanceo de Pelota
+ESP32, servos SG90, Python, OpenCV, control PID y comunicación Bluetooth
+Mecatrónica
+• Construí una plataforma mecatrónica funcional de lazo cerrado que usa retroalimentación por cámara y control PID continuo para
+balancear una pelota al centro de la placa.
+• Integré control embebido, actuación con servomotores, procesamiento de visión en tiempo real y comunicación PC-microcontrolador para
+prototipado mecatrónico.
+XGIO - Ecosistema GPS para Bastón Inteligente
+App móvil, backend, dashboard administrativo, Firebase, Vercel y documentación
+CAD/SolidWorks
+Servicio Social
+• Desarrollé un sistema funcional de rastreo GPS para personas con discapacidad visual, incluyendo app, backend, panel administrativo,
+registro usuario-dispositivo y documentación técnica.
+Reconocimientos, Certificaciones y Habilidades
+• Reconocimientos: Póster aceptado en ISPO 20th World Congress 2025, Estocolmo: “Redesign and validation of a tool holding system
+for a transradial prosthesis for a stomatology student”; Mención Honorífica en Ingeniería Biomédica, dic. 2024.
+• Certificaciones: CSWA, Certified SOLIDWORKS Simulation Associate, Certified SOLIDWORKS Additive Manufacturing Associate,
+Google Project Management Certificate, EF SET English B2.
+• Habilidades técnicas: SolidWorks, SolidWorks Simulation, MATLAB, Python, OpenCV, Arduino, ESP32, Firebase, Altium Designer,
+Power BI, Excel, CNC/router CNC, torno, fresa, corte láser, impresión 3D, interpretación de planos y metrología.

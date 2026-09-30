@@ -1,0 +1,40 @@
+Arith Maldonado Zamudio
+Biomedical Engineer | Mechatronics Engineering Student | Mechanical Design, CAD & Product Development
+C. San Simón 1214, Balcones de Santo Domingo, 66446 San Nicolás de los Garza, N.L.
++52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5
+GPA: 9.1/10.0 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Mechatronics Engineering student and graduated Biomedical Engineer (Honors Mention), specialized in mechanical design, product development, and R&D in advanced manufacturing environments. Hands-on experience with 3D CAD modeling (SolidWorks, Creo Parametric), FEA simulation, engineering drawings, assemblies, and BOMs; complemented by practical manufacturing skills (CNC, lathe, milling, laser cutting, 3D printing). Capable of applying DFM principles to translate design concepts into functional prototypes and collaborate with cross-functional engineering teams to solve product-related challenges.
+EDUCATION
+Universidad Iberoamericana Puebla | Expected Dec. 2026
+B.Eng. Mechatronics Engineering (in progress) | Puebla, Mexico
+GPA: 9.1/10.0 | Relevant coursework: Strength of Materials, Advanced Control Systems, Embedded Systems, Mechanical Design, and Industrial Automation.
+Universidad Iberoamericana Puebla | 2020 - 2024
+B.Eng. Biomedical Engineering, Graduated with Honors Mention | Puebla, Mexico
+GPA: 9.1/10.0 | Focus: biomechanics, medical device design, finite element analysis, and prototyping.
+RELEVANT EXPERIENCE
+Medical Equipment Technical Specialist & Applications Specialist | Jul. 2024 - Dec. 2024
+Punto Focal Equipo Médico | Puebla, Mexico
+- Preventive/corrective maintenance, installation, and diagnosis of ultrasound equipment, X-ray systems, flat panels, and triggering devices.
+- Managed 15+ ultrasound-related cases: technical reports, client follow-up, warranty/ticket processing, and basic diagnostics.
+- Delivered technical training and product demonstrations to physicians, technicians, and clients.
+- Identified a functional replacement for a medical power supply, reducing the client cost from approx. MXN $15,000 to MXN $1,500 - applying cost-driven design evaluation.
+SELECTED PROJECTS
+3-DOF Ball Balancing Platform | Mechatronics
+ESP32, SG90 servos, Python, OpenCV, PID control, Bluetooth communication, SolidWorks (structural design)
+- Designed and manufactured the mechanical platform structure; generated assembly drawings and part specifications to support fabrication.
+- Implemented closed-loop control integrating servo actuation, camera feedback (OpenCV), and continuous PID - demonstrating full hardware-software integration.
+XGIO - GPS Ecosystem for Smart Cane | Social Service
+Mobile app, backend, admin dashboard, Firebase, Vercel, CAD/SolidWorks documentation
+- Developed the full GPS tracking system (app, backend, admin panel, user-device registration) for visually impaired individuals; produced CAD documentation and technical reports.
+AWARDS & CERTIFICATIONS
+- Poster accepted at ISPO 20th World Congress 2025, Stockholm: "Redesign and validation of a tool holding system for a transradial prosthesis for a stomatology student"; Honors Mention in Biomedical Engineering, Dec. 2024.
+- CSWA (Certified SOLIDWORKS Associate); Certified SOLIDWORKS Simulation Associate; Certified SOLIDWORKS Additive Manufacturing Associate; Google Project Management Certificate; Siemens Basics of Robotics; Siemens Expedite - Skills for Industry: Industry Foundations; EF SET English B2; German A2.
+SKILLS
+CAD / FEA: SolidWorks (CSWA certified), Creo Parametric, SolidWorks Simulation, engineering drawings, assemblies, BOMs, GD&T, metrology, and CAD documentation.
+Product Development: DFM principles, design reviews, rapid prototyping, tolerance analysis, and product lifecycle documentation.
+Manufacturing: CNC / router CNC, lathe, milling machine, laser cutting, 3D printing, and blueprint interpretation.
+Programming & Analysis: Python, OpenCV, MATLAB, Arduino/ESP32, Power BI, Excel, Firebase, and technical reporting.
+Languages: Native Spanish; Advanced English (B2); German A2.
+Availability: Full-time engineering roles from July 2026; interest in mechanical design, product development, advanced manufacturing, and electromechanical systems.
