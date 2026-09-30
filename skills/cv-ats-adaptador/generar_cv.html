@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generador de CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Herramienta (no se imprime) ---------- */
+  :root {
+    --ui-bg: #eef1f5;
+    --ui-panel: #ffffff;
+    --ui-text: #1d1d1f;
+    --ui-muted: #5b6270;
+    --ui-accent: #13497b;
+    --ui-border: #d5dbe3;
+    --ui-warn: #b42318;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ui-bg);
+    color: var(--ui-text);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .tool {
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr) auto;
+    gap: 20px;
+    padding: 20px;
+    align-items: start;
+  }
+  .panel {
+    background: var(--ui-panel);
+    border: 1px solid var(--ui-border);
+    border-radius: 10px;
+    padding: 16px;
+    position: sticky;
+    top: 20px;
+  }
+  .panel h1 { font-size: 18px; margin: 0 0 4px; }
+  .panel p { margin: 0 0 12px; color: var(--ui-muted); font-size: 13px; line-height: 1.4; }
+  textarea {
+    width: 100%;
+    height: 55vh;
+    font: 12px/1.45 ui-monospace, Consolas, monospace;
+    border: 1px solid var(--ui-border);
+    border-radius: 8px;
+    padding: 10px;
+    resize: vertical;
+    color: var(--ui-text);
+  }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px; font-size: 14px; }
+  .controls label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+  button, .file {
+    font: inherit;
+    border: 1px solid var(--ui-accent);
+    background: #fff;
+    color: var(--ui-accent);
+    border-radius: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+  }
+  button.primary { background: var(--ui-accent); color: #fff; }
+  .file input { display: none; }
+  .status { margin-top: 10px; font-size: 13px; color: var(--ui-muted); min-height: 1.4em; }
+  .status.warn { color: var(--ui-warn); font-weight: 600; }
+  .preview { overflow-x: auto; }
+  .sheet-wrap { box-shadow: 0 2px 12px rgba(0,0,0,.15); background: #fff; }
+  @media (max-width: 1100px) {
+    .tool { grid-template-columns: 1fr; }
+    .panel { position: static; }
+  }
+
+  /* ---------- CV (idéntico a los PDFs finales) ---------- */
+  .cv {
+    width: 8.5in;
+    height: 11in;
+    padding: 34.8pt 43pt 0 43.5pt;
+    background: #fff;
+    font-family: Carlito, Calibri, sans-serif;
+    font-size: var(--fs, 10.2pt);
+    line-height: 1.245;
+    color: #1d1d1f;
+    overflow: hidden;
+    position: relative;
+  }
+  .cv .head { position: relative; padding-bottom: 1.5pt; }
+  .cv .head.with-photo { padding-right: 76pt; }
+  .cv .photo {
+    display: none;
+    position: absolute;
+    top: 2.4pt;
+    right: 0;
+    width: 63.7pt;
+    height: 79.5pt;
+    object-fit: cover;
+    border: 0.75pt solid #c9d3df;
+    border-radius: 3pt;
+  }
+  .cv .head.with-photo .photo { display: block; }
+  .cv .name { font-size: 23pt; font-weight: 700; color: #0b2545; line-height: 1.15; letter-spacing: 0.3pt; margin: 0; }
+  .cv .title { font-size: 11.6pt; font-weight: 700; color: #13497b; margin: 1.5pt 0 2.6pt; line-height: 1.2; }
+  .cv .contact { font-size: 9.4pt; color: #333; line-height: 1.2; margin: 0; }
+  .cv .contact .sep { padding: 0 4.25pt; }
+  .cv h2 {
+    font-size: 10.6pt;
+    font-weight: 700;
+    color: #0b2545;
+    text-transform: uppercase;
+    letter-spacing: 0.078em;
+    margin: 6.8pt 0 4.3pt;
+    padding-bottom: 0.6pt;
+    border-bottom: 0.75pt solid #13497b;
+    line-height: 1.2;
+  }
+  .cv p { margin: 0; }
+  .cv .para { text-align: justify; line-height: 1.2255; }
+  .cv .entry { display: flex; justify-content: space-between; gap: 10pt; }
+  .cv .detail + .entry { margin-top: 4.85pt; }
+  .cv ul + .entry { margin-top: 2.5pt; }
+  .cv .entry .right { font-size: 9.6pt; color: #333; white-space: nowrap; }
+  .cv .entry b { font-weight: 700; }
+  .cv .tools, .cv .detail { font-style: italic; font-size: 9.4pt; color: #444; }
+  .cv .tools { line-height: 0; }
+  .cv .detail { line-height: 10.2pt; }
+  .cv ul { margin: 0; padding: 0; list-style: none; }
+  .cv li { position: relative; padding-left: 11.2pt; }
+  .cv li + li { margin-top: 0.1225em; }
+  .cv li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.52em;
+    width: 3pt;
+    height: 3pt;
+    border-radius: 50%;
+    background: #1d1d1f;
+  }
+  .cv .skill + .skill { margin-top: 0.1225em; }
+  .cv .skill b { color: #0b2545; }
+
+  @page { size: letter; margin: 0; }
+  @media print {
+    body { background: #fff; }
+    .panel { display: none; }
+    .tool { display: block; padding: 0; }
+    .sheet-wrap { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="tool">
+  <section class="panel">
+    <h1>Generador de CV</h1>
+    <p>Pega aquí el bloque «CV adaptado» que te da Gemini. Revisa la vista previa y pulsa <b>Guardar PDF</b> (en la ventana de impresión elige «Guardar como PDF», tamaño Carta y márgenes «Ninguno»).</p>
+    <textarea id="src" spellcheck="false"></textarea>
+    <div class="controls">
+      <label><input type="checkbox" id="withPhoto"> Con foto</label>
+      <label class="file">Elegir foto<input type="file" id="photoFile" accept="image/*"></label>
+      <button class="primary" id="print">Guardar PDF</button>
+    </div>
+    <div class="status" id="status"></div>
+  </section>
+  <section class="preview">
+    <div class="sheet-wrap"><article class="cv" id="cv"></article></div>
+  </section>
+</div>
+
+<script>
+const EJEMPLO = `# Arith Maldonado Zamudio
+> Automation & Controls Engineer | Closed-Loop Control · PLC · Embedded Systems
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+
+## PROFILE
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors who builds working control systems end to end: sensors, controller, firmware, and actuators.
+
+## EDUCATION
+**B.Eng. Mechatronics Engineering** — Universidad Iberoamericana Puebla || Expected Dec 2026
+_GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems_
+
+## PROFESSIONAL EXPERIENCE
+**Technical Service & Applications Specialist** — Punto Focal Equipo Médico, Puebla || Jul 2024 – Dec 2024
+- Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems.
+
+## ENGINEERING PROJECTS
+**3-DOF Ball-Balancing Platform** | _ESP32 · Python/OpenCV · Bluetooth · SolidWorks_
+- Built a vision-guided closed-loop system.
+
+## SKILLS & CERTIFICATIONS
+**Languages:** Spanish (native); English (C2, EF SET certified); German (A2)`;
+
+const $ = (id) => document.getElementById(id);
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+
+function esc(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// **negrita**, "| _herramientas_" y _cursiva_
+function inline(s) {
+  let h = esc(s.trim());
+  h = h.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+  h = h.replace(/\|\s*_(.+?)_(?=\s*$)/g, '<span class="tools">| $1</span>');
+  h = h.replace(/(^|[\s(])_(.+?)_(?=$|[\s),.;:])/g, '$1<i>$2</i>');
+  return h;
+}
+
+function contactLine(line, withPhoto) {
+  const parts = line.split(/\s+\|\s+/);
+  // En la versión con foto, LinkedIn y Portafolio van en renglones separados (como tus PDFs con foto).
+  if (withPhoto && /linkedin\.com/i.test(line)) {
+    return parts.map((p) => `<p class="contact">${esc(/^linkedin/i.test(p) ? "LinkedIn: " + p : p)}</p>`).join("");
+  }
+  return `<p class="contact">${parts.map(esc).join('<span class="sep">|</span>')}</p>`;
+}
+
+const TAMANOS = [10.4, 10.2, 10, 9.8, 9.6, 9.4];
+const LIMITE_PT = 756;
+
+// Dónde termina el texto, en puntos desde el borde superior de la hoja.
+function finalContenido(cv) {
+  const top = cv.getBoundingClientRect().top;
+  let bottom = 0;
+  for (const el of cv.querySelectorAll("p, li, .entry, h1, h2")) bottom = Math.max(bottom, el.getBoundingClientRect().bottom);
+  return (bottom - top) * 0.75;
+}
+
+function render() {
+  const src = $("src").value.replace(/\r/g, "");
+  const withPhoto = $("withPhoto").checked;
+  const photo = store.get("cv-photo");
+  let head = "", body = "", inSection = false, list = false;
+  const closeList = () => { if (list) { body += "</ul>"; list = false; } };
+
+  for (const raw of src.split("\n")) {
+    // Tolera pequeñas variaciones de Gemini: "###", "* " o "• " en vez de "- ".
+    const line = raw.trim().replace(/^#{3,}\s/, "## ").replace(/^[*•]\s+/, "- ");
+    if (!line || line.startsWith("```")) continue;
+    if (line.startsWith("# ")) { head += `<h1 class="name">${esc(line.slice(2))}</h1>`; continue; }
+    if (line.startsWith("> ")) { head += `<p class="title">${esc(line.slice(2))}</p>`; continue; }
+    if (line.startsWith("## ")) { closeList(); inSection = true; body += `<h2>${esc(line.slice(3))}</h2>`; continue; }
+    if (!inSection) { head += contactLine(line, withPhoto); continue; }
+    if (line.startsWith("- ")) {
+      if (!list) { body += "<ul>"; list = true; }
+      body += `<li>${inline(line.slice(2))}</li>`;
+      continue;
+    }
+    closeList();
+    if (/^_.*_$/.test(line) && !line.includes("**")) {
+      body += `<p class="detail">${esc(line.slice(1, -1))}</p>`;
+    } else if (/^\*\*[^*]+:\*\*/.test(line)) {
+      body += `<p class="skill">${inline(line)}</p>`;
+    } else if (line.startsWith("**")) {
+      const [left, right] = line.split(/\s+\|\|\s+/);
+      body += `<div class="entry"><span>${inline(left)}</span>${right ? `<span class="right">${esc(right)}</span>` : ""}</div>`;
+    } else {
+      body += `<p class="para">${inline(line)}</p>`;
+    }
+  }
+  closeList();
+
+  const img = photo ? `<img class="photo" src="${photo}" alt="">` : "";
+  $("cv").innerHTML = `<header class="head${withPhoto && photo ? " with-photo" : ""}">${img}${head}</header>${body}`;
+
+  // Si un renglón de contacto no cabe (foto + ciudad larga), la ciudad va sola arriba, como en tus PDFs de Monterrey con foto.
+  for (const p of $("cv").querySelectorAll(".contact")) {
+    const sep = p.querySelector(".sep");
+    if (!sep || p.getBoundingClientRect().height < parseFloat(getComputedStyle(p).lineHeight) * 1.5) continue;
+    const rest = document.createElement("p");
+    rest.className = "contact";
+    while (sep.nextSibling) rest.appendChild(sep.nextSibling);
+    sep.remove();
+    p.after(rest);
+  }
+
+  // Igual que en tus PDFs: la letra del cuerpo se ajusta (10.4 → 9.4 pt) para llenar exactamente 1 página.
+  const cv = $("cv");
+  let size = TAMANOS[0];
+  for (size of TAMANOS) {
+    cv.style.setProperty("--fs", size + "pt");
+    if (finalContenido(cv) <= LIMITE_PT) break;
+  }
+  const over = finalContenido(cv) > LIMITE_PT;
+  const status = $("status");
+  status.className = "status" + (over ? " warn" : "");
+  status.textContent = over
+    ? "⚠ El CV se pasa de 1 página: pide a Gemini que lo recorte (menos bullets o un proyecto menos)."
+    : `Cabe en 1 página (letra del cuerpo: ${size} pt).` + (withPhoto && !photo ? " Elige tu foto para la versión con foto." : "");
+}
+
+$("src").value = store.get("cv-src") || EJEMPLO;
+$("withPhoto").checked = store.get("cv-with-photo") === "1";
+$("src").addEventListener("input", () => { store.set("cv-src", $("src").value); render(); });
+$("withPhoto").addEventListener("change", () => { store.set("cv-with-photo", $("withPhoto").checked ? "1" : "0"); render(); });
+$("photoFile").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    store.set("cv-photo", reader.result);
+    $("withPhoto").checked = true;
+    store.set("cv-with-photo", "1");
+    render();
+  };
+  reader.readAsDataURL(file);
+});
+$("print").addEventListener("click", () => window.print());
+document.fonts.ready.then(render);
+render();
+</script>
+</body>
+</html>

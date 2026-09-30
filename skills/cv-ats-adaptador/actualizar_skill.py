@@ -1,23 +1,24 @@
-"""Regenera SKILL.md con el texto de todos los CVs de una carpeta.
+"""Regenera SKILL.md con todos los CVs de una carpeta, en el formato del generador.
 
 Uso (Windows):
-    pip install -U pypdf python-docx
+    pip install -U pdfplumber python-docx
     python actualizar_skill.py "C:\\Users\\Arith\\Desktop\\CVs_Arith_Maldonado\\CVs_FINALES_2026"
 
 Lee cada .pdf y .docx de la carpeta y sus subcarpetas, agrupa las versiones
-del mismo CV (con/sin foto, otra ciudad, PDF y DOCX), guarda el texto de cada
-CV distinto en cvs/ y escribe SKILL.md a partir de plantilla_skill.md.
-Luego solo copia SKILL.md a tu skill de Gemini.
+del mismo CV (con/sin foto, otra ciudad, PDF y DOCX) y convierte cada CV
+distinto al formato de texto que entiende generar_cv.html (negritas, cursivas,
+fechas a la derecha, viñetas). Guarda cada uno en cvs/ y escribe SKILL.md a
+partir de plantilla_skill.md. Luego solo copia SKILL.md a tu skill de Gemini.
 """
 
 import re
-import unicodedata
 import sys
+import unicodedata
 from pathlib import Path
 
+import pdfplumber
 from docx import Document
 from docx.table import Table
-from pypdf import PdfReader
 
 AQUI = Path(__file__).resolve().parent
 CARPETA_DEFAULT = Path(r"C:\Users\Arith\Desktop\CVs_Arith_Maldonado\CVs_FINALES_2026")
@@ -40,8 +41,130 @@ def texto_docx(ruta):
     return "\n".join(lineas)
 
 
-def texto_pdf(ruta):
-    return "\n".join(pagina.extract_text() or "" for pagina in PdfReader(ruta).pages)
+def estilo(char):
+    fuente = char["fontname"].lower()
+    if "bold" in fuente:
+        return "b"
+    if "italic" in fuente or "oblique" in fuente:
+        return "i"
+    return "r"
+
+
+def lineas_pdf(pagina):
+    """Agrupa los caracteres en renglones (misma altura) ordenados de izquierda a derecha."""
+    renglones = []
+    for char in sorted(pagina.chars, key=lambda c: (c["top"], c["x0"])):
+        if renglones and abs(char["top"] - renglones[-1][0]) < 3:
+            renglones[-1][1].append(char)
+        else:
+            renglones.append([char["top"], [char]])
+    return [(top, sorted(chars, key=lambda c: c["x0"])) for top, chars in renglones]
+
+
+def a_marcado(chars):
+    """Convierte un renglón a texto con **negritas**, _cursivas_ y ' || ' antes de lo alineado a la derecha."""
+    partes, derecha = [], []
+    destino, anterior = partes, None
+    for char in chars:
+        if anterior is not None and char["x0"] - anterior["x1"] > 25:
+            destino = derecha  # hueco grande: fecha o lugar alineado a la derecha
+        destino.append(char)
+        anterior = char
+
+    def con_estilos(grupo):
+        texto, actual, bloque = "", None, ""
+        for char in grupo + [None]:
+            nuevo = estilo(char) if char else None
+            if nuevo != actual and bloque:
+                limpio = bloque.strip()
+                marca = {"b": "**", "i": "_"}.get(actual, "")
+                if limpio and marca:
+                    inicio = bloque[: len(bloque) - len(bloque.lstrip())]
+                    fin = bloque[len(bloque.rstrip()):]
+                    texto += f"{inicio}{marca}{limpio}{marca}{fin}"
+                else:
+                    texto += bloque
+                bloque = ""
+            if char:
+                actual = nuevo
+                bloque += char["text"]
+        return texto
+
+    texto = con_estilos(partes).rstrip()
+    if derecha:
+        texto += " || " + con_estilos(derecha).strip().strip("*_")
+    return texto
+
+
+def unir(previo, siguiente):
+    # Renglón cortado: "flat-" + "panel" se une sin espacio.
+    if previo.endswith("-") and not previo.endswith(" -"):
+        return previo + siguiente
+    return previo + " " + siguiente
+
+
+def marcado_pdf(ruta):
+    """Lee un CV en PDF y lo devuelve en el formato de generar_cv.html."""
+    bloques = []  # listas de [tipo, texto]
+    with pdfplumber.open(ruta) as pdf:
+        for pagina in pdf.pages:
+            vinetas = [c["top"] for c in pagina.curves if c["width"] < 6 and c["height"] < 6]
+            renglones = lineas_pdf(pagina)
+            if not renglones:
+                continue
+            margen = min(chars[0]["x0"] for _, chars in renglones)
+            for top, chars in renglones:
+                texto = a_marcado(chars)
+                plano = "".join(c["text"] for c in chars).strip()
+                if not plano:
+                    continue
+                tamano = max(c["size"] for c in chars)
+                previo = bloques[-1][0] if bloques else None
+                hay_seccion = any(t == "seccion" for t, _ in bloques)
+
+                if tamano >= 18:
+                    bloques.append(["nombre", "# " + plano])
+                elif estilo(chars[0]) == "b" and plano.isupper() and len(plano) < 40 and chars[0]["x0"] < margen + 6:
+                    bloques.append(["seccion", "## " + plano])
+                elif not hay_seccion and previo == "nombre":
+                    bloques.append(["titulo", "> " + plano])
+                elif not hay_seccion:
+                    bloques.append(["contacto", plano])
+                elif chars[0]["x0"] > margen + 6:
+                    if any(abs(top + 2.5 - v) < 4 or abs(top - v) < 4 for v in vinetas) or previo != "vineta":
+                        bloques.append(["vineta", "- " + texto])
+                    else:
+                        bloques[-1][1] = unir(bloques[-1][1], texto)
+                elif estilo(chars[0]) == "b":
+                    bloques.append(["entrada", texto])
+                elif estilo(chars[0]) == "i" and previo != "detalle":
+                    bloques.append(["detalle", texto])
+                elif previo in ("parrafo", "detalle", "entrada", "etiqueta"):
+                    bloques[-1][1] = unir(bloques[-1][1], texto)
+                else:
+                    bloques.append(["parrafo", texto])
+
+                # Las líneas "**Etiqueta:** texto" de habilidades se continúan como párrafo.
+                if bloques[-1][0] == "entrada" and re.match(r"^\*\*[^*]+:\*\*", bloques[-1][1]):
+                    bloques[-1][0] = "etiqueta"
+
+    # Contacto: siempre en el formato de dos renglones de la versión sin foto.
+    contacto = [t for tipo, t in bloques if tipo == "contacto"]
+    enlaces = [re.sub(r"^LinkedIn:\s*", "", c) for c in contacto if re.match(r"^(LinkedIn:|linkedin\.com|Portfolio:)", c, re.I)]
+    otros = [c for c in contacto if c not in [x for x in contacto if re.match(r"^(LinkedIn:|linkedin\.com|Portfolio:)", x, re.I)]]
+    contacto_normal = otros + ([" | ".join(enlaces)] if enlaces else [])
+
+    salida, contacto_puesto = [], False
+    for tipo, texto in bloques:
+        if tipo == "contacto":
+            if not contacto_puesto:
+                salida.extend(contacto_normal)
+                contacto_puesto = True
+            continue
+        if tipo == "seccion":
+            salida.append("")
+        salida.append(re.sub(r"_\| ", "| _", texto))  # "_| A · B_" -> "| _A · B_"
+    return "\n".join(salida)
 
 
 def limpiar(texto):
@@ -62,10 +185,10 @@ def es_version_de(texto, otro):
 
 
 def prioridad(ruta, carpeta):
-    # Primero la versión "limpia": menos subcarpetas, sin foto, DOCX antes que PDF.
+    # Primero la versión "limpia": menos subcarpetas, sin foto, PDF antes que DOCX.
     relativa = str(ruta.relative_to(carpeta)).upper()
     return (len(ruta.relative_to(carpeta).parts), "FOTO" in relativa or "PHOTO" in relativa,
-            ruta.suffix != ".docx", relativa)
+            ruta.suffix.lower() != ".pdf", relativa)
 
 
 def nombre_seguro(texto):
@@ -84,7 +207,7 @@ def main():
     for archivo in archivos:
         relativa = archivo.relative_to(carpeta).as_posix()
         try:
-            texto = limpiar(texto_docx(archivo) if archivo.suffix.lower() == ".docx" else texto_pdf(archivo))
+            texto = limpiar(texto_docx(archivo) if archivo.suffix.lower() == ".docx" else marcado_pdf(archivo))
         except Exception as error:
             print(f"  ERROR leyendo {relativa}: {error}")
             continue

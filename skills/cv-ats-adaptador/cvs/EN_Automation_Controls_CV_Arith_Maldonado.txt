@@ -1,49 +1,38 @@
-Arith Maldonado Zamudio
-Automation & Controls Engineer | Closed-Loop Control · PLC · Embedded Systems
+# Arith Maldonado Zamudio
+> Automation & Controls Engineer | Closed-Loop Control · PLC · Embedded Systems
 Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
 linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
-PROFILE
-Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors who builds working control systems end to
-end: sensors, controller, firmware, and actuators. Designed and tuned closed-loop PID/PD controllers on real hardware, and
-brings 6 months of field experience installing and troubleshooting electromechanical equipment. Ready to support integration,
-commissioning, and troubleshooting of automated lines.
-EDUCATION
-B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
-GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
-B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
-GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
-PROFESSIONAL EXPERIENCE
-Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
-Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units, flat-
-panel detectors, and triggering devices at client sites.
-Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90%
-(MXN $15,000 → $1,500).
-Resolved 15+ service cases end-to-end: troubleshooting, technical reports, warranty/ticket processing, and customer follow-
-up.
-Trained physicians and technicians on equipment operation and first-level troubleshooting.
-ENGINEERING PROJECTS
-Ball & Beam Digital Control Prototype | Arduino · NEMA 17/DRV8825 · MATLAB Expo Ibero 2026
-Modeled an open-loop-unstable system (Euler-Lagrange), discretized it with ZOH, and tuned a digital PID via Ziegler-Nichols
-and ISE (simulated: 2.8 s settling, 12% overshoot).
-Implemented and compared PID variants on Arduino at Ts = 50 ms: EMA sensor filtering, high-pass derivative, setpoint-kick
-reduction, and trapezoidal integration with anti-windup.
-Integrated a NEMA 17 stepper (DRV8825, 1/8 microstepping), position sensor, and ±15° actuation limits on a CAD-designed,
-3D-printed structure.
-3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
-Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32
-driving 3 servos at up to 66 Hz.
-Wrote fail-safe firmware: non-blocking command parser, motion ramping, angle limits, and a 700 ms timeout that returns
-the platform to a safe center.
-Somnus Smart-Room Monitor | Raspberry Pi 5 · Python/PyQt5 · Firestore
-Integrated PIR sensing, relay-driven fans, and an L298N curtain motor on a Raspberry Pi 5; built a PyQt5 dashboard with live
-plots and CSV/Excel export, synced to a mobile app.
-SKILLS & CERTIFICATIONS
-Automation & Controls: PID/PD tuning (Ziegler-Nichols, ISE), discrete control (ZOH), Siemens S7-1200 PLC and relay control
-(project-based), sensors, servo/stepper drives, industrial automation coursework
-Embedded & Software: ESP32/Arduino, Raspberry Pi (GPIO), C/C++, Python (OpenCV, PyQt5), MATLAB/Simulink,
-Bluetooth/serial communication, Firebase
-Hardware & Design: Wiring and electrical diagnostics, Altium Designer, SolidWorks (CSWA), pneumatic/hydraulic components,
-rapid prototyping
-Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
-Robotics; Siemens Industry Foundations; Google Project Management
-Languages: Spanish (native); English (C2, EF SET certified); German (A2)
+
+## PROFILE
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors who builds working control systems end to end: sensors, controller, firmware, and actuators. Designed and tuned closed-loop PID/PD controllers on real hardware, and brings 6 months of field experience installing and troubleshooting electromechanical equipment. Ready to support integration, commissioning, and troubleshooting of automated lines.
+
+## EDUCATION
+**B.Eng. Mechatronics Engineering** — Universidad Iberoamericana Puebla || Expected Dec 2026
+_GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials_
+**B.Eng. Biomedical Engineering, Honors Mention** — Universidad Iberoamericana Puebla || 2020 – 2024
+_GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping_
+
+## PROFESSIONAL EXPERIENCE
+**Technical Service & Applications Specialist** — Punto Focal Equipo Médico, Puebla || Jul 2024 – Dec 2024
+- Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units, flat-panel detectors, and triggering devices at client sites.
+- Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90% (MXN $15,000 → $1,500).
+- Resolved 15+ service cases end-to-end: troubleshooting, technical reports, warranty/ticket processing, and customer follow-up.
+- Trained physicians and technicians on equipment operation and first-level troubleshooting.
+
+## ENGINEERING PROJECTS
+**Ball & Beam Digital Control Prototype** | _Arduino · NEMA 17/DRV8825 · MATLAB_ || Expo Ibero 2026
+- Modeled an open-loop-unstable system (Euler-Lagrange), discretized it with ZOH, and tuned a digital PID via Ziegler-Nichols and ISE (simulated: 2.8 s settling, 12% overshoot).
+- Implemented and compared PID variants on Arduino at Ts = 50 ms: EMA sensor filtering, high-pass derivative, setpoint-kick reduction, and trapezoidal integration with anti-windup.
+- Integrated a NEMA 17 stepper (DRV8825, 1/8 microstepping), position sensor, and ±15° actuation limits on a CAD-designed, 3D-printed structure.
+**3-DOF Ball-Balancing Platform** | _ESP32 · Python/OpenCV · Bluetooth · SolidWorks_
+- Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32 driving 3 servos at up to 66 Hz.
+- Wrote fail-safe firmware: non-blocking command parser, motion ramping, angle limits, and a 700 ms timeout that returns the platform to a safe center.
+**Somnus Smart-Room Monitor** | _Raspberry Pi 5 · Python/PyQt5 · Firestore_
+- Integrated PIR sensing, relay-driven fans, and an L298N curtain motor on a Raspberry Pi 5; built a PyQt5 dashboard with live plots and CSV/Excel export, synced to a mobile app.
+
+## SKILLS & CERTIFICATIONS
+**Automation & Controls:** PID/PD tuning (Ziegler-Nichols, ISE), discrete control (ZOH), Siemens S7-1200 PLC and relay control (project-based), sensors, servo/stepper drives, industrial automation coursework
+**Embedded & Software:** ESP32/Arduino, Raspberry Pi (GPIO), C/C++, Python (OpenCV, PyQt5), MATLAB/Simulink, Bluetooth/serial communication, Firebase
+**Hardware & Design:** Wiring and electrical diagnostics, Altium Designer, SolidWorks (CSWA), pneumatic/hydraulic components, rapid prototyping
+**Certifications:** CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of Robotics; Siemens Industry Foundations; Google Project Management
+**Languages:** Spanish (native); English (C2, EF SET certified); German (A2)

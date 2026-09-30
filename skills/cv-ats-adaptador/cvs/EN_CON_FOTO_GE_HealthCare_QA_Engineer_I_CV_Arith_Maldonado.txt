@@ -1,49 +1,37 @@
-Arith Maldonado Zamudio
-QA Engineer | Medical Devices · Verification & Validation · CAPA · Root-Cause Analysis
+# Arith Maldonado Zamudio
+> QA Engineer | Medical Devices · Verification & Validation · CAPA · Root-Cause Analysis
 Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
-LinkedIn: linkedin.com/in/arith-maldonado-zamudio-4038262b5
-Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
-PROFILE
-Biomedical Engineer with Honors and Mechatronics Engineer (B.Eng. Dec 2026) with 6 months of quality-focused field
-experience in medical imaging equipment (ultrasound, X-ray). Verified equipment performance before release, handled
-customer complaints and warranty cases with traceable documentation, and led design verification and validation of a
-prosthetic device (FEA, user validation) presented at ISPO 2025. Bilingual English/Spanish (C2), strong problem solver who
-works independently.
-EDUCATION
-B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
-GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
-B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
-GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
-PROFESSIONAL EXPERIENCE
-Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
-Installed, tested, and verified ultrasound systems, X-ray units, and flat-panel detectors against functional specifications
-before release to the client, documenting results in service reports.
-Handled 15+ field service cases and warranty claims end-to-end: complaint intake, troubleshooting, root-cause analysis,
-corrective actions, and customer follow-up, with full traceability of each record.
-Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90%
-(MXN $15,000 → $1,500).
-Trained physicians and technicians on equipment operation and first-level troubleshooting.
-ENGINEERING PROJECTS
-Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
-Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88 and
-checked stress, deformation, and fatigue on critical parts.
-Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the
-ISPO 20th World Congress, Stockholm.
-Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · DRV8825 · 3D printing
-Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque
-capacity, and ratios (Willis equation) before printing.
-3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
-Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32
-driving 3 servos at up to 66 Hz.
-Validated on hardware with manual-response tests and autonomous balancing runs; tuned gains, axis mapping, and center
-calibration iteratively.
-SKILLS & CERTIFICATIONS
-Quality & Compliance: Design verification and validation, root-cause analysis, corrective and preventive actions (CAPA),
-complaint handling, risk assessment, technical documentation and traceability, GD&T, metrology
-Regulatory Knowledge: ISO 13485, FDA 21 CFR 820 (QSR), ISO 14971 risk management, NOM-241-SSA1 / COFEPRIS, Good
-Documentation Practices
-Tools: Microsoft Office (Excel, Word, PowerPoint), Power BI, SolidWorks (CSWA) and SolidWorks Simulation (FEA), MATLAB,
-Python; Google Project Management certificate
-Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
-Robotics; Siemens Industry Foundations; Google Project Management
-Languages: Spanish (native); English (C2, EF SET certified); German (A2)
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+
+## PROFILE
+Biomedical Engineer with Honors and Mechatronics Engineer (B.Eng. Dec 2026) with 6 months of quality-focused field experience in medical imaging equipment (ultrasound, X-ray). Verified equipment performance before release, handled customer complaints and warranty cases with traceable documentation, and led design verification and validation of a prosthetic device (FEA, user validation) presented at ISPO 2025. Bilingual English/Spanish (C2), strong problem solver who works independently.
+
+## EDUCATION
+**B.Eng. Mechatronics Engineering** — Universidad Iberoamericana Puebla || Expected Dec 2026
+_GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials_
+**B.Eng. Biomedical Engineering, Honors Mention** — Universidad Iberoamericana Puebla || 2020 – 2024
+_GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping_
+
+## PROFESSIONAL EXPERIENCE
+**Technical Service & Applications Specialist** — Punto Focal Equipo Médico, Puebla || Jul 2024 – Dec 2024
+- Installed, tested, and verified ultrasound systems, X-ray units, and flat-panel detectors against functional specifications before release to the client, documenting results in service reports.
+- Handled 15+ field service cases and warranty claims end-to-end: complaint intake, troubleshooting, root-cause analysis, corrective actions, and customer follow-up, with full traceability of each record.
+- Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90% (MXN $15,000 → $1,500).
+- Trained physicians and technicians on equipment operation and first-level troubleshooting.
+
+## ENGINEERING PROJECTS
+**Transradial Prosthesis Tool Holder** | _SolidWorks Simulation · AISI 304 · PETG_ || ISPO World Congress 2025
+- Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88 and checked stress, deformation, and fatigue on critical parts.
+- Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the ISPO 20th World Congress, Stockholm.
+**Two-Link Articulated Robotic Arm** | _SolidWorks · NEMA 17 · DRV8825 · 3D printing_
+- Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque capacity, and ratios (Willis equation) before printing.
+**3-DOF Ball-Balancing Platform** | _ESP32 · Python/OpenCV · Bluetooth · SolidWorks_
+- Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32 driving 3 servos at up to 66 Hz.
+- Validated on hardware with manual-response tests and autonomous balancing runs; tuned gains, axis mapping, and center calibration iteratively.
+
+## SKILLS & CERTIFICATIONS
+**Quality & Compliance:** Design verification and validation, root-cause analysis, corrective and preventive actions (CAPA), complaint handling, risk assessment, technical documentation and traceability, GD&T, metrology
+**Regulatory Knowledge:** ISO 13485, FDA 21 CFR 820 (QSR), ISO 14971 risk management, NOM-241-SSA1 / COFEPRIS, Good Documentation Practices
+**Tools:** Microsoft Office (Excel, Word, PowerPoint), Power BI, SolidWorks (CSWA) and SolidWorks Simulation (FEA), MATLAB, Python; Google Project Management certificate
+**Certifications:** CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of Robotics; Siemens Industry Foundations; Google Project Management
+**Languages:** Spanish (native); English (C2, EF SET certified); German (A2)
