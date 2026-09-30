@@ -4,13 +4,13 @@ Gem de Gemini que entra a tu Gmail y te dice cómo van tus postulaciones: a cuá
 
 ## Archivos
 
-- `gemini/1_instrucciones.md`: se pega completo en **Instrucciones** del Gem. No necesita archivos de conocimiento.
+- `gemini/Instrucciones_Gem_Postulaciones.txt`: se pega completo en **Instrucciones** del Gem. No necesita archivos de conocimiento.
 
 ## Crear el Gem
 
 1. En gemini.google.com → **Explorar Gems** → **Nuevo Gem**.
 2. Nombre: `Seguimiento de postulaciones`.
-3. Pega el contenido de `gemini/1_instrucciones.md` en **Instrucciones** y guarda.
+3. Pega el contenido de `gemini/Instrucciones_Gem_Postulaciones.txt` en **Instrucciones** y guarda.
 4. Asegúrate de que la app **Google Workspace / Gmail** esté activada: en Gemini → Configuración → **Apps** (o Extensiones) → Google Workspace activado, con tu cuenta maldonado.zamudio.arith@gmail.com.
 
 ## Usarlo
