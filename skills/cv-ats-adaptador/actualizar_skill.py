@@ -8,7 +8,7 @@ Lee cada .pdf y .docx de la carpeta y sus subcarpetas, agrupa las versiones
 del mismo CV (con/sin foto, otra ciudad, PDF y DOCX) y convierte cada CV
 distinto al formato de texto que entiende generar_cv.html (negritas, cursivas,
 fechas a la derecha, viñetas). Guarda cada uno en cvs/ y escribe SKILL.md a
-partir de plantilla_skill.md. Luego solo copia SKILL.md a tu skill de Gemini.
+partir de plantilla_skill.md. Luego copia SKILL.md a tu skill, o usa la carpeta gemini/ para un Gem.
 """
 
 import re
@@ -238,7 +238,16 @@ def main():
 
     plantilla = (AQUI / "plantilla_skill.md").read_text(encoding="utf-8")
     (AQUI / "SKILL.md").write_text(plantilla.replace("{{CVS}}", "\n\n".join(bloques)), encoding="utf-8")
-    print(f"\nSKILL.md actualizado con {len(cvs)} CV(s) distintos de {len(archivos)} archivo(s). Cópialo a tu skill de Gemini.")
+
+    # Versión para un Gem de Gemini: instrucciones cortas + un archivo de conocimiento con los CVs.
+    gemini = AQUI / "gemini"
+    gemini.mkdir(exist_ok=True)
+    instrucciones = re.sub(r"^---.*?---\s*", "", plantilla, flags=re.S)
+    instrucciones = instrucciones.replace("{{CVS}}", "Están en el archivo de conocimiento **CVs_BASE_Arith.txt**. Léelo completo antes de responder.")
+    instrucciones = instrucciones.replace("incluidos al final de este archivo", "del archivo CVs_BASE_Arith.txt").replace("Los CVs BASE (al final)", "Los CVs BASE (archivo CVs_BASE_Arith.txt)")
+    (gemini / "1_instrucciones.md").write_text(instrucciones, encoding="utf-8")
+    (gemini / "CVs_BASE_Arith.txt").write_text("CVs BASE DE ARITH MALDONADO ZAMUDIO\n\n" + "\n\n".join(bloques), encoding="utf-8")
+    print(f"\nSKILL.md actualizado con {len(cvs)} CV(s) distintos de {len(archivos)} archivo(s). Listo: SKILL.md y la carpeta gemini/.")
 
 
 if __name__ == "__main__":

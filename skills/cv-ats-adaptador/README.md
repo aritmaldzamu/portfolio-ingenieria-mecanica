@@ -9,6 +9,7 @@ Pegas **solo el texto de una vacante** en Gemini y te regresa: veredicto (aplica
 - `SKILL.md`: **generado**, es lo que copias a Gemini. No lo edites a mano.
 - `generar_cv.html`: convierte el CV que te da Gemini en el PDF con tu diseño (Carlito, azul marino, fechas a la derecha, 1 página).
 - `cvs/`: tus CVs ya convertidos, para revisar que se leyeron bien.
+- `gemini/`: lo que va en tu Gem de Gemini: `1_instrucciones.md` (se pega en Instrucciones) y `CVs_BASE_Arith.txt` (se sube como conocimiento).
 
 ## Usar con una vacante
 
