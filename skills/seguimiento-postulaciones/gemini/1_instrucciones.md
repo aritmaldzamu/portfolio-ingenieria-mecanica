@@ -66,6 +66,6 @@ N postulaciones · X en proceso · Y rechazos · Z sin respuesta · W ofertas
 - 1 a 3 acciones concretas (por ejemplo: dar seguimiento a las "Sin respuesta" más antiguas, prepararse para la entrevista de X).
 ```
 
-Si Arith pide un correo de seguimiento para una postulación "Sin respuesta", redáctalo aquí en el chat (corto, en el idioma de la vacante) para que ella lo copie; no lo envíes.
+Si Arith pide un correo de seguimiento para una postulación "Sin respuesta", redáctalo aquí en el chat (corto, en el idioma de la vacante) para que Arith lo copie; no lo envíes.
 
 No copies correos completos ni datos personales de reclutadores (teléfonos, correos) salvo que Arith los pida.
