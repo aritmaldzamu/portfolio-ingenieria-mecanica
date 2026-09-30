@@ -22,11 +22,12 @@ La página carga por defecto en inglés para entrevistadores internacionales e i
 
 ## Secciones actuales
 
-- Home / About
-- Certifications
-- Projects
+- Home (hero con cifras clave)
+- About (formación, experiencia y habilidades)
+- Projects (catálogo visible desde el inicio)
+- Certifications (con visor de imágenes)
 - Contact
-- Detalles por proyecto con evidencia visual, stack técnico, documentos y código cuando aplica.
+- Detalles por proyecto con evidencia visual, stack técnico, documentos y código cuando aplica, más navegación entre proyectos.
 
 ## Notas para continuar
 
@@ -35,7 +36,7 @@ La página carga por defecto en inglés para entrevistadores internacionales e i
 - Para agregar un proyecto nuevo:
   - Crear una carpeta en `assets/<nuevo-proyecto>/`.
   - Agregar una tarjeta en el catálogo `#proyectos`.
-  - Agregar el id del proyecto a `projectDetailIds` y `projectBySection` en el script final.
+  - Agregar el id del proyecto a `projectDetailIds`, `projectBySection` y `projectOrder` en el script final, y una pestaña en `.project-tabs`.
   - Crear las secciones detalle con `class="section-wrap project-view project-detail"` y `data-project="<id>"`.
   - Agregar traducciones manuales en `manualTranslations.text` para que el modo inglés no deje texto en español.
   - Verificar el botón `ES/EN` en local antes de publicar.

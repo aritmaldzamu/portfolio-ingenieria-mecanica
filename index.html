@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arith Maldonado Zamudio - Portfolio</title>
+<meta name="description" content="Portfolio of Arith Maldonado Zamudio: Mechatronics Engineering student and Biomedical Engineer (Honors). Mechanical design, CAD/FEA, control systems, embedded prototypes, computer vision and IoT.">
+<meta name="author" content="Arith Maldonado Zamudio">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Arith Maldonado Zamudio - Engineering Portfolio">
+<meta property="og:description" content="Mechanical design, CAD/FEA, control systems, embedded prototypes and IoT: six documented engineering projects.">
+<meta property="og:url" content="https://aritmaldzamu.github.io/portfolio-ingenieria-mecanica/">
+<meta property="og:image" content="https://aritmaldzamu.github.io/portfolio-ingenieria-mecanica/assets/profile/arith-maldonado.jpg">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0a'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='36' fill='%23fff'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,7 +32,21 @@
     --blue: #2563eb;
     --green: #16a34a;
     --red: #dc2626;
+    --surface: #f1f1ec;
+    --radius: 18px;
+    --shadow: 0 1px 2px rgba(10,10,10,0.04), 0 8px 24px -12px rgba(10,10,10,0.12);
+    --shadow-hover: 0 2px 4px rgba(10,10,10,0.05), 0 18px 40px -16px rgba(10,10,10,0.22);
   }
+  ::selection { background: var(--black); color: var(--white); }
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+  .skip-link {
+    position: absolute; left: 1rem; top: -4rem; z-index: 300;
+    background: var(--black); color: var(--white);
+    padding: 0.7rem 1rem; border-radius: 10px;
+    font-size: 0.85rem; font-weight: 700; text-decoration: none;
+    transition: top .15s;
+  }
+  .skip-link:focus { top: 1rem; }
 
   body {
     font-family: 'Inter', sans-serif;
@@ -30,11 +56,8 @@
     overflow-x: hidden;
   }
 
-  body.projects-open .home-view,
   body.detail-open .home-view { display: none; }
-  body:not(.projects-open):not(.detail-open) .project-view { display: none; }
-  body.projects-open .project-detail,
-  body.detail-open #proyectos { display: none; }
+  body:not(.detail-open) .project-view { display: none; }
   body.detail-open .project-detail { display: none; }
   body.detail-open[data-project="xgio"] .project-detail[data-project="xgio"],
   body.detail-open[data-project="ball-beam"] .project-detail[data-project="ball-beam"],
@@ -42,7 +65,6 @@
   body.detail-open[data-project="somnus"] .project-detail[data-project="somnus"],
   body.detail-open[data-project="prosthesis"] .project-detail[data-project="prosthesis"],
   body.detail-open[data-project="globo"] .project-detail[data-project="globo"] { display: block; }
-  body.projects-open main,
   body.detail-open main { padding-top: 68px; }
 
   img { display: block; max-width: 100%; }
@@ -119,14 +141,14 @@
   .btn-outline:hover { border-color: var(--black); }
 
   .hero {
-    padding: 10rem 2.5rem 5rem;
+    padding: 8.5rem 2.5rem 4rem;
     max-width: 1200px; margin: 0 auto;
   }
   .hero-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
-    gap: 3rem;
-    align-items: end;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 4rem;
+    align-items: center;
   }
   .hero-eyebrow, .project-tag, .tag {
     display: inline-flex; align-items: center; gap: 0.55rem;
@@ -141,27 +163,30 @@
     background: var(--gray-bg);
     border: 1px solid var(--border);
     padding: 0.4rem 1rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
   .hero-eyebrow::before {
-    content: ''; width: 6px; height: 6px;
+    content: ''; width: 7px; height: 7px;
     border-radius: 50%; background: var(--green);
+    box-shadow: 0 0 0 4px rgba(22,163,74,0.16);
     flex-shrink: 0;
   }
   .hero h1 {
-    font-size: clamp(3.25rem, 8vw, 7.4rem);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    max-width: 980px;
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    max-width: 760px;
+    text-wrap: balance;
   }
   .hero h1 .muted { color: var(--gray); }
   .hero h1 .block { display: block; }
   .profile-card {
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 22px;
     background: var(--gray-bg);
     overflow: hidden;
+    box-shadow: var(--shadow);
   }
   .profile-card img {
     width: 100%;
@@ -191,15 +216,35 @@
     gap: 2rem; margin-top: 3.5rem;
   }
   .hero-desc {
-    font-size: 1.05rem; color: var(--gray);
-    max-width: 500px; line-height: 1.7;
+    font-size: 1.08rem; color: #5f5f5f;
+    max-width: 560px; line-height: 1.7;
+    margin-top: 1.75rem;
+  }
+  .hero-copy .hero-ctas { margin-top: 2rem; }
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    margin-top: 4rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--gray-bg);
+    overflow: hidden;
+  }
+  .hero-stat { padding: 1.4rem 1.6rem; }
+  .hero-stat + .hero-stat { border-left: 1px solid var(--border); }
+  .hero-stat dt {
+    font-size: 2rem; font-weight: 900;
+    letter-spacing: -0.04em; line-height: 1;
+  }
+  .hero-stat dd {
+    margin-top: 0.45rem;
+    font-size: 0.72rem; font-weight: 700; color: var(--gray);
+    letter-spacing: 0.06em; text-transform: uppercase;
   }
   .hero-ctas, .project-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 
   .social-bar {
-    max-width: 1200px; margin: 0 auto;
-    padding: 0 2.5rem 4rem;
-    display: flex; gap: 2rem; flex-wrap: wrap;
+    margin-top: 1.75rem;
+    display: flex; gap: 1.75rem; flex-wrap: wrap;
   }
   .social-bar a {
     font-size: 0.78rem; font-weight: 800;
@@ -313,9 +358,8 @@
     letter-spacing: 0.05em; text-transform: uppercase;
   }
   .project-featured-visual {
-    background: var(--black);
-    min-height: 430px;
-    height: 430px;
+    background: #e9e9e3;
+    min-height: 460px;
     padding: 1.2rem;
     position: relative; overflow: hidden;
     display: grid; align-content: stretch;
@@ -332,8 +376,10 @@
     width: 100%; height: 100%; object-fit: contain;
     min-width: 0; min-height: 0;
     border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.16);
-    background: #161616;
+    border: 1px solid var(--border);
+    background: var(--white);
+    padding: 0.5rem;
+    cursor: zoom-in;
   }
   .visual-stack {
     display: grid;
@@ -342,14 +388,11 @@
     min-width: 0;
     min-height: 0;
   }
-  .prosthesis-visual .visual-main,
-  .prosthesis-visual .visual-stack img {
-    background: #f8fafc;
-  }
+
 
   .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     margin-top: 2.5rem;
   }
@@ -367,14 +410,16 @@
   }
   .catalog-card:hover {
     border-color: var(--black);
-    background: var(--gray-bg);
-    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-4px);
   }
+  .catalog-card:hover .card-arrow { color: var(--black); transform: translateX(3px); }
   .catalog-thumb {
     aspect-ratio: 16 / 10;
-    background: var(--black);
+    background: var(--surface);
     border-bottom: 1px solid var(--border);
     position: relative;
+    overflow: hidden;
   }
   .catalog-thumb img {
     position: absolute;
@@ -383,13 +428,27 @@
     width: calc(100% - 2rem);
     height: calc(100% - 2rem);
     object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform .45s cubic-bezier(.2,.7,.2,1);
+  }
+  .catalog-card:hover .catalog-thumb img { transform: scale(1.04); }
+  .catalog-num {
+    position: absolute; top: 0.85rem; left: 0.85rem; z-index: 1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; font-weight: 700;
+    background: var(--white); color: var(--black);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
   }
   .catalog-body {
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.85rem;
+    flex: 1;
   }
+  .catalog-body .card-tags { margin-top: auto; padding-top: 0.4rem; }
   .catalog-meta {
     display: flex;
     justify-content: space-between;
@@ -416,7 +475,7 @@
   }
   .cert-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
     margin-top: 2.5rem;
   }
@@ -431,9 +490,10 @@
   }
   .cert-card:hover {
     border-color: var(--black);
-    background: var(--gray-bg);
+    box-shadow: var(--shadow-hover);
     transform: translateY(-3px);
   }
+  .cert-card { cursor: zoom-in; display: flex; flex-direction: column; }
   .cert-thumb {
     aspect-ratio: 4 / 3;
     background: var(--gray-bg);
@@ -449,9 +509,10 @@
     object-fit: contain;
   }
   .cert-body {
-    padding: 1.35rem;
+    padding: 1.2rem;
     display: grid;
-    gap: 0.7rem;
+    gap: 0.55rem;
+    align-content: start;
   }
   .cert-meta {
     font-family: 'JetBrains Mono', monospace;
@@ -461,7 +522,7 @@
     text-transform: uppercase;
   }
   .cert-title {
-    font-size: 1.03rem;
+    font-size: 0.98rem;
     font-weight: 850;
     line-height: 1.18;
     letter-spacing: -0.02em;
@@ -490,9 +551,11 @@
   .project-detail .card-tags { margin-top: 1rem; }
   .project-card:hover, .artifact-card:hover {
     border-color: var(--black);
-    background: var(--gray-bg);
+    box-shadow: var(--shadow-hover);
     transform: translateY(-2px);
   }
+  a.artifact-card:hover .card-arrow { color: var(--black); transform: translateX(3px); }
+  div.project-card .card-arrow { display: none; }
   .card-header {
     display: flex; justify-content: space-between;
     align-items: flex-start; margin-bottom: 1.5rem;
@@ -504,7 +567,7 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem; font-weight: 800;
   }
-  .card-arrow { font-size: 1.1rem; color: var(--gray); }
+  .card-arrow { font-size: 1.1rem; color: var(--gray); white-space: nowrap; transition: transform .2s, color .2s; }
   .card-title {
     font-size: 1.05rem; font-weight: 850;
     letter-spacing: -0.02em; margin-bottom: 0.55rem;
@@ -532,46 +595,47 @@
     overflow: hidden;
     border-radius: 18px;
     border: 1px solid var(--border);
-    background: var(--gray-bg);
+    background: var(--white);
     height: 360px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color .2s, box-shadow .2s;
   }
-  .shot.large { grid-column: span 8; height: 420px; }
-  .shot.medium { grid-column: span 4; height: 420px; }
-  .shot.wide { grid-column: span 6; height: 360px; }
-  .shot.compact { height: 320px; }
-  .shot.phone-pair { height: 520px; }
-  .shot img {
-    width: 100%; height: 100%;
+  .shot:hover { border-color: #cfcfc8; box-shadow: var(--shadow); }
+  .shot.large { grid-column: span 8; height: 460px; }
+  .shot.medium { grid-column: span 4; height: 460px; }
+  .shot.wide { grid-column: span 6; height: 400px; }
+  .shot.compact { height: 400px; }
+  .shot.phone-pair { height: 560px; }
+  .shot img, .shot video {
+    flex: 1 1 auto;
+    width: 100%; min-height: 0;
     object-fit: contain;
-    padding: 0.75rem;
-    background: #111111;
+    padding: 0.85rem;
+    background: var(--surface);
   }
-  .shot video {
-    width: 100%; height: 100%;
-    object-fit: contain;
-    padding: 0.75rem;
-    background: #111111;
-  }
-  .shot.phone { height: 520px; }
-  .shot.phone img { object-fit: contain; padding: 1.2rem; background: #0f172a; }
+  .shot img { cursor: zoom-in; mix-blend-mode: multiply; }
+  .shot video { background: #111111; padding: 0; }
+  .shot.phone { height: 560px; }
+  .shot.phone img { padding: 1.2rem; }
   .shot-caption {
-    position: absolute; left: 1rem; bottom: 1rem; right: 1rem;
-    padding: 0.75rem 0.9rem;
-    border-radius: 12px;
-    background: rgba(10,10,10,0.74);
-    color: var(--white);
-    backdrop-filter: blur(12px);
+    flex: 0 0 auto;
+    padding: 0.85rem 1.1rem 0.95rem;
+    border-top: 1px solid var(--border);
+    background: var(--white);
+    color: var(--black);
   }
   .shot-caption strong {
     display: block;
-    font-size: 0.82rem;
+    font-size: 0.84rem;
     letter-spacing: -0.01em;
   }
   .shot-caption span {
     display: block;
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.72);
-    margin-top: 0.2rem;
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-top: 0.15rem;
+    line-height: 1.45;
   }
 
   .repo-card {
@@ -735,6 +799,13 @@
     line-height: 1.05;
   }
   .contact-left h2 .muted { color: var(--gray); }
+  .contact-note {
+    margin: 1.25rem 0 2rem;
+    max-width: 440px;
+    color: var(--gray);
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
   .contact-right { display: flex; flex-direction: column; gap: 1rem; min-width: min(100%, 340px); }
   .contact-item {
     font-size: 0.9rem; color: var(--gray);
@@ -764,39 +835,243 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
+
+  /* ---------- About: timeline + skills ---------- */
+  .about-subhead {
+    margin: 1.8rem 0 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; font-weight: 700;
+    color: var(--gray);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .timeline { list-style: none; display: grid; gap: 1.1rem; }
+  .timeline > li {
+    position: relative;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--border);
+  }
+  .timeline > li::before {
+    content: ''; position: absolute; left: -6px; top: 0.3rem;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--black); border: 2px solid var(--white);
+  }
+  .about-panel.soft .timeline > li::before { border-color: var(--gray-bg); }
+  .tl-date {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--gray);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+  .timeline strong { display: block; font-size: 0.95rem; font-weight: 800; letter-spacing: -0.01em; }
+  .tl-place { display: block; color: var(--gray); font-size: 0.84rem; margin-top: 0.15rem; }
+  .tl-points {
+    list-style: none;
+    display: grid; gap: 0.55rem;
+    margin-top: 0.9rem;
+  }
+  .tl-points li {
+    position: relative;
+    padding-left: 1rem;
+    color: #5f5f5f; font-size: 0.88rem; line-height: 1.6;
+  }
+  .tl-points li::before {
+    content: ''; position: absolute; left: 0; top: 0.62rem;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--gray-mid);
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .skill-group {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem;
+  }
+  .skill-group h4 {
+    font-size: 0.86rem; font-weight: 850;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.2rem;
+  }
+  .skill-group .card-tags { margin-top: 0.75rem; }
+
+  /* ---------- Project detail navigation ---------- */
+  .project-bar {
+    position: sticky; top: 68px; z-index: 50;
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 0.7rem 2.5rem;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  body.detail-open .project-bar { display: flex; }
+  .project-back {
+    flex: 0 0 auto;
+    font-size: 0.8rem; font-weight: 800;
+    text-decoration: none;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    background: var(--black); color: var(--white);
+  }
+  .project-back:hover { opacity: 0.85; }
+  .project-tabs {
+    display: flex; gap: 0.4rem;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .project-tabs::-webkit-scrollbar { display: none; }
+  .project-tabs a {
+    flex: 0 0 auto;
+    font-size: 0.78rem; font-weight: 700;
+    color: var(--gray);
+    text-decoration: none;
+    padding: 0.42rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition: color .15s, border-color .15s, background .15s;
+  }
+  .project-tabs a:hover { color: var(--black); background: var(--gray-bg); }
+  .project-tabs a.active { color: var(--black); border-color: var(--black); background: var(--white); }
+  .project-pager {
+    max-width: 1200px; margin: 0 auto;
+    padding: 3rem 2.5rem 1rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+  body.detail-open .project-pager { display: grid; }
+  .pager-link {
+    display: grid; gap: 0.4rem;
+    padding: 1.5rem 1.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .pager-link:hover { border-color: var(--black); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .pager-next { text-align: right; }
+  .pager-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--gray);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .pager-title { font-size: 1.2rem; font-weight: 900; letter-spacing: -0.025em; line-height: 1.2; }
+
+  /* ---------- Lightbox ---------- */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 400;
+    display: flex; align-items: center; justify-content: center;
+    padding: 4.5rem 1.5rem 1.5rem;
+    background: rgba(10,10,10,0.9);
+    backdrop-filter: blur(6px);
+    cursor: zoom-out;
+  }
+  .lightbox[hidden] { display: none; }
+  .lightbox-figure { max-width: min(1200px, 100%); max-height: 100%; display: grid; gap: 0.9rem; justify-items: center; }
+  .lightbox-figure img {
+    max-width: 100%; max-height: calc(100vh - 9rem);
+    object-fit: contain;
+    border-radius: 12px;
+    background: var(--white);
+  }
+  .lightbox-figure figcaption { color: rgba(255,255,255,0.8); font-size: 0.88rem; text-align: center; }
+  .lightbox-close {
+    position: absolute; top: 1rem; right: 1rem;
+    width: 2.75rem; height: 2.75rem;
+    border-radius: 999px; border: 1px solid rgba(255,255,255,0.3);
+    background: transparent; color: var(--white);
+    font-size: 1.6rem; line-height: 1; cursor: pointer;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.12); }
+  body.lightbox-open { overflow: hidden; }
+
+  /* ---------- Mobile menu button ---------- */
+  .nav-menu {
+    display: none;
+    width: 2.8rem; height: 2.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    cursor: pointer;
+    flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  }
+  .nav-menu span { display: block; width: 16px; height: 2px; background: var(--black); border-radius: 2px; transition: transform .2s; }
+  nav.menu-open .nav-menu span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  nav.menu-open .nav-menu span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+  .nav-links a.active { color: var(--black); }
+
+  /* ---------- Reveal on scroll ---------- */
+  .js-reveal .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+  .js-reveal .reveal.is-visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    .js-reveal .reveal { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 1100px) {
+    .skills-grid { grid-template-columns: repeat(3, 1fr); }
+    .cert-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
   @media (max-width: 900px) {
     .hero-layout, .project-featured, .about-grid, .project-summary-grid { grid-template-columns: 1fr; }
+    .hero-layout { gap: 2.5rem; }
     .profile-card { max-width: 360px; }
     .project-featured-visual { min-height: 360px; }
-    .catalog-grid, .cert-grid, .projects-grid, .stack-grid, .artifact-grid, .control-grid { grid-template-columns: 1fr 1fr; }
+    .catalog-grid, .cert-grid, .projects-grid, .stack-grid, .artifact-grid, .control-grid, .skills-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .hero-stat:nth-child(3) { border-left: 0; }
+    .hero-stat:nth-child(n+3) { border-top: 1px solid var(--border); }
     .media-grid { grid-template-columns: repeat(6, 1fr); }
     .shot.large, .shot.wide { grid-column: span 6; }
     .shot.medium { grid-column: span 3; }
   }
 
   @media (max-width: 768px) {
-    section[id], .home-view { scroll-margin-top: 132px; }
-    body.projects-open main,
-    body.detail-open main { padding-top: 103px; }
-    nav { padding: 0.85rem 1.25rem; height: auto; flex-wrap: wrap; row-gap: 0.8rem; }
-    .nav-right { width: 100%; justify-content: space-between; align-items: center; }
+    section[id], .home-view { scroll-margin-top: 80px; }
+    body.detail-open main { padding-top: 64px; }
+    nav { padding: 0 1rem 0 1.25rem; height: 64px; }
+    .nav-right { gap: 0.5rem; }
+    .nav-menu { display: inline-flex; }
     .nav-links {
-      display: flex;
-      gap: 1rem;
-      margin-right: 0;
-      overflow-x: auto;
-      max-width: calc(100vw - 12rem);
-      padding-bottom: 0.15rem;
+      position: absolute; top: 64px; left: 0; right: 0;
+      display: none;
+      flex-direction: column; gap: 0;
+      margin: 0;
+      padding: 0.5rem 1.25rem 1rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 18px 30px -20px rgba(10,10,10,0.3);
     }
-    .nav-links a { flex: 0 0 auto; }
-    .hero, .social-bar, .section-wrap, .contact-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
+    nav.menu-open .nav-links { display: flex; }
+    .nav-links a { font-size: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--border); }
+    .nav-links a:last-child { border-bottom: 0; }
+    .btn-nav { padding: 0.55rem 1rem; }
+    .project-bar { top: 64px; padding: 0.6rem 1.25rem; gap: 0.75rem; }
+    .project-back { font-size: 0.74rem; padding: 0.42rem 0.75rem; }
+    .project-pager { grid-template-columns: 1fr; padding: 2rem 1.25rem 0.5rem; }
+    .pager-next { text-align: left; }
+    .hero, .section-wrap, .contact-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
     .project-view.section-wrap { padding-top: 3rem; padding-bottom: 3rem; }
-    .hero { padding-top: 9rem; }
+    .section-wrap { padding-top: 4rem; padding-bottom: 4rem; }
+    .hero { padding-top: 6.5rem; padding-bottom: 3rem; }
+    .hero h1 { font-size: clamp(2.3rem, 10.5vw, 3rem); }
+    .hero-stats { margin-top: 2.5rem; }
+    .hero-stat { padding: 1.1rem 1.2rem; }
+    .hero-stat dt { font-size: 1.6rem; }
     .profile-card { max-width: none; }
-    .hero-bottom { align-items: flex-start; }
+    .profile-card img { aspect-ratio: 4 / 3.4; object-position: center 20%; }
     .hero-ctas, .project-actions { width: 100%; }
     .btn-primary, .btn-outline { width: 100%; }
-    .metrics-row, .catalog-grid, .cert-grid, .projects-grid, .stack-grid, .artifact-grid, .control-grid { grid-template-columns: 1fr; }
+    .catalog-grid, .cert-grid, .projects-grid, .stack-grid, .artifact-grid, .control-grid, .skills-grid { grid-template-columns: 1fr; }
+    .cert-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .cert-body { padding: 0.9rem; }
+    .cert-desc { display: none; }
+    .cert-title { font-size: 0.86rem; }
+    .metrics-row { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .metric-pill .val { font-size: 1.15rem; }
+    .metric-pill .lbl { font-size: 0.6rem; }
+    .about-panel { padding: 1.5rem; }
     .project-detail .projects-grid { gap: 0.75rem; }
     .project-detail .project-card {
       display: grid;
@@ -808,7 +1083,6 @@
       grid-row: span 3;
       margin-bottom: 0;
     }
-    .project-detail .project-card .card-arrow { display: none; }
     .project-detail .project-card .card-title { margin-top: 0.15rem; }
     .project-detail .project-card .card-tags { grid-column: 2; }
     .mini-metrics { grid-template-columns: 1fr 1fr 1fr; }
@@ -819,75 +1093,82 @@
     .visual-stack { align-items: start; }
     .visual-stack .visual-dashboard { aspect-ratio: 16 / 10; }
     .visual-stack .visual-phone-shot { aspect-ratio: 9 / 16; }
-    .project-featured-visual { height: auto; }
-    .project-featured-info { padding: 2rem; }
-    .project-featured-visual { min-height: auto; }
-    .media-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }
-    .shot.large, .shot.wide { grid-column: span 2; height: 300px; }
-    .shot.medium { grid-column: span 1; height: 360px; }
-    .shot.phone, .shot.phone-pair { height: 430px; }
-    .shot-caption { left: 0.65rem; right: 0.65rem; bottom: 0.65rem; padding: 0.65rem 0.7rem; }
-    .shot-caption span { display: none; }
+    .project-featured-visual { height: auto; min-height: auto; padding: 0.9rem; }
+    .project-featured-info { padding: 1.75rem; }
+    .media-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .shot.large, .shot.wide { grid-column: span 2; height: 320px; }
+    .shot.medium { grid-column: span 1; height: 300px; }
+    .shot.phone, .shot.phone-pair { height: 440px; }
+    .shot img { padding: 0.5rem; }
+    .shot-caption { padding: 0.65rem 0.8rem 0.75rem; }
+    .shot.medium .shot-caption span { display: none; }
     .repo-body { font-size: 0.72rem; padding: 1.25rem; }
+    .contact-wrap { padding-top: 4rem; padding-bottom: 4rem; }
     footer { padding: 1.5rem 1.25rem; flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="#" class="nav-logo">Arith<span>.HUB</span></a>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<nav id="siteNav">
+  <a href="#home" class="nav-logo" data-view="home">Arith<span>.HUB</span></a>
   <div class="nav-right">
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a href="#home" data-view="home">Home</a>
       <a href="#sobre-mi" data-view="home">Sobre mi</a>
+      <a href="#proyectos" data-view="home">Proyectos</a>
       <a href="#certificaciones" data-view="home">Certificaciones</a>
-      <a href="#proyectos" data-view="projects">Proyectos</a>
       <a href="#contacto">Contacto</a>
     </div>
     <button type="button" class="lang-toggle" id="languageToggle" aria-label="Cambiar idioma">ES</button>
-    <a href="assets/docs/CV_Arith_Maldonado_2026.pdf" target="_blank" rel="noopener" class="btn-nav cv-download-link">CV -&gt;</a>
+    <a href="assets/docs/CV_Arith_Maldonado_2026.pdf" target="_blank" rel="noopener" class="btn-nav cv-download-link">CV →</a>
+    <button type="button" class="nav-menu" id="navMenu" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
   </div>
 </nav>
 
-<main>
+<main id="main">
   <div class="home-view" id="home">
   <section class="hero">
     <div class="hero-layout">
-      <div>
-        <div class="hero-eyebrow">Disponible para practicas y proyectos tecnicos</div>
+      <div class="hero-copy">
+        <div class="hero-eyebrow">Disponible para roles de ingeniería y prácticas</div>
         <h1>
           <span class="muted">Soy</span>
           Arith Maldonado:
           <span class="block">mecatronica,</span>
           <span class="muted">biomedica y prototipos.</span>
         </h1>
-        <div class="hero-bottom">
-          <p class="hero-desc">
-            Estudiante de Ingenieria Mecatronica e Ingeniero Biomedico con mencion honorifica. Construyo sistemas donde conviven software, hardware, CAD, automatizacion, vision por computadora y datos reales.
-          </p>
-          <div class="hero-ctas">
-            <a href="#sobre-mi" class="btn-primary">Conocer perfil -&gt;</a>
-            <a href="assets/docs/CV_Arith_Maldonado_2026.pdf" target="_blank" rel="noopener" class="btn-outline cv-download-link">Descargar CV</a>
-          </div>
+        <p class="hero-desc">
+          Estudiante de Ingenieria Mecatronica e Ingeniero Biomedico con mencion honorifica. Construyo sistemas donde conviven software, hardware, CAD, automatizacion, vision por computadora y datos reales.
+        </p>
+        <div class="hero-ctas">
+          <a href="#proyectos" data-view="home" class="btn-primary">Ver proyectos →</a>
+          <a href="assets/docs/CV_Arith_Maldonado_2026.pdf" target="_blank" rel="noopener" class="btn-outline cv-download-link">Descargar CV</a>
+        </div>
+        <div class="social-bar">
+          <a href="https://github.com/aritmaldzamu" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/arith-maldonado-zamudio-4038262b5" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:maldonado.zamudio.arith@gmail.com">Email</a>
         </div>
       </div>
       <aside class="profile-card" aria-label="Foto y resumen de Arith Maldonado Zamudio">
-        <img src="assets/profile/arith-maldonado.jpg" alt="Arith Maldonado Zamudio">
+        <img src="assets/profile/arith-maldonado.jpg" alt="Arith Maldonado Zamudio" fetchpriority="high">
         <div class="profile-meta">
           <div class="profile-name">Arith Maldonado Zamudio</div>
           <div class="profile-role">Mechatronics Engineering student · Biomedical Engineer · GPA 9.1/10</div>
         </div>
       </aside>
     </div>
-  </section>
 
-  <div class="social-bar">
-    <a href="https://github.com/aritmaldzamu" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://www.linkedin.com/in/arith-maldonado-zamudio-4038262b5" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="mailto:maldonado.zamudio.arith@gmail.com">Email</a>
-    <a href="assets/docs/CV_Arith_Maldonado_2026.pdf" target="_blank" rel="noopener" class="cv-download-link">CV</a>
-  </div>
+    <dl class="hero-stats">
+      <div class="hero-stat"><dt>6</dt><dd>Proyectos documentados</dd></div>
+      <div class="hero-stat"><dt>6</dt><dd>Certificaciones técnicas</dd></div>
+      <div class="hero-stat"><dt>9.1</dt><dd>Promedio general / 10</dd></div>
+      <div class="hero-stat"><dt>ISPO</dt><dd>World Congress 2025</dd></div>
+    </dl>
+  </section>
 
   <section id="sobre-mi" class="section-wrap">
     <div class="section-tag">// Sobre mi</div>
@@ -902,135 +1183,80 @@
         <p>
           Actualmente estudio Ingenieria Mecatronica en la Universidad Iberoamericana Puebla, con graduacion esperada en diciembre de 2026. Tambien soy Ingeniero Biomedico graduado con mencion honorifica. Me interesan roles de automatizacion, manufactura, prototipado y sistemas embebidos, especialmente donde el trabajo tenga impacto real.
         </p>
+        <h4 class="about-subhead">Formación</h4>
+        <ul class="timeline">
+          <li>
+            <span class="tl-date">Dic 2026 (esperado)</span>
+            <strong>Ingeniería Mecatrónica</strong>
+            <span class="tl-place">Universidad Iberoamericana Puebla · Promedio 9.1/10</span>
+          </li>
+          <li>
+            <span class="tl-date">2020 – 2024</span>
+            <strong>Ingeniería Biomédica · Mención honorífica</strong>
+            <span class="tl-place">Universidad Iberoamericana Puebla · Biomecánica, dispositivos médicos y FEA</span>
+          </li>
+        </ul>
       </div>
       <div class="about-panel">
-        <h3>Base tecnica</h3>
-        <ul class="about-list">
-          <li><strong>Experiencia profesional</strong> Servicio, instalacion, diagnostico y documentacion tecnica de ultrasonidos, rayos X, paneles planos y triggers en Punto Focal Equipo Medico.</li>
-          <li><strong>Proyectos seleccionados</strong> Plataforma 3-DOF Ball-Balancing con ESP32, servos, OpenCV, PID y Bluetooth; XGIO Smart Cane GPS Tracking Ecosystem.</li>
-          <li><strong>Certificaciones y herramientas</strong> CSWA, SolidWorks Simulation Associate, SolidWorks Additive Manufacturing Associate, Google Project Management, Siemens Basics of Robotics, Siemens Industry Foundation, EF SET B2, Python, MATLAB, Arduino, ESP32, Firebase, Altium, Power BI y manufactura digital.</li>
+        <h3>Experiencia profesional</h3>
+        <ul class="timeline">
+          <li>
+            <span class="tl-date">Jul – Dic 2024</span>
+            <strong>Especialista técnico y de aplicaciones de equipo médico</strong>
+            <span class="tl-place">Punto Focal Equipo Médico · Puebla, México</span>
+            <ul class="tl-points">
+              <li>Servicio, instalacion, diagnostico y documentacion tecnica de ultrasonidos, rayos X, paneles planos y triggers en Punto Focal Equipo Medico.</li>
+              <li>Más de 15 casos de ultrasonido gestionados: reportes técnicos, seguimiento a clientes, garantías y diagnóstico.</li>
+              <li>Identifiqué un reemplazo funcional para una fuente de poder médica, reduciendo el costo para el cliente de ~MXN $15,000 a ~MXN $1,500.</li>
+              <li>Capacitaciones técnicas y demostraciones de producto para médicos, técnicos y clientes.</li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
-  </section>
 
-  <section id="certificaciones" class="section-wrap">
-    <div class="section-tag">// Certificaciones</div>
-    <h2 class="section-title">Credenciales tecnicas<br>y logros academicos</h2>
-    <p class="section-sub">
-      Certificaciones y reconocimientos que respaldan mi base en CAD, simulacion, robotica industrial, manufactura aditiva, gestion de proyectos y desempeno academico.
-    </p>
-
-    <div class="cert-grid" aria-label="Certificaciones de Arith Maldonado Zamudio">
-      <a class="cert-card" href="assets/certificaciones/solidworks-cad-design-associate.jpg" target="_blank" rel="noopener">
-        <div class="cert-thumb">
-          <img src="assets/certificaciones/solidworks-cad-design-associate.jpg" alt="Certificado SOLIDWORKS CAD Design Associate">
-        </div>
-        <div class="cert-body">
-          <div class="cert-meta">Dassault Systèmes · Jul 2023</div>
-          <h3 class="cert-title">SOLIDWORKS CAD Design Associate</h3>
-          <p class="cert-desc">Certificacion academica en diseno CAD con SOLIDWORKS.</p>
-        </div>
-      </a>
-
-      <a class="cert-card" href="assets/certificaciones/solidworks-simulation-associate.jpg" target="_blank" rel="noopener">
-        <div class="cert-thumb">
-          <img src="assets/certificaciones/solidworks-simulation-associate.jpg" alt="Certificado SOLIDWORKS Simulation Associate">
-        </div>
-        <div class="cert-body">
-          <div class="cert-meta">Dassault Systèmes · Jul 2025</div>
-          <h3 class="cert-title">SOLIDWORKS Simulation Associate</h3>
-          <p class="cert-desc">Validacion de competencias en simulacion y analisis estructural.</p>
-        </div>
-      </a>
-
-      <a class="cert-card" href="assets/certificaciones/solidworks-additive-manufacturing-associate.jpg" target="_blank" rel="noopener">
-        <div class="cert-thumb">
-          <img src="assets/certificaciones/solidworks-additive-manufacturing-associate.jpg" alt="Certificado SOLIDWORKS Additive Manufacturing Associate">
-        </div>
-        <div class="cert-body">
-          <div class="cert-meta">Dassault Systèmes · Jul 2025</div>
-          <h3 class="cert-title">SOLIDWORKS Additive Manufacturing Associate</h3>
-          <p class="cert-desc">Certificacion enfocada en manufactura aditiva y preparacion para impresion 3D.</p>
-        </div>
-      </a>
-
-      <a class="cert-card" href="assets/certificaciones/google-project-management-coursera.jpg" target="_blank" rel="noopener">
-        <div class="cert-thumb">
-          <img src="assets/certificaciones/google-project-management-coursera.jpg" alt="Certificado profesional Google Project Management en Coursera">
-        </div>
-        <div class="cert-body">
-          <div class="cert-meta">Google / Coursera · Feb 2026</div>
-          <h3 class="cert-title">Google Project Management</h3>
-          <p class="cert-desc">Programa profesional de siete cursos sobre planeacion, ejecucion, agile y gestion de proyectos.</p>
-        </div>
-      </a>
-
-      <a class="cert-card" href="assets/certificaciones/google-project-management-credly.jpg" target="_blank" rel="noopener">
-        <div class="cert-thumb">
-          <img src="assets/certificaciones/google-project-management-credly.jpg" alt="Credencial Google Project Management Professional Certificate">
-        </div>
-        <div class="cert-body">
-          <div class="cert-meta">Coursera / Credly · Feb 2026</div>
-          <h3 class="cert-title">Project Management Professional Certificate</h3>
-          <p class="cert-desc">Credencial digital complementaria del certificado profesional de Google.</p>
-        </div>
-      </a>
-
-      <a class="cert-card" href="assets/certificaciones/siemens-basics-of-robotics-coursera.jpg" target="_blank" rel="noopener">
-        <div class="cert-thumb">
-          <img src="assets/certificaciones/siemens-basics-of-robotics-coursera.jpg" alt="Certificado Siemens Basics of Robotics en Coursera">
-        </div>
-        <div class="cert-body">
-          <div class="cert-meta">Siemens / Coursera &middot; Jun 2026</div>
-          <h3 class="cert-title">Basics of Robotics</h3>
-          <p class="cert-desc">Curso de Siemens sobre fundamentos de robotica, automatizacion e industria digital.</p>
-        </div>
-      </a>
-
-      <a class="cert-card" href="assets/certificaciones/siemens-industry-foundation-coursera.jpg" target="_blank" rel="noopener">
-        <div class="cert-thumb">
-          <img src="assets/certificaciones/siemens-industry-foundation-coursera.jpg" alt="Certificado Siemens Expedite Skills for Industry Industry Foundation en Coursera">
-        </div>
-        <div class="cert-body">
-          <div class="cert-meta">Siemens / Coursera &middot; Jun 2026</div>
-          <h3 class="cert-title">Expedite - Skills for Industry: Industry Foundation</h3>
-          <p class="cert-desc">Formacion introductoria de Siemens enfocada en competencias base para entornos industriales.</p>
-        </div>
-      </a>
-
-      <a class="cert-card" href="assets/certificaciones/mencion-honorifica-ingenieria-biomedica.jpg" target="_blank" rel="noopener">
-        <div class="cert-thumb">
-          <img src="assets/certificaciones/mencion-honorifica-ingenieria-biomedica.jpg" alt="Mencion honorifica por Licenciatura en Ingenieria Biomedica">
-        </div>
-        <div class="cert-body">
-          <div class="cert-meta">Universidad Iberoamericana Puebla · Ene 2025</div>
-          <h3 class="cert-title">Mencion Honorifica en Ingenieria Biomedica</h3>
-          <p class="cert-desc">Reconocimiento por excelencia academica al obtener el grado de Licenciatura en Ingenieria Biomedica.</p>
-        </div>
-      </a>
+    <div class="skills-grid" aria-label="Habilidades técnicas">
+      <div class="skill-group">
+        <h4>CAD / FEA</h4>
+        <div class="card-tags"><span class="tag">SolidWorks</span><span class="tag">Creo Parametric</span><span class="tag">SolidWorks Simulation</span><span class="tag">Planos y BOMs</span><span class="tag">GD&amp;T</span></div>
+      </div>
+      <div class="skill-group">
+        <h4>Manufactura</h4>
+        <div class="card-tags"><span class="tag">Impresión 3D</span><span class="tag">Corte láser</span><span class="tag">CNC</span><span class="tag">Torno y fresadora</span><span class="tag">DFM</span></div>
+      </div>
+      <div class="skill-group">
+        <h4>Control y embebidos</h4>
+        <div class="card-tags"><span class="tag">PID discreto</span><span class="tag">Arduino</span><span class="tag">ESP32</span><span class="tag">Raspberry Pi</span><span class="tag">MATLAB / Simulink</span></div>
+      </div>
+      <div class="skill-group">
+        <h4>Software y datos</h4>
+        <div class="card-tags"><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">Firebase</span><span class="tag">React Native</span><span class="tag">Power BI</span></div>
+      </div>
+      <div class="skill-group">
+        <h4>Idiomas</h4>
+        <div class="card-tags"><span class="tag">Español nativo</span><span class="tag">Inglés B2 (EF SET)</span><span class="tag">Alemán A2</span></div>
+      </div>
     </div>
   </section>
 
 
-  </div>
-
-  <section id="proyectos" class="section-wrap project-view">
+  <section id="proyectos" class="section-wrap">
     <div class="section-tag">// Catalogo de proyectos</div>
     <h2 class="section-title">Proyectos construidos<br>con evidencia real</h2>
     <p class="section-sub">
-      Esta seccion crecera como un catalogo profesional: cada tarjeta resume un proyecto con una imagen, una descripcion corta y acceso a su ficha completa con detalles, stack, repositorio, documentos e imagenes.
+      Seis casos de estudio de ingeniería. Cada ficha incluye el reto, las decisiones técnicas, evidencia visual (CAD, simulación, prototipos y demos), el stack y documentos o código descargables.
     </p>
 
     <div class="catalog-grid" aria-label="Catalogo de proyectos de Arith">
       <a class="catalog-card" href="#prosthesis">
         <div class="catalog-thumb">
-          <img src="assets/prosthesis/prosthesis-overview-collage.jpg" alt="Collage tecnico del sistema de sujecion para protesis transradial">
+          <span class="catalog-num">01</span>
+          <img loading="lazy" decoding="async" src="assets/prosthesis/prosthesis-overview-collage.jpg" alt="Collage tecnico del sistema de sujecion para protesis transradial">
         </div>
         <div class="catalog-body">
           <div class="catalog-meta">
-            <span class="catalog-kicker">Biomecanica / FEA / ISPO 2025</span>
-            <span class="card-arrow">-&gt;</span>
+            <span class="catalog-kicker">Biomecanica · FEA · ISPO 2025</span>
+            <span class="card-arrow">→</span>
           </div>
           <h3 class="catalog-title">Transradial Prosthesis Tool Holder</h3>
           <p class="catalog-desc">
@@ -1047,12 +1273,13 @@
 
       <a class="catalog-card" href="#3dof">
         <div class="catalog-thumb">
-          <img src="assets/3dof/solidworks-03.png" alt="Vista CAD de la plataforma 3DOF para balanceo de pelota">
+          <span class="catalog-num">02</span>
+          <img loading="lazy" decoding="async" src="assets/3dof/solidworks-03.png" alt="Vista CAD de la plataforma 3DOF para balanceo de pelota">
         </div>
         <div class="catalog-body">
           <div class="catalog-meta">
             <span class="catalog-kicker">Vision &middot; ESP32 &middot; PID/PD</span>
-            <span class="card-arrow">-&gt;</span>
+            <span class="card-arrow">→</span>
           </div>
           <h3 class="catalog-title">3DOF Ball Balancing Platform</h3>
           <p class="catalog-desc">
@@ -1069,12 +1296,13 @@
 
       <a class="catalog-card" href="#ball-beam">
         <div class="catalog-thumb">
-          <img src="assets/ball-beam/ball-beam-cad-wide.png" alt="Vista isometrica final del prototipo Ball and Beam">
+          <span class="catalog-num">03</span>
+          <img loading="lazy" decoding="async" src="assets/ball-beam/ball-beam-cad-wide.png" alt="Vista isometrica final del prototipo Ball and Beam">
         </div>
         <div class="catalog-body">
           <div class="catalog-meta">
             <span class="catalog-kicker">Control discreto · PID · Prototipo</span>
-            <span class="card-arrow">-&gt;</span>
+            <span class="card-arrow">→</span>
           </div>
           <h3 class="catalog-title">Ball &amp; Beam Discrete Control Prototype</h3>
           <p class="catalog-desc">
@@ -1091,12 +1319,13 @@
 
       <a class="catalog-card" href="#xgio">
         <div class="catalog-thumb">
-          <img src="assets/xgio/baston_diseno_completo.png" alt="Vista CAD del proyecto XGIO">
+          <span class="catalog-num">04</span>
+          <img loading="lazy" decoding="async" src="assets/xgio/baston_modelo_final_solidworks.png" alt="Vista CAD del proyecto XGIO">
         </div>
         <div class="catalog-body">
           <div class="catalog-meta">
             <span class="catalog-kicker">IoT · Full-stack · CAD</span>
-            <span class="card-arrow">-&gt;</span>
+            <span class="card-arrow">→</span>
           </div>
           <h3 class="catalog-title">XGIO Smart Cane GPS Tracking Ecosystem</h3>
           <p class="catalog-desc">
@@ -1113,12 +1342,13 @@
 
       <a class="catalog-card" href="#somnus">
         <div class="catalog-thumb">
-          <img src="assets/somnus/somnus-landing-preview.png" alt="Landing visual del proyecto Somnus Sleep Monitor">
+          <span class="catalog-num">05</span>
+          <img loading="lazy" decoding="async" src="assets/somnus/somnus-landing-preview.png" alt="Landing visual del proyecto Somnus Sleep Monitor">
         </div>
         <div class="catalog-body">
           <div class="catalog-meta">
             <span class="catalog-kicker">IoT · Raspberry Pi · Firebase</span>
-            <span class="card-arrow">-&gt;</span>
+            <span class="card-arrow">→</span>
           </div>
           <h3 class="catalog-title">Somnus Sleep Monitor</h3>
           <p class="catalog-desc">
@@ -1135,12 +1365,13 @@
 
       <a class="catalog-card" href="#globo">
         <div class="catalog-thumb">
-          <img src="assets/globo/Screenshot 2026-05-27 202156.png" alt="Vista isometrica CAD del globo aerostatico en SolidWorks">
+          <span class="catalog-num">06</span>
+          <img loading="lazy" decoding="async" src="assets/globo/globo-cad-isometric.png" alt="Vista isometrica CAD del globo aerostatico en SolidWorks">
         </div>
         <div class="catalog-body">
           <div class="catalog-meta">
-            <span class="catalog-kicker">CAD / Corte laser / Encastre</span>
-            <span class="card-arrow">-&gt;</span>
+            <span class="catalog-kicker">CAD · Corte laser · Encastre</span>
+            <span class="card-arrow">→</span>
           </div>
           <h3 class="catalog-title">Laser-Cut Hot Air Balloon Prototype</h3>
           <p class="catalog-desc">
@@ -1157,11 +1388,123 @@
     </div>
   </section>
 
+  <section id="certificaciones" class="section-wrap">
+    <div class="section-tag">// Certificaciones</div>
+    <h2 class="section-title">Credenciales tecnicas<br>y logros academicos</h2>
+    <p class="section-sub">
+      Certificaciones y reconocimientos que respaldan mi base en CAD, simulacion, robotica industrial, manufactura aditiva, gestion de proyectos y desempeno academico.
+    </p>
+
+    <div class="cert-grid" aria-label="Certificaciones de Arith Maldonado Zamudio">
+      <a class="cert-card" href="assets/certificaciones/solidworks-cad-design-associate.jpg" target="_blank" rel="noopener">
+        <div class="cert-thumb">
+          <img loading="lazy" decoding="async" src="assets/certificaciones/solidworks-cad-design-associate.jpg" alt="Certificado SOLIDWORKS CAD Design Associate">
+        </div>
+        <div class="cert-body">
+          <div class="cert-meta">Dassault Systèmes · Jul 2023</div>
+          <h3 class="cert-title">SOLIDWORKS CAD Design Associate</h3>
+          <p class="cert-desc">Certificacion academica en diseno CAD con SOLIDWORKS.</p>
+        </div>
+      </a>
+
+      <a class="cert-card" href="assets/certificaciones/solidworks-simulation-associate.jpg" target="_blank" rel="noopener">
+        <div class="cert-thumb">
+          <img loading="lazy" decoding="async" src="assets/certificaciones/solidworks-simulation-associate.jpg" alt="Certificado SOLIDWORKS Simulation Associate">
+        </div>
+        <div class="cert-body">
+          <div class="cert-meta">Dassault Systèmes · Jul 2025</div>
+          <h3 class="cert-title">SOLIDWORKS Simulation Associate</h3>
+          <p class="cert-desc">Validacion de competencias en simulacion y analisis estructural.</p>
+        </div>
+      </a>
+
+      <a class="cert-card" href="assets/certificaciones/solidworks-additive-manufacturing-associate.jpg" target="_blank" rel="noopener">
+        <div class="cert-thumb">
+          <img loading="lazy" decoding="async" src="assets/certificaciones/solidworks-additive-manufacturing-associate.jpg" alt="Certificado SOLIDWORKS Additive Manufacturing Associate">
+        </div>
+        <div class="cert-body">
+          <div class="cert-meta">Dassault Systèmes · Jul 2025</div>
+          <h3 class="cert-title">SOLIDWORKS Additive Manufacturing Associate</h3>
+          <p class="cert-desc">Certificacion enfocada en manufactura aditiva y preparacion para impresion 3D.</p>
+        </div>
+      </a>
+
+      <a class="cert-card" href="assets/certificaciones/google-project-management-coursera.jpg" target="_blank" rel="noopener">
+        <div class="cert-thumb">
+          <img loading="lazy" decoding="async" src="assets/certificaciones/google-project-management-coursera.jpg" alt="Certificado profesional Google Project Management en Coursera">
+        </div>
+        <div class="cert-body">
+          <div class="cert-meta">Google / Coursera · Feb 2026</div>
+          <h3 class="cert-title">Google Project Management</h3>
+          <p class="cert-desc">Programa profesional de siete cursos sobre planeacion, ejecucion, agile y gestion de proyectos.</p>
+        </div>
+      </a>
+
+      <a class="cert-card" href="assets/certificaciones/google-project-management-credly.jpg" target="_blank" rel="noopener">
+        <div class="cert-thumb">
+          <img loading="lazy" decoding="async" src="assets/certificaciones/google-project-management-credly.jpg" alt="Credencial Google Project Management Professional Certificate">
+        </div>
+        <div class="cert-body">
+          <div class="cert-meta">Coursera / Credly · Feb 2026</div>
+          <h3 class="cert-title">Project Management Professional Certificate</h3>
+          <p class="cert-desc">Credencial digital complementaria del certificado profesional de Google.</p>
+        </div>
+      </a>
+
+      <a class="cert-card" href="assets/certificaciones/siemens-basics-of-robotics-coursera.jpg" target="_blank" rel="noopener">
+        <div class="cert-thumb">
+          <img loading="lazy" decoding="async" src="assets/certificaciones/siemens-basics-of-robotics-coursera.jpg" alt="Certificado Siemens Basics of Robotics en Coursera">
+        </div>
+        <div class="cert-body">
+          <div class="cert-meta">Siemens / Coursera &middot; Jun 2026</div>
+          <h3 class="cert-title">Basics of Robotics</h3>
+          <p class="cert-desc">Curso de Siemens sobre fundamentos de robotica, automatizacion e industria digital.</p>
+        </div>
+      </a>
+
+      <a class="cert-card" href="assets/certificaciones/siemens-industry-foundation-coursera.jpg" target="_blank" rel="noopener">
+        <div class="cert-thumb">
+          <img loading="lazy" decoding="async" src="assets/certificaciones/siemens-industry-foundation-coursera.jpg" alt="Certificado Siemens Expedite Skills for Industry Industry Foundation en Coursera">
+        </div>
+        <div class="cert-body">
+          <div class="cert-meta">Siemens / Coursera &middot; Jun 2026</div>
+          <h3 class="cert-title">Expedite - Skills for Industry: Industry Foundation</h3>
+          <p class="cert-desc">Formacion introductoria de Siemens enfocada en competencias base para entornos industriales.</p>
+        </div>
+      </a>
+
+      <a class="cert-card" href="assets/certificaciones/mencion-honorifica-ingenieria-biomedica.jpg" target="_blank" rel="noopener">
+        <div class="cert-thumb">
+          <img loading="lazy" decoding="async" src="assets/certificaciones/mencion-honorifica-ingenieria-biomedica.jpg" alt="Mencion honorifica por Licenciatura en Ingenieria Biomedica">
+        </div>
+        <div class="cert-body">
+          <div class="cert-meta">Universidad Iberoamericana Puebla · Ene 2025</div>
+          <h3 class="cert-title">Mencion Honorifica en Ingenieria Biomedica</h3>
+          <p class="cert-desc">Reconocimiento por excelencia academica al obtener el grado de Licenciatura en Ingenieria Biomedica.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+  </div>
+
+  <div class="project-bar project-view project-detail-nav" aria-label="Navegacion de proyectos">
+    <a href="#proyectos" data-view="home" class="project-back">← Todos los proyectos</a>
+    <div class="project-tabs">
+      <a href="#prosthesis" data-tab="prosthesis">01 · Prótesis</a>
+      <a href="#3dof" data-tab="3dof">02 · 3DOF</a>
+      <a href="#ball-beam" data-tab="ball-beam">03 · Ball &amp; Beam</a>
+      <a href="#xgio" data-tab="xgio">04 · XGIO</a>
+      <a href="#somnus" data-tab="somnus">05 · Somnus</a>
+      <a href="#globo" data-tab="globo">06 · Globo</a>
+    </div>
+  </div>
+
+
   <section id="xgio" class="section-wrap project-view project-detail" data-project="xgio">
     <div class="section-tag">// Proyecto 04</div>
     <h2 class="section-title">XGIO: Sistema de Rastreo GPS<br>para Baston Inteligente</h2>
     <p class="section-sub">
-      Primer proyecto publicado en este portafolio. XGIO muestra mi forma de trabajar: integrar app movil, dashboard web, backend geoespacial, firmware, CAD, prototipo fisico y documentacion tecnica en un solo ecosistema funcional.
+      XGIO muestra mi forma de trabajar: integrar app movil, dashboard web, backend geoespacial, firmware, CAD, prototipo fisico y documentacion tecnica en un solo ecosistema funcional.
     </p>
 
     <div class="project-summary-grid">
@@ -1211,7 +1554,7 @@
             </div>
           </div>
           <div class="project-actions">
-            <a href="https://github.com/aritmaldzamu/xgio-monorep" target="_blank" rel="noopener" class="btn-primary">Ver repositorio -&gt;</a>
+            <a href="https://github.com/aritmaldzamu/xgio-monorep" target="_blank" rel="noopener" class="btn-primary">Ver repositorio →</a>
             <a href="#xgio-galeria" class="btn-outline">Ver evidencia</a>
           </div>
         </div>
@@ -1219,10 +1562,10 @@
 
       <div class="project-featured-visual" aria-label="Collage visual del proyecto XGIO">
         <div class="visual-grid">
-          <img class="visual-main" src="assets/xgio/baston_diseno_completo.png" alt="Diseno CAD del baston inteligente XGIO">
+          <img loading="lazy" decoding="async" class="visual-main" src="assets/xgio/baston_diseno_completo.png" alt="Diseno CAD del baston inteligente XGIO">
           <div class="visual-stack">
-            <img class="visual-dashboard" src="assets/xgio/dashboard_metricas.png" alt="Dashboard de metricas XGIO">
-            <img class="visual-phone-shot" src="assets/xgio/mapa_recorrido.jpeg" alt="Mapa de recorrido en la app XGIO">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/xgio/dashboard_metricas.png" alt="Dashboard de metricas XGIO">
+            <img loading="lazy" decoding="async" class="visual-phone-shot" src="assets/xgio/mapa_recorrido.jpeg" alt="Mapa de recorrido en la app XGIO">
           </div>
         </div>
       </div>
@@ -1232,7 +1575,7 @@
       <div class="project-card">
         <div class="card-header">
           <div class="card-icon">APP</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Aplicacion movil para cuidadores</h3>
         <p class="card-desc">React Native y Expo con roles, mapas, historial de rutas, estado del baston, Bluetooth y alertas criticas por S.O.S o caida.</p>
@@ -1246,7 +1589,7 @@
       <div class="project-card">
         <div class="card-header">
           <div class="card-icon">API</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Backend geoespacial</h3>
         <p class="card-desc">Funciones Python para limpieza de polilineas, comparacion de rutas, dispersion GPS, exportacion de datos y visualizaciones con Matplotlib/Folium.</p>
@@ -1260,7 +1603,7 @@
       <div class="project-card">
         <div class="card-header">
           <div class="card-icon">ESP</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Firmware y prototipo fisico</h3>
         <p class="card-desc">ESP32/T-Beam con GPS, MPU6050, boton S.O.S, buzzer, vibracion y carcasa modelada en SolidWorks para integrar electronica y antena.</p>
@@ -1282,7 +1625,7 @@
 
     <div class="media-grid">
       <figure class="shot large compact">
-        <img src="assets/xgio/dashboard_metricas.png" alt="Panel de administracion con metricas globales">
+        <img loading="lazy" decoding="async" src="assets/xgio/dashboard_metricas.png" alt="Panel de administracion con metricas globales">
         <figcaption class="shot-caption">
           <strong>Dashboard administrativo</strong>
           <span>Usuarios, bastones vinculados, rutas y alertas activas.</span>
@@ -1290,7 +1633,7 @@
       </figure>
 
       <figure class="shot medium phone phone-pair">
-        <img src="assets/xgio/inicio_app.jpeg" alt="Pantalla de inicio de la app XGIO">
+        <img loading="lazy" decoding="async" src="assets/xgio/inicio_app.jpeg" alt="Pantalla de inicio de la app XGIO">
         <figcaption class="shot-caption">
           <strong>App movil</strong>
           <span>Experiencia en modo oscuro para monitoreo del baston.</span>
@@ -1298,7 +1641,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/xgio/baston_modelo_final_solidworks.png" alt="Modelo final de carcasa en SolidWorks">
+        <img loading="lazy" decoding="async" src="assets/xgio/baston_modelo_final_solidworks.png" alt="Modelo final de carcasa en SolidWorks">
         <figcaption class="shot-caption">
           <strong>Diseno mecanico</strong>
           <span>Carcasa superior para T-Beam, cableado y antena LoRaWAN.</span>
@@ -1306,7 +1649,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/xgio/polylines_clean_2.5ms.png" alt="Polilineas limpias del GPS filtradas a 2.5 m/s">
+        <img loading="lazy" decoding="async" src="assets/xgio/polylines_clean_2.5ms.png" alt="Polilineas limpias del GPS filtradas a 2.5 m/s">
         <figcaption class="shot-caption">
           <strong>Filtro de rutas</strong>
           <span>Backend elimina lecturas anomalias por velocidad peatonal.</span>
@@ -1314,7 +1657,7 @@
       </figure>
 
       <figure class="shot medium phone phone-pair">
-        <img src="assets/xgio/alerta_sos.jpeg" alt="Alerta SOS en la aplicacion">
+        <img loading="lazy" decoding="async" src="assets/xgio/alerta_sos.jpeg" alt="Alerta SOS en la aplicacion">
         <figcaption class="shot-caption">
           <strong>Alertas criticas</strong>
           <span>S.O.S y caidas notificadas al cuidador.</span>
@@ -1322,7 +1665,7 @@
       </figure>
 
       <figure class="shot large compact">
-        <img src="assets/xgio/impresion_baston_blanco.jpeg" alt="Prototipo impreso de la carcasa del baston">
+        <img loading="lazy" decoding="async" src="assets/xgio/impresion_baston_blanco.jpeg" alt="Prototipo impreso de la carcasa del baston">
         <figcaption class="shot-caption">
           <strong>Prototipo impreso</strong>
           <span>Validacion fisica de geometria, tolerancias y montaje.</span>
@@ -1423,7 +1766,7 @@
       <a class="artifact-card" href="https://aritmaldzamu.github.io/xgio-monorep/" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">DOC</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Sitio de documentacion</h3>
         <p class="card-desc">MkDocs Material con instalacion, componentes, laboratorio de codigo, pruebas GPS y descargas.</p>
@@ -1432,7 +1775,7 @@
       <a class="artifact-card" href="https://github.com/aritmaldzamu/xgio-monorep/tree/main/docs" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">PDF</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Reportes tecnicos</h3>
         <p class="card-desc">Documento de proyecto, poster y resumen academico incluidos en la carpeta docs.</p>
@@ -1441,7 +1784,7 @@
       <a class="artifact-card" href="https://github.com/aritmaldzamu/xgio-monorep/tree/main/docs/assets/cad" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">CAD</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Archivos mecanicos</h3>
         <p class="card-desc">Paquetes SolidWorks, ensambles, piezas SLDPRT y STL final para impresion 3D.</p>
@@ -1503,7 +1846,7 @@
             </div>
           </div>
           <div class="project-actions">
-            <a href="#ball-beam-control" class="btn-primary">Ver control -&gt;</a>
+            <a href="#ball-beam-control" class="btn-primary">Ver control →</a>
             <a href="#ball-beam-galeria" class="btn-outline">Ver evidencia</a>
           </div>
         </div>
@@ -1511,10 +1854,10 @@
 
       <div class="project-featured-visual" aria-label="Collage visual del proyecto Ball and Beam">
         <div class="visual-grid">
-          <img class="visual-main" src="assets/ball-beam/ball-beam-cad-wide.png" alt="Vista isometrica final del prototipo Ball and Beam">
+          <img loading="lazy" decoding="async" class="visual-main" src="assets/ball-beam/ball-beam-cad-wide.png" alt="Vista isometrica final del prototipo Ball and Beam">
           <div class="visual-stack">
-            <img class="visual-dashboard" src="assets/ball-beam/ball-beam-control-diagram.png" alt="Respuesta simulada del controlador PID discreto">
-            <img class="visual-dashboard" src="assets/ball-beam/ball-beam-cad-side.png" alt="Vista lateral final del sistema Ball and Beam">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/ball-beam/ball-beam-control-diagram.png" alt="Respuesta simulada del controlador PID discreto">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/ball-beam/ball-beam-cad-side.png" alt="Vista lateral final del sistema Ball and Beam">
           </div>
         </div>
       </div>
@@ -1579,7 +1922,7 @@
 
     <div class="media-grid">
       <figure class="shot large compact">
-        <img src="assets/ball-beam/ball-beam-cad-wide.png" alt="Vista isometrica final del prototipo Ball and Beam">
+        <img loading="lazy" decoding="async" src="assets/ball-beam/ball-beam-cad-wide.png" alt="Vista isometrica final del prototipo Ball and Beam">
         <figcaption class="shot-caption">
           <strong>Vista isometrica final</strong>
           <span>Vista isometrica final del ensamble con actuador, sensor y base.</span>
@@ -1587,7 +1930,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/ball-beam/ball-beam-cad-side.png" alt="Vista lateral final del Ball and Beam">
+        <img loading="lazy" decoding="async" src="assets/ball-beam/ball-beam-cad-side.png" alt="Vista lateral final del Ball and Beam">
         <figcaption class="shot-caption">
           <strong>Vista lateral final</strong>
           <span>Alineacion de barra, soportes, sensor ultrasonico y transmision.</span>
@@ -1595,7 +1938,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/ball-beam/ball-beam-cad-rear.png" alt="Vista posterior final del Ball and Beam">
+        <img loading="lazy" decoding="async" src="assets/ball-beam/ball-beam-cad-rear.png" alt="Vista posterior final del Ball and Beam">
         <figcaption class="shot-caption">
           <strong>Vista posterior final</strong>
           <span>Distribucion del motor, soportes curvos, caja electronica y sensor.</span>
@@ -1603,7 +1946,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/ball-beam/ball-beam-control-diagram.png" alt="Grafica de respuesta del controlador PID discreto">
+        <img loading="lazy" decoding="async" src="assets/ball-beam/ball-beam-control-diagram.png" alt="Grafica de respuesta del controlador PID discreto">
         <figcaption class="shot-caption">
           <strong>Respuesta simulada</strong>
           <span>Tiempo de establecimiento de 2.8 s y sobreimpulso de 12%.</span>
@@ -1611,7 +1954,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/ball-beam/ball-beam-response-plot.png" alt="Tabla de resultados de simulacion">
+        <img loading="lazy" decoding="async" src="assets/ball-beam/ball-beam-response-plot.png" alt="Tabla de resultados de simulacion">
         <figcaption class="shot-caption">
           <strong>Metricas de desempeno</strong>
           <span>Comparacion contra criterios de estabilidad y error.</span>
@@ -1665,7 +2008,7 @@
       <a class="artifact-card" href="assets/ball-beam/docs/Ball_and_Beam_Resumen_v2.docx" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">DOC</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Resumen tecnico</h3>
         <p class="card-desc">Documento con introduccion, metodologia, resultados de simulacion, conclusiones y referencias.</p>
@@ -1673,7 +2016,7 @@
       <a class="artifact-card" href="assets/ball-beam/docs/BallAndBeam_Poster_ExpoIbero_Primavera2026.pptx" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">PPT</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Poster Expo Ibero</h3>
         <p class="card-desc">Material de presentacion del proyecto para Expo Ibero Primavera 2026.</p>
@@ -1681,7 +2024,7 @@
       <a class="artifact-card" href="assets/ball-beam/code/PID_Metodo5_Trapezoidal.ino" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">INO</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Codigo PID</h3>
         <p class="card-desc">Implementacion Arduino del metodo trapezoidal con anti-windup y comandos seriales.</p>
@@ -1743,7 +2086,7 @@
             </div>
           </div>
           <div class="project-actions">
-            <a href="#3dof-galeria" class="btn-primary">Ver demos -&gt;</a>
+            <a href="#3dof-galeria" class="btn-primary">Ver demos →</a>
             <a href="#3dof-control" class="btn-outline">Ver control</a>
           </div>
         </div>
@@ -1751,10 +2094,10 @@
 
       <div class="project-featured-visual" aria-label="Vistas CAD de la plataforma 3DOF para balanceo de pelota">
         <div class="visual-grid">
-          <img class="visual-main" src="assets/3dof/solidworks-03.png" alt="Vista CAD principal de la plataforma 3DOF">
+          <img loading="lazy" decoding="async" class="visual-main" src="assets/3dof/solidworks-03.png" alt="Vista CAD principal de la plataforma 3DOF">
           <div class="visual-stack">
-            <img class="visual-dashboard" src="assets/3dof/solidworks-02.png" alt="Vista lateral del ensamble 3DOF">
-            <img class="visual-dashboard" src="assets/3dof/solidworks-04.png" alt="Detalle del mecanismo de tres brazos">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/3dof/solidworks-02.png" alt="Vista lateral del ensamble 3DOF">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/3dof/solidworks-04.png" alt="Detalle del mecanismo de tres brazos">
           </div>
         </div>
       </div>
@@ -1821,7 +2164,7 @@
 
     <div class="media-grid">
       <figure class="shot large compact">
-        <img src="assets/3dof/solidworks-03.png" alt="Vista CAD del ensamble completo de la plataforma 3DOF">
+        <img loading="lazy" decoding="async" src="assets/3dof/solidworks-03.png" alt="Vista CAD del ensamble completo de la plataforma 3DOF">
         <figcaption class="shot-caption">
           <strong>Ensamble 3DOF</strong>
           <span>Modelo de la plataforma y configuracion de tres brazos.</span>
@@ -1829,7 +2172,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/3dof/solidworks-01.png" alt="Detalle CAD de brazo o componente de la plataforma 3DOF">
+        <img loading="lazy" decoding="async" src="assets/3dof/solidworks-01.png" alt="Detalle CAD de brazo o componente de la plataforma 3DOF">
         <figcaption class="shot-caption">
           <strong>Detalle mecanico</strong>
           <span>Piezas y geometria de soporte modeladas en SolidWorks.</span>
@@ -1898,7 +2241,7 @@
       <a class="artifact-card" href="assets/3dof/code/esp32_ball_platform.ino" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">INO</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Firmware ESP32</h3>
         <p class="card-desc">Control de servos, Bluetooth, parser de comandos, rampa de movimiento y timeout.</p>
@@ -1906,7 +2249,7 @@
       <a class="artifact-card" href="assets/3dof/code/ball_pid_vision_control.py" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">PY</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Vision y control</h3>
         <p class="card-desc">Script OpenCV para detectar la pelota, calcular error y enviar angulos al ESP32.</p>
@@ -1914,7 +2257,7 @@
       <a class="artifact-card" href="assets/3dof/code/README.md" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">DOC</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Notas tecnicas</h3>
         <p class="card-desc">Dependencias, flujo de ejecucion, controles en vivo y nota sobre PID/PD.</p>
@@ -1976,7 +2319,7 @@
             </div>
           </div>
           <div class="project-actions">
-            <a href="#somnus-arquitectura" class="btn-primary">Ver arquitectura -&gt;</a>
+            <a href="#somnus-arquitectura" class="btn-primary">Ver arquitectura →</a>
             <a href="#somnus-galeria" class="btn-outline">Ver evidencia</a>
           </div>
         </div>
@@ -1984,10 +2327,10 @@
 
       <div class="project-featured-visual" aria-label="Collage visual del proyecto Somnus">
         <div class="visual-grid">
-          <img class="visual-main" src="assets/somnus/somnus-landing-preview.png" alt="Landing SleepSense del proyecto Somnus">
+          <img loading="lazy" decoding="async" class="visual-main" src="assets/somnus/somnus-landing-preview.png" alt="Landing SleepSense del proyecto Somnus">
           <div class="visual-stack">
-            <img class="visual-dashboard" src="assets/somnus/somnus-dashboard-monitor.jpg" alt="Dashboard local Somnus en monitor">
-            <img class="visual-dashboard" src="assets/somnus/somnus-prototype-overview.jpg" alt="Prototipo fisico Somnus">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/somnus/somnus-dashboard-monitor.jpg" alt="Dashboard local Somnus en monitor">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/somnus/somnus-prototype-overview.jpg" alt="Prototipo fisico Somnus">
           </div>
         </div>
       </div>
@@ -2053,7 +2396,7 @@
 
     <div class="media-grid">
       <figure class="shot large compact">
-        <img src="assets/somnus/somnus-landing-preview.png" alt="Landing SleepSense del proyecto Somnus">
+        <img loading="lazy" decoding="async" src="assets/somnus/somnus-landing-preview.png" alt="Landing SleepSense del proyecto Somnus">
         <figcaption class="shot-caption">
           <strong>Landing SleepSense</strong>
           <span>Comunicacion visual del monitor de calidad del sueno.</span>
@@ -2061,7 +2404,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/somnus/somnus-prototype-overview.jpg" alt="Vista general del prototipo fisico Somnus">
+        <img loading="lazy" decoding="async" src="assets/somnus/somnus-prototype-overview.jpg" alt="Vista general del prototipo fisico Somnus">
         <figcaption class="shot-caption">
           <strong>Maqueta fisica</strong>
           <span>Habitacion inteligente con sensores, ventiladores y actuadores.</span>
@@ -2069,7 +2412,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/somnus/somnus-electronics.jpg" alt="Electronica del prototipo Somnus">
+        <img loading="lazy" decoding="async" src="assets/somnus/somnus-electronics.jpg" alt="Electronica del prototipo Somnus">
         <figcaption class="shot-caption">
           <strong>Electronica</strong>
           <span>Relevadores, cableado, protoboard y conexiones a Raspberry Pi.</span>
@@ -2077,7 +2420,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/somnus/somnus-room-interior.jpg" alt="Interior de la habitacion inteligente Somnus">
+        <img loading="lazy" decoding="async" src="assets/somnus/somnus-room-interior.jpg" alt="Interior de la habitacion inteligente Somnus">
         <figcaption class="shot-caption">
           <strong>Interior de habitacion</strong>
           <span>Disposicion de actuadores y componentes dentro de la maqueta.</span>
@@ -2085,7 +2428,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/somnus/somnus-firestore.jpg" alt="Firestore conectado con Somnus">
+        <img loading="lazy" decoding="async" src="assets/somnus/somnus-firestore.jpg" alt="Firestore conectado con Somnus">
         <figcaption class="shot-caption">
           <strong>Firestore</strong>
           <span>Estado actual, historial y comandos remotos sincronizados.</span>
@@ -2093,7 +2436,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/somnus/somnus-dashboard-monitor.jpg" alt="Dashboard local Somnus en pantalla">
+        <img loading="lazy" decoding="async" src="assets/somnus/somnus-dashboard-monitor.jpg" alt="Dashboard local Somnus en pantalla">
         <figcaption class="shot-caption">
           <strong>Dashboard local</strong>
           <span>Monitoreo, graficas, estado de actuadores y exportacion.</span>
@@ -2101,7 +2444,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/somnus/somnus-flutterflow-app.jpg" alt="Storyboard FlutterFlow de la app Somnus">
+        <img loading="lazy" decoding="async" src="assets/somnus/somnus-flutterflow-app.jpg" alt="Storyboard FlutterFlow de la app Somnus">
         <figcaption class="shot-caption">
           <strong>App FlutterFlow</strong>
           <span>Login, dashboard, historial y configuracion para usuario.</span>
@@ -2154,7 +2497,7 @@
       <a class="artifact-card" href="assets/somnus/docs/Reporte_Somnus.pdf" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">PDF</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Reporte tecnico</h3>
         <p class="card-desc">Documento completo con arquitectura, pinout, pruebas, resultados y anexos de codigo.</p>
@@ -2162,7 +2505,7 @@
       <a class="artifact-card" href="assets/somnus/docs/sleep-monitor-landing.html" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">WEB</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Landing SleepSense</h3>
         <p class="card-desc">Pagina visual del concepto, problema, solucion, tecnologia y preview del dashboard.</p>
@@ -2170,7 +2513,7 @@
       <a class="artifact-card" href="assets/somnus/code/hardware_real.py" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">GPIO</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Control hardware</h3>
         <p class="card-desc">Clase Python para PIR, LED, relevadores, ventiladores y motor de cortina con L298N.</p>
@@ -2232,7 +2575,7 @@
             </div>
           </div>
           <div class="project-actions">
-            <a href="#prosthesis-fea" class="btn-primary">Ver validacion -&gt;</a>
+            <a href="#prosthesis-fea" class="btn-primary">Ver validacion →</a>
             <a href="#prosthesis-galeria" class="btn-outline">Ver evidencia</a>
           </div>
         </div>
@@ -2240,10 +2583,10 @@
 
       <div class="project-featured-visual prosthesis-visual" aria-label="Collage visual del sistema de sujecion para protesis transradial">
         <div class="visual-grid">
-          <img class="visual-main" src="assets/prosthesis/prosthesis-overview-collage.jpg" alt="Collage tecnico del mecanismo y simulacion para protesis transradial">
+          <img loading="lazy" decoding="async" class="visual-main" src="assets/prosthesis/prosthesis-overview-collage.jpg" alt="Collage tecnico del mecanismo y simulacion para protesis transradial">
           <div class="visual-stack">
-            <img class="visual-dashboard" src="assets/prosthesis/cad-link-assembly.png" alt="Ensamble CAD del mecanismo de sujecion para protesis transradial">
-            <img class="visual-dashboard" src="assets/prosthesis/fea-overview.png" alt="Mapa de esfuerzo general del sistema de sujecion">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/prosthesis/cad-link-assembly.png" alt="Ensamble CAD del mecanismo de sujecion para protesis transradial">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/prosthesis/fea-overview.png" alt="Mapa de esfuerzo general del sistema de sujecion">
           </div>
         </div>
       </div>
@@ -2309,7 +2652,7 @@
 
     <div class="media-grid">
       <figure class="shot large compact">
-        <img src="assets/prosthesis/prosthesis-overview-collage.jpg" alt="Collage tecnico del sistema de sujecion">
+        <img loading="lazy" decoding="async" src="assets/prosthesis/prosthesis-overview-collage.jpg" alt="Collage tecnico del sistema de sujecion">
         <figcaption class="shot-caption">
           <strong>Vision del proyecto</strong>
           <span>CAD, simulacion y evidencia de comunicacion tecnica.</span>
@@ -2317,7 +2660,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/prosthesis/cad-link-front.png" alt="Vista frontal del eslabon del mecanismo">
+        <img loading="lazy" decoding="async" src="assets/prosthesis/cad-link-front.png" alt="Vista frontal del eslabon del mecanismo">
         <figcaption class="shot-caption">
           <strong>Eslabon principal</strong>
           <span>Geometria del componente de transmision y bloqueo.</span>
@@ -2325,7 +2668,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/prosthesis/cad-link-variant.png" alt="Variante CAD del eslabon del mecanismo">
+        <img loading="lazy" decoding="async" src="assets/prosthesis/cad-link-variant.png" alt="Variante CAD del eslabon del mecanismo">
         <figcaption class="shot-caption">
           <strong>Iteracion CAD</strong>
           <span>Revision de forma para montaje y sujecion.</span>
@@ -2333,7 +2676,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/prosthesis/fea-overview.png" alt="Mapa general de elemento finito del mecanismo">
+        <img loading="lazy" decoding="async" src="assets/prosthesis/fea-overview.png" alt="Mapa general de elemento finito del mecanismo">
         <figcaption class="shot-caption">
           <strong>Mapa general FEA</strong>
           <span>Distribucion de esfuerzo bajo carga de 50 N.</span>
@@ -2341,7 +2684,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/prosthesis/fea-clamp-stress.png" alt="Resultados de esfuerzo en la abrazadera">
+        <img loading="lazy" decoding="async" src="assets/prosthesis/fea-clamp-stress.png" alt="Resultados de esfuerzo en la abrazadera">
         <figcaption class="shot-caption">
           <strong>Abrazadera</strong>
           <span>Zona critica alrededor del contacto con el espejo dental.</span>
@@ -2349,7 +2692,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/prosthesis/fea-factor-safety.png" alt="Factor de seguridad del mecanismo">
+        <img loading="lazy" decoding="async" src="assets/prosthesis/fea-factor-safety.png" alt="Factor de seguridad del mecanismo">
         <figcaption class="shot-caption">
           <strong>Factor de seguridad</strong>
           <span>Minimo reportado cercano a 2.883 en el ensamble.</span>
@@ -2357,7 +2700,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/prosthesis/fea-fatigue-detail.png" alt="Analisis de fatiga en el mecanismo">
+        <img loading="lazy" decoding="async" src="assets/prosthesis/fea-fatigue-detail.png" alt="Analisis de fatiga en el mecanismo">
         <figcaption class="shot-caption">
           <strong>Fatiga local</strong>
           <span>Revision de ciclos y posible holgura en puntos de contacto.</span>
@@ -2365,7 +2708,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/prosthesis/ispo-summary-page.jpg" alt="Resumen tecnico del proyecto aceptado en ISPO">
+        <img loading="lazy" decoding="async" src="assets/prosthesis/ispo-summary-page.jpg" alt="Resumen tecnico del proyecto aceptado en ISPO">
         <figcaption class="shot-caption">
           <strong>Resumen ejecutivo</strong>
           <span>Documento tecnico con metodologia, resultados y conclusiones.</span>
@@ -2373,7 +2716,7 @@
       </figure>
 
       <figure class="shot medium compact">
-        <img src="assets/prosthesis/ispo-abstract-book.jpg" alt="Abstract book de ISPO 20th World Congress 2025">
+        <img loading="lazy" decoding="async" src="assets/prosthesis/ispo-abstract-book.jpg" alt="Abstract book de ISPO 20th World Congress 2025">
         <figcaption class="shot-caption">
           <strong>ISPO 2025</strong>
           <span>Contexto de publicacion internacional del proyecto.</span>
@@ -2426,7 +2769,7 @@
       <a class="artifact-card" href="assets/prosthesis/docs/Resumen_Ejecutivo_Protesis_Transradial.pdf" target="_blank" rel="noopener">
         <div class="card-header">
           <div class="card-icon">PDF</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Resumen ejecutivo</h3>
         <p class="card-desc">Documento tecnico con contexto, metodologia, simulacion, resultados y referencias del proyecto.</p>
@@ -2434,7 +2777,7 @@
       <a class="artifact-card" href="#prosthesis-fea">
         <div class="card-header">
           <div class="card-icon">FEA</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Validacion estructural</h3>
         <p class="card-desc">Lectura curada de esfuerzos, factor de seguridad, deformacion, fatiga y resultados de usuario.</p>
@@ -2442,7 +2785,7 @@
       <a class="artifact-card" href="#prosthesis-galeria">
         <div class="card-header">
           <div class="card-icon">IMG</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Galeria tecnica</h3>
         <p class="card-desc">Renders CAD, mapas de SolidWorks Simulation y evidencia de comunicacion internacional.</p>
@@ -2505,7 +2848,7 @@
             </div>
           </div>
           <div class="project-actions">
-            <a href="#globo-galeria" class="btn-primary">Ver evidencia -&gt;</a>
+            <a href="#globo-galeria" class="btn-primary">Ver evidencia →</a>
             <a href="#globo-stack" class="btn-outline">Ver stack tecnico</a>
           </div>
         </div>
@@ -2513,10 +2856,10 @@
 
       <div class="project-featured-visual" aria-label="Collage visual del proyecto globo aerostatico">
         <div class="visual-grid">
-          <img class="visual-main" src="assets/globo/Screenshot 2026-05-27 202156.png" alt="Vista isometrica CAD del globo aerostatico en SolidWorks">
+          <img loading="lazy" decoding="async" class="visual-main" src="assets/globo/globo-cad-isometric.png" alt="Vista isometrica CAD del globo aerostatico en SolidWorks">
           <div class="visual-stack">
-            <img class="visual-dashboard" src="assets/globo/WhatsApp Image 2026-05-27 at 8.05.03 PM (2).jpeg" alt="Prototipo fisico del globo aerostatico cortado en laser">
-            <img class="visual-dashboard" src="assets/globo/Screenshot 2026-05-27 202110.png" alt="Vista frontal del ensamble CAD del globo aerostatico">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/globo/globo-prototype-side.jpeg" alt="Prototipo fisico del globo aerostatico cortado en laser">
+            <img loading="lazy" decoding="async" class="visual-dashboard" src="assets/globo/globo-cad-front.png" alt="Vista frontal del ensamble CAD del globo aerostatico">
           </div>
         </div>
       </div>
@@ -2526,7 +2869,7 @@
       <div class="project-card">
         <div class="card-header">
           <div class="card-icon">CAD</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Modelado en SolidWorks</h3>
         <p class="card-desc">Diseno de piezas planas para obtener una estructura tridimensional. Se definieron relaciones geometricas, verificacion de coincidencia de piezas y generacion de planos 2D para corte laser.</p>
@@ -2540,7 +2883,7 @@
       <div class="project-card">
         <div class="card-header">
           <div class="card-icon">DXF</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Exportacion y corte laser</h3>
         <p class="card-desc">Planos exportados en formato DXF compatible con software de corte laser. Las geometrias planas respetan dimensiones, tolerancias y contornos disenados en CAD.</p>
@@ -2554,7 +2897,7 @@
       <div class="project-card">
         <div class="card-header">
           <div class="card-icon">SLOT</div>
-          <span class="card-arrow">-&gt;</span>
+          <span class="card-arrow">→</span>
         </div>
         <h3 class="card-title">Ensamble por encastre</h3>
         <p class="card-desc">Sistema slot-tab con pestanas, ranuras y cortes complementarios. Se consideraron espesor de material, tolerancia de corte, holgura de ensamble e interferencia suficiente para estabilidad sin adhesivos.</p>
@@ -2576,7 +2919,7 @@
 
     <div class="media-grid">
       <figure class="shot large compact">
-        <img src="assets/globo/Screenshot 2026-05-27 202156.png" alt="Vista isometrica del ensamble completo del globo aerostatico en SolidWorks">
+        <img loading="lazy" decoding="async" src="assets/globo/globo-cad-isometric.png" alt="Vista isometrica del ensamble completo del globo aerostatico en SolidWorks">
         <figcaption class="shot-caption">
           <strong>Ensamble CAD isometrico</strong>
           <span>Vista general del modelo con base, estructura central y costillas curvas.</span>
@@ -2584,7 +2927,7 @@
       </figure>
 
       <figure class="shot medium">
-        <img src="assets/globo/WhatsApp Image 2026-05-27 at 8.05.03 PM (2).jpeg" alt="Prototipo fisico del globo aerostatico cortado en laser, vista lateral">
+        <img loading="lazy" decoding="async" src="assets/globo/globo-prototype-side.jpeg" alt="Prototipo fisico del globo aerostatico cortado en laser, vista lateral">
         <figcaption class="shot-caption">
           <strong>Prototipo fisico</strong>
           <span>Modelo terminado en MDF, ensamblado sin tornillos ni adhesivos.</span>
@@ -2592,7 +2935,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/globo/Screenshot 2026-05-27 202110.png" alt="Vista frontal del ensamble CAD del globo con base y estructura central">
+        <img loading="lazy" decoding="async" src="assets/globo/globo-cad-front.png" alt="Vista frontal del ensamble CAD del globo con base y estructura central">
         <figcaption class="shot-caption">
           <strong>Vista frontal CAD</strong>
           <span>Globo, anillo decorativo, moño y estructura de soporte central.</span>
@@ -2600,7 +2943,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/globo/Screenshot 2026-05-27 202301.png" alt="Cuatro vistas del ensamble en SolidWorks: superior, frontal, lateral e isometrica">
+        <img loading="lazy" decoding="async" src="assets/globo/globo-cad-views.png" alt="Cuatro vistas del ensamble en SolidWorks: superior, frontal, lateral e isometrica">
         <figcaption class="shot-caption">
           <strong>Vistas multiples SolidWorks</strong>
           <span>Planta, frontal, lateral e isometrica del ensamble completo.</span>
@@ -2608,7 +2951,7 @@
       </figure>
 
       <figure class="shot medium">
-        <img src="assets/globo/WhatsApp Image 2026-05-27 at 8.05.03 PM (1).jpeg" alt="Detalle de la parte superior del prototipo fisico: pieza de cierre con dientes radiales">
+        <img loading="lazy" decoding="async" src="assets/globo/globo-prototype-top.jpeg" alt="Detalle de la parte superior del prototipo fisico: pieza de cierre con dientes radiales">
         <figcaption class="shot-caption">
           <strong>Detalle pieza de cierre</strong>
           <span>Corona superior con ranuras radiales que bloquean el extremo de las costillas.</span>
@@ -2616,7 +2959,7 @@
       </figure>
 
       <figure class="shot large compact">
-        <img src="assets/globo/WhatsApp Image 2026-05-27 at 8.05.03 PM.jpeg" alt="Vista frontal del prototipo fisico completo del globo aerostatico cortado en laser">
+        <img loading="lazy" decoding="async" src="assets/globo/globo-prototype-front.jpeg" alt="Vista frontal del prototipo fisico completo del globo aerostatico cortado en laser">
         <figcaption class="shot-caption">
           <strong>Modelo fisico completo</strong>
           <span>Resultado final del proceso: CAD → DXF → corte laser → ensamble por encastre.</span>
@@ -2624,7 +2967,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/globo/Screenshot 2026-05-27 202234.png" alt="Vista inferior del ensamble CAD mostrando la base decorativa del globo">
+        <img loading="lazy" decoding="async" src="assets/globo/globo-cad-bottom.png" alt="Vista inferior del ensamble CAD mostrando la base decorativa del globo">
         <figcaption class="shot-caption">
           <strong>Vista inferior CAD</strong>
           <span>Base estructural con anillos concentricos y ranuras de ensamble radiales.</span>
@@ -2632,7 +2975,7 @@
       </figure>
 
       <figure class="shot wide compact">
-        <img src="assets/globo/Screenshot 2026-05-27 201919.png" alt="Vista de planta del globo aerostatico en SolidWorks">
+        <img loading="lazy" decoding="async" src="assets/globo/globo-cad-top.png" alt="Vista de planta del globo aerostatico en SolidWorks">
         <figcaption class="shot-caption">
           <strong>Vista superior CAD</strong>
           <span>Forma triangular-organica de la base y disposicion radial de la estructura.</span>
@@ -2682,13 +3025,29 @@
     </div>
   </section>
 
+  <div class="project-pager project-view" role="navigation" aria-label="Proyecto anterior y siguiente">
+    <a class="pager-link pager-prev" id="pagerPrev" href="#proyectos">
+      <span class="pager-label">← Proyecto anterior</span>
+      <span class="pager-title" id="pagerPrevTitle">&nbsp;</span>
+    </a>
+    <a class="pager-link pager-next" id="pagerNext" href="#proyectos">
+      <span class="pager-label">Siguiente proyecto →</span>
+      <span class="pager-title" id="pagerNextTitle">&nbsp;</span>
+    </a>
+  </div>
+
   <section id="contacto" class="contact-wrap">
     <div class="contact-left">
+      <div class="section-tag">// Contacto</div>
       <h2>
         <span class="muted">Hablemos de</span><br>
         automatizacion,<br>prototipos o IoT.
       </h2>
-      <a href="mailto:maldonado.zamudio.arith@gmail.com" class="btn-primary" style="margin-top:2rem;display:inline-flex">Enviar correo -&gt;</a>
+      <p class="contact-note">Abierto a roles de diseño mecánico, automatización y desarrollo de producto. El camino más rápido es un correo.</p>
+      <div class="hero-ctas">
+        <a href="mailto:maldonado.zamudio.arith@gmail.com" class="btn-primary">Enviar correo →</a>
+        <a href="https://www.linkedin.com/in/arith-maldonado-zamudio-4038262b5" target="_blank" rel="noopener" class="btn-outline">LinkedIn</a>
+      </div>
     </div>
     <div class="contact-right">
       <a href="mailto:maldonado.zamudio.arith@gmail.com" class="contact-item">
@@ -2701,13 +3060,10 @@
         <strong>GitHub</strong> /aritmaldzamu
       </a>
       <a href="assets/docs/CV_Arith_Maldonado_2026.pdf" class="contact-item cv-download-link" target="_blank" rel="noopener">
-        <strong>CV</strong> Automation Intern profile
-      </a>
-      <a href="https://aritmaldzamu.github.io/xgio-monorep/" class="contact-item" target="_blank" rel="noopener">
-        <strong>Docs</strong> xgio-monorep
+        <strong>CV</strong> Currículum en PDF
       </a>
       <span class="contact-item">
-        <strong>Ubicacion</strong> Puebla, Mexico
+        <strong>Ubicacion</strong> Nuevo León, México
       </span>
     </div>
   </section>
@@ -2718,11 +3074,20 @@
   <div class="footer-links">
     <a href="https://github.com/aritmaldzamu" target="_blank" rel="noopener">GitHub</a>
     <a href="https://www.linkedin.com/in/arith-maldonado-zamudio-4038262b5" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://github.com/aritmaldzamu/xgio-monorep" target="_blank" rel="noopener">XGIO</a>
+    <a href="mailto:maldonado.zamudio.arith@gmail.com">Email</a>
     <a href="assets/docs/CV_Arith_Maldonado_2026.pdf" target="_blank" rel="noopener" class="cv-download-link">CV</a>
+    <a href="#home" data-view="home">Volver arriba ↑</a>
   </div>
-  <div class="footer-copy">2026 - Arith Maldonado Zamudio</div>
+  <div class="footer-copy">© 2026 Arith Maldonado Zamudio</div>
 </footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vista ampliada" hidden>
+  <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Cerrar">×</button>
+  <figure class="lightbox-figure">
+    <img id="lightboxImg" src="data:," alt="">
+    <figcaption id="lightboxCaption"></figcaption>
+  </figure>
+</div>
 
 <script>
   const manualTranslations = {
@@ -2737,7 +3102,7 @@
       'mecatronica,': 'mechatronics,',
       'biomedica y prototipos.': 'biomedical engineering, and prototypes.',
       'Estudiante de Ingenieria Mecatronica e Ingeniero Biomedico con mencion honorifica. Construyo sistemas donde conviven software, hardware, CAD, automatizacion, vision por computadora y datos reales.': 'Mechatronics Engineering student and Biomedical Engineer with honors. I build systems that bring together software, hardware, CAD, automation, computer vision, and real-world data.',
-      'Conocer perfil ->': 'View profile ->',
+      'Conocer perfil →': 'View profile →',
       'Descargar CV': 'Download CV',
       '// Sobre mi': '// About',
       'Ingenieria aplicada': 'Applied engineering',
@@ -2769,6 +3134,7 @@
       '// Catalogo de proyectos': '// Project Catalog',
       'Proyectos construidos': 'Projects built',
       'con evidencia real': 'with real evidence',
+      'Seis casos de estudio de ingeniería. Cada ficha incluye el reto, las decisiones técnicas, evidencia visual (CAD, simulación, prototipos y demos), el stack y documentos o código descargables.': 'Six engineering case studies. Each one covers the challenge, the technical decisions, visual evidence (CAD, simulation, prototypes, and demos), the stack, and downloadable documents or code.',
       'Esta seccion crecera como un catalogo profesional: cada tarjeta resume un proyecto con una imagen, una descripcion corta y acceso a su ficha completa con detalles, stack, repositorio, documentos e imagenes.': 'This section is structured as a professional catalog: each card summarizes a project with an image, a short description, and access to a complete case study with details, stack, repository, documents, and images.',
       'App movil, dashboard web, backend GPS, firmware ESP32, documentacion y prototipo mecanico para un baston inteligente.': 'Mobile app, web dashboard, GPS backend, ESP32 firmware, documentation, and mechanical prototype for a smart cane.',
       'Control discreto · PID · Prototipo': 'Discrete Control · PID · Prototype',
@@ -2776,12 +3142,12 @@
       'Vision · ESP32 · PID/PD': 'Vision · ESP32 · PID/PD',
       'Plataforma con tres brazos que centra una pelota usando OpenCV, Bluetooth, ESP32 y control realimentado.': 'Three-arm platform that centers a ball using OpenCV, Bluetooth, ESP32, and feedback control.',
       'Habitacion inteligente con Raspberry Pi 5, sensores, actuadores, vision por camara, dashboard local y app FlutterFlow.': 'Smart room with Raspberry Pi 5, sensors, actuators, camera-based vision, local dashboard, and FlutterFlow app.',
-      'Biomecanica / FEA / ISPO 2025': 'Biomechanics / FEA / ISPO 2025',
+      'Biomecanica · FEA · ISPO 2025': 'Biomechanics · FEA · ISPO 2025',
       'Rediseno y validacion de un sistema de sujecion de herramientas odontologicas para una protesis transradial.': 'Redesign and validation of a dental tool holder system for a transradial prosthesis.',
       '// Proyecto 01': '// Project 01',
       'XGIO: Sistema de Rastreo GPS': 'XGIO: GPS Tracking System',
       'para Baston Inteligente': 'for a Smart Cane',
-      'Primer proyecto publicado en este portafolio. XGIO muestra mi forma de trabajar: integrar app movil, dashboard web, backend geoespacial, firmware, CAD, prototipo fisico y documentacion tecnica en un solo ecosistema funcional.': 'The first project published in this portfolio. XGIO shows how I work: integrating a mobile app, web dashboard, geospatial backend, firmware, CAD, physical prototype, and technical documentation into one functional ecosystem.',
+      'XGIO muestra mi forma de trabajar: integrar app movil, dashboard web, backend geoespacial, firmware, CAD, prototipo fisico y documentacion tecnica en un solo ecosistema funcional.': 'XGIO shows how I work: integrating a mobile app, web dashboard, geospatial backend, firmware, CAD, physical prototype, and technical documentation into one functional ecosystem.',
       'Que resolvi': 'What I Solved',
       'El reto fue convertir un baston inteligente en un sistema completo de seguimiento: registrar ubicacion, limpiar ruido del GPS, mostrar rutas en tiempo real, alertar eventos criticos y dejar evidencia tecnica suficiente para que el proyecto pudiera revisarse, instalarse y evolucionar.': 'The challenge was turning a smart cane into a complete tracking system: recording location, cleaning GPS noise, displaying routes in real time, alerting critical events, and leaving enough technical evidence for the project to be reviewed, installed, and evolved.',
       'Resultado integrado': 'Integrated Result',
@@ -2798,7 +3164,7 @@
       'XGIO integra un baston inteligente con GPS, deteccion de caidas, boton S.O.S, app para cuidadores, panel administrativo y procesamiento de rutas. El repositorio documenta codigo, pruebas, renders CAD, prototipos impresos, reportes tecnicos y despliegue.': 'XGIO integrates a smart cane with GPS, fall detection, S.O.S button, caregiver app, admin dashboard, and route processing. The repository documents code, tests, CAD renders, printed prototypes, technical reports, and deployment.',
       'Modulos del repo': 'Repository Modules',
       'Filtro GPS': 'GPS Filter',
-      'Ver repositorio ->': 'View repository ->',
+      'Ver repositorio →': 'View repository →',
       'Ver evidencia': 'View evidence',
       'Aplicacion movil para cuidadores': 'Mobile App for Caregivers',
       'React Native y Expo con roles, mapas, historial de rutas, estado del baston, Bluetooth y alertas criticas por S.O.S o caida.': 'React Native and Expo with roles, maps, route history, cane status, Bluetooth, and critical alerts for S.O.S or fall events.',
@@ -2879,7 +3245,7 @@
       'limite actuador': 'actuator limit',
       'Banco de pruebas para estudiar estabilizacion, ruido de sensor y accion derivativa.': 'Test bench for studying stabilization, sensor noise, and derivative action.',
       'El sistema usa una barra articulada, una esfera como masa movil, sensor de posicion y actuacion con motor paso a paso. Se desarrollaron variantes del controlador para evaluar filtros EMA, filtro pasa-altas en la derivada, compensacion proporcional modificada e integracion trapezoidal.': 'The system uses an articulated beam, a ball as the moving mass, a position sensor, and stepper-motor actuation. Controller variants were developed to evaluate EMA filters, high-pass derivative filtering, modified proportional compensation, and trapezoidal integration.',
-      'Ver control ->': 'View control ->',
+      'Ver control →': 'View control →',
       '// Control discreto': '// Discrete Control',
       'PID digital, filtros': 'Digital PID, filters',
       'y aproximaciones numericas': 'and numerical approximations',
@@ -2944,7 +3310,7 @@
       'El proyecto combina CAD en SolidWorks, firmware embebido, comunicacion Bluetooth y procesamiento de imagen. El firmware recibe comandos `ANG:izq,der,vert`, suaviza los cambios con una rampa y regresa al centro si se pierde la pelota o se interrumpe la comunicacion.': 'The project combines SolidWorks CAD, embedded firmware, Bluetooth communication, and image processing. The firmware receives `ANG:izq,der,vert` commands, smooths changes with a ramp, and returns to center if the ball is lost or communication is interrupted.',
       'control': 'control',
       'mecanica': 'mechanics',
-      'Ver demos ->': 'View demos ->',
+      'Ver demos →': 'View demos →',
       'Ver control': 'View control',
       '// Vision y control': '// Vision and Control',
       'Del centro visual': 'From visual center',
@@ -3003,7 +3369,7 @@
       'Sistema local-remoto para observar una habitacion y accionar ventilacion/cortina.': 'Local-remote system for monitoring a room and controlling ventilation and a curtain.',
       'El dashboard corre en Raspberry Pi 5, lee movimiento mediante PIR, controla LED y ventiladores con relevadores active-low, mueve una cortina con L298N y consulta temperatura exterior por Open-Meteo. Firestore funciona como puente para historial, estado actual y comandos desde FlutterFlow.': 'The dashboard runs on a Raspberry Pi 5, reads movement through PIR, controls an LED and fans with active-low relays, moves a curtain with L298N, and queries outdoor temperature through Open-Meteo. Firestore acts as the bridge for history, current state, and commands from FlutterFlow.',
       'relevadores': 'relays',
-      'Ver arquitectura ->': 'View architecture ->',
+      'Ver arquitectura →': 'View architecture →',
       '// Arquitectura IoT': '// IoT Architecture',
       'Sensores, actuadores,': 'Sensors, actuators,',
       'nube y app remota': 'cloud, and remote app',
@@ -3070,7 +3436,7 @@
       'servicio': 'service',
       'Un adaptador odontologico validado con simulacion y retroalimentacion del usuario.': 'A dental adapter validated with simulation and user feedback.',
       'El trabajo se centro en convertir necesidades clinicas y ergonomicas en un mecanismo imprimible, ensamblable y verificable. La simulacion reviso concentraciones de esfuerzo en abrazadera, tornillos, eslabones y eje principal para confirmar que el sistema trabajara por debajo de los limites de material.': 'The work focused on converting clinical and ergonomic needs into a printable, assemblable, and verifiable mechanism. The simulation reviewed stress concentrations in the clamp, screws, links, and main shaft to confirm that the system would work below material limits.',
-      'Ver validacion ->': 'View validation ->',
+      'Ver validacion →': 'View validation →',
       '// Validacion por elemento finito': '// Finite Element Validation',
       'Esfuerzo, seguridad': 'Stress, safety',
       'y vida de uso': 'and service life',
@@ -3130,7 +3496,7 @@
       'Hablemos de': "Let's talk about",
       'automatizacion,': 'automation,',
       'prototipos o IoT.': 'prototypes, or IoT.',
-      'Enviar correo ->': 'Send email ->',
+      'Enviar correo →': 'Send email →',
       'Ubicacion': 'Location',
       '// Proyecto 06': '// Project 06',
       'Globo aerostatico cortado': 'Laser-Cut Hot Air Balloon',
@@ -3153,7 +3519,7 @@
       'El modelo esta compuesto por una base estructural con paredes ranuradas, una zona de transicion central, un anillo principal y costillas curvas distribuidas radialmente que simulan la envolvente del globo. La pieza superior de cierre unifica los extremos de las costillas con dientes radiales, bloqueando la geometria sin elementos de sujecion externos.': 'The model consists of a structural base with slotted walls, a central transition zone, a main ring, and radially distributed curved ribs that simulate the balloon envelope. The top closure piece unifies the rib ends with radial teeth, locking the geometry without any external fastening elements.',
       'Formato de corte': 'Cut Format',
       'Herramienta CAD': 'CAD Tool',
-      'Ver evidencia ->': 'View evidence ->',
+      'Ver evidencia →': 'View evidence →',
       'Ver stack tecnico': 'View technical stack',
       'Collage visual del proyecto globo aerostatico': 'Visual collage of the hot air balloon project',
       'Componentes principales del proyecto': 'Main project components',
@@ -3197,11 +3563,118 @@
       'Uniones mecanicas por encastre, presion e interferencia calculada. Se consideraron espesor real, holgura de ensamble, tolerancia de corte y orientacion de insercion.': 'Mechanical interlocking joints with calculated press-fit and interference. Actual thickness, assembly clearance, cut tolerance, and insertion orientation were all considered.',
       'Diseno para manufactura': 'Design for Manufacturing',
       'Cada pieza fue pensada para que su forma 3D final resultara de la interseccion de elementos 2D planos, integrando estetica y funcionalidad estructural.': 'Each piece was designed so that its final 3D shape would result from the intersection of flat 2D elements, integrating aesthetics with structural functionality.',
-      'CAD / Corte laser / Encastre': 'CAD / Laser Cutting / Interlocking',
+      'CAD · Corte laser · Encastre': 'CAD · Laser Cutting · Interlocking',
       'Modelo decorativo y estructural de un globo aerostatico fabricado por corte laser, ensamblado unicamente mediante uniones por encastre sin tornillos.': 'Decorative and structural hot air balloon model manufactured by laser cutting, assembled exclusively through interlocking joints without screws.',
-      'Prototipo fisico del globo aerostatico cortado en laser': 'Physical prototype of the laser-cut hot air balloon'
+      'Prototipo fisico del globo aerostatico cortado en laser': 'Physical prototype of the laser-cut hot air balloon',
+      'Saltar al contenido': 'Skip to content',
+      'Disponible para roles de ingeniería y prácticas': 'Open to engineering roles and internships',
+      'Ver proyectos →': 'View projects →',
+      'Proyectos documentados': 'Documented projects',
+      'Certificaciones técnicas': 'Technical certifications',
+      'Promedio general / 10': 'GPA / 10',
+      'Formación': 'Education',
+      'Dic 2026 (esperado)': 'Dec 2026 (expected)',
+      'Ingeniería Mecatrónica': 'B.Eng. Mechatronics Engineering',
+      'Universidad Iberoamericana Puebla · Promedio 9.1/10': 'Universidad Iberoamericana Puebla · GPA 9.1/10',
+      'Ingeniería Biomédica · Mención honorífica': 'B.Eng. Biomedical Engineering · Honors Mention',
+      'Universidad Iberoamericana Puebla · Biomecánica, dispositivos médicos y FEA': 'Universidad Iberoamericana Puebla · Biomechanics, medical devices, and FEA',
+      'Jul – Dic 2024': 'Jul – Dec 2024',
+      'Especialista técnico y de aplicaciones de equipo médico': 'Medical Equipment Technical & Applications Specialist',
+      'Punto Focal Equipo Médico · Puebla, México': 'Punto Focal Equipo Médico · Puebla, Mexico',
+      'Más de 15 casos de ultrasonido gestionados: reportes técnicos, seguimiento a clientes, garantías y diagnóstico.': 'Managed 15+ ultrasound-related cases: technical reports, client follow-up, warranty processing, and diagnostics.',
+      'Identifiqué un reemplazo funcional para una fuente de poder médica, reduciendo el costo para el cliente de ~MXN $15,000 a ~MXN $1,500.': 'Identified a functional replacement for a medical power supply, cutting the client cost from ~MXN $15,000 to ~MXN $1,500.',
+      'Capacitaciones técnicas y demostraciones de producto para médicos, técnicos y clientes.': 'Delivered technical training and product demonstrations to physicians, technicians, and clients.',
+      'Manufactura': 'Manufacturing',
+      'Planos y BOMs': 'Drawings & BOMs',
+      'Impresión 3D': '3D printing',
+      'Corte láser': 'Laser cutting',
+      'Torno y fresadora': 'Lathe & milling',
+      'Control y embebidos': 'Control & embedded',
+      'PID discreto': 'Discrete PID',
+      'Software y datos': 'Software & data',
+      'Idiomas': 'Languages',
+      'Español nativo': 'Native Spanish',
+      'Inglés B2 (EF SET)': 'English B2 (EF SET)',
+      'Alemán A2': 'German A2',
+      '← Todos los proyectos': '← All projects',
+      '01 · Prótesis': '01 · Prosthesis',
+      '06 · Globo': '06 · Balloon',
+      '← Proyecto anterior': '← Previous project',
+      'Siguiente proyecto →': 'Next project →',
+      '// Contacto': '// Contact',
+      'Abierto a roles de diseño mecánico, automatización y desarrollo de producto. El camino más rápido es un correo.': 'Open to mechanical design, automation, and product development roles. Email is the fastest way to reach me.',
+      'Currículum en PDF': 'Résumé (PDF)',
+      'Nuevo León, México': 'Nuevo León, Mexico',
+      'Volver arriba ↑': 'Back to top ↑',
+      'Corte laser': 'Laser cutting',
+      'Ensamble': 'Assembly',
+      'Planos 2D': '2D drawings',
+      'Tolerancias': 'Tolerances'
     },
     attr: {
+      'Abrir menú': 'Open menu',
+      'Habilidades técnicas': 'Technical skills',
+      'Navegacion de proyectos': 'Project navigation',
+      'Proyecto anterior y siguiente': 'Previous and next project',
+      'Vista ampliada': 'Enlarged view',
+      'Cerrar': 'Close',
+      'Certificado SOLIDWORKS CAD Design Associate': 'SOLIDWORKS CAD Design Associate certificate',
+      'Certificado SOLIDWORKS Simulation Associate': 'SOLIDWORKS Simulation Associate certificate',
+      'Certificado SOLIDWORKS Additive Manufacturing Associate': 'SOLIDWORKS Additive Manufacturing Associate certificate',
+      'Certificado profesional Google Project Management en Coursera': 'Google Project Management professional certificate on Coursera',
+      'Credencial Google Project Management Professional Certificate': 'Google Project Management Professional Certificate credential',
+      'Certificado Siemens Basics of Robotics en Coursera': 'Siemens Basics of Robotics certificate on Coursera',
+      'Certificado Siemens Expedite Skills for Industry Industry Foundation en Coursera': 'Siemens Expedite Skills for Industry: Industry Foundation certificate on Coursera',
+      'Mencion honorifica por Licenciatura en Ingenieria Biomedica': 'Honorable mention for the Biomedical Engineering degree',
+      'Collage visual del proyecto XGIO': 'Visual collage of the XGIO project',
+      'Diseno CAD del baston inteligente XGIO': 'CAD design of the XGIO smart cane',
+      'Dashboard de metricas XGIO': 'XGIO metrics dashboard',
+      'Mapa de recorrido en la app XGIO': 'Route map in the XGIO app',
+      'Modulos principales del proyecto': 'Main project modules',
+      'Panel de administracion con metricas globales': 'Admin panel with global metrics',
+      'Pantalla de inicio de la app XGIO': 'XGIO app home screen',
+      'Modelo final de carcasa en SolidWorks': 'Final enclosure model in SolidWorks',
+      'Polilineas limpias del GPS filtradas a 2.5 m/s': 'Clean GPS polylines filtered at 2.5 m/s',
+      'Alerta SOS en la aplicacion': 'SOS alert in the app',
+      'Prototipo impreso de la carcasa del baston': '3D-printed prototype of the cane enclosure',
+      'Collage visual del proyecto Ball and Beam': 'Visual collage of the Ball and Beam project',
+      'Respuesta simulada del controlador PID discreto': 'Simulated response of the discrete PID controller',
+      'Vista lateral final del sistema Ball and Beam': 'Final side view of the Ball and Beam system',
+      'Vista lateral final del Ball and Beam': 'Final side view of the Ball and Beam',
+      'Vista posterior final del Ball and Beam': 'Final rear view of the Ball and Beam',
+      'Grafica de respuesta del controlador PID discreto': 'Response plot of the discrete PID controller',
+      'Tabla de resultados de simulacion': 'Simulation results table',
+      'Vistas CAD de la plataforma 3DOF para balanceo de pelota': 'CAD views of the 3DOF ball-balancing platform',
+      'Vista CAD principal de la plataforma 3DOF': 'Main CAD view of the 3DOF platform',
+      'Vista lateral del ensamble 3DOF': 'Side view of the 3DOF assembly',
+      'Detalle del mecanismo de tres brazos': 'Detail of the three-arm mechanism',
+      'Vista CAD del ensamble completo de la plataforma 3DOF': 'CAD view of the complete 3DOF platform assembly',
+      'Detalle CAD de brazo o componente de la plataforma 3DOF': 'CAD detail of an arm component of the 3DOF platform',
+      'Collage visual del proyecto Somnus': 'Visual collage of the Somnus project',
+      'Landing SleepSense del proyecto Somnus': 'SleepSense landing page for the Somnus project',
+      'Dashboard local Somnus en monitor': 'Somnus local dashboard on a monitor',
+      'Prototipo fisico Somnus': 'Somnus physical prototype',
+      'Vista general del prototipo fisico Somnus': 'Overview of the Somnus physical prototype',
+      'Electronica del prototipo Somnus': 'Somnus prototype electronics',
+      'Interior de la habitacion inteligente Somnus': 'Interior of the Somnus smart room',
+      'Firestore conectado con Somnus': 'Firestore connected to Somnus',
+      'Dashboard local Somnus en pantalla': 'Somnus local dashboard on screen',
+      'Storyboard FlutterFlow de la app Somnus': 'FlutterFlow storyboard of the Somnus app',
+      'Collage visual del sistema de sujecion para protesis transradial': 'Visual collage of the transradial prosthesis holder system',
+      'Collage tecnico del mecanismo y simulacion para protesis transradial': 'Technical collage of the mechanism and simulation for the transradial prosthesis',
+      'Ensamble CAD del mecanismo de sujecion para protesis transradial': 'CAD assembly of the transradial prosthesis holder mechanism',
+      'Mapa de esfuerzo general del sistema de sujecion': 'Overall stress map of the holder system',
+      'Collage tecnico del sistema de sujecion': 'Technical collage of the holder system',
+      'Vista frontal del eslabon del mecanismo': 'Front view of the mechanism link',
+      'Variante CAD del eslabon del mecanismo': 'CAD variant of the mechanism link',
+      'Mapa general de elemento finito del mecanismo': 'Overall finite element map of the mechanism',
+      'Resultados de esfuerzo en la abrazadera': 'Stress results on the clamp',
+      'Factor de seguridad del mecanismo': 'Factor of safety of the mechanism',
+      'Analisis de fatiga en el mecanismo': 'Fatigue analysis of the mechanism',
+      'Resumen tecnico del proyecto aceptado en ISPO': 'Technical summary of the project accepted at ISPO',
+      'Abstract book de ISPO 20th World Congress 2025': 'ISPO 20th World Congress 2025 abstract book',
+      'Vista frontal del ensamble CAD del globo aerostatico': 'Front view of the hot air balloon CAD assembly',
+      'Vista isometrica del ensamble completo del globo aerostatico en SolidWorks': 'Isometric view of the complete hot air balloon assembly in SolidWorks',
       'Foto y resumen de Arith Maldonado Zamudio': 'Photo and summary of Arith Maldonado Zamudio',
       'Certificaciones de Arith Maldonado Zamudio': 'Certifications of Arith Maldonado Zamudio',
       'Catalogo de proyectos de Arith': 'Arith project catalog',
@@ -3230,14 +3703,14 @@
 
   const spanishExactCorrections = {
     'Home': 'Inicio',
-    'CV ->': 'CV →',
+    'CV →': 'CV →',
     'Disponible para practicas y proyectos tecnicos': 'Disponible para prácticas y proyectos técnicos',
     'Arith Maldonado,': 'Arith Maldonado:',
     'mecatronica,': 'mecatrónica,',
     'biomedica y prototipos.': 'ingeniería biomédica y prototipos.',
     'Mechatronics Engineering student · Biomedical Engineer · GPA 9.1/10': 'Estudiante de Ingeniería Mecatrónica · Ingeniero Biomédico · Promedio 9.1/10',
-    'Conocer perfil ->': 'Conocer perfil →',
-    'Enviar correo ->': 'Enviar correo →',
+    'Conocer perfil →': 'Conocer perfil →',
+    'Enviar correo →': 'Enviar correo →',
     'Backend elimina lecturas anomalias por velocidad peatonal.': 'Backend elimina lecturas anómalas por velocidad peatonal.',
     'PIR GPIO24 · LED GPIO12 · Relays GPIO17/27': 'PIR GPIO24 · LED GPIO12 · Relés GPIO17/27',
     '# ventiladores active-low': '# ventiladores active-low',
@@ -3248,8 +3721,8 @@
     'QUEST 2.0: dispositivo = 4.8; servicio = 5; satisfaccion = 5': 'QUEST 2.0: dispositivo = 4.8; servicio = 5; satisfacción = 5',
     'Automation Intern profile': 'Perfil Automation Intern',
     'Puebla, Mexico': 'Puebla, México',
-    'CV ->': 'CV →',
-    '->': '→'
+    'CV →': 'CV →',
+    '→': '→'
   };
 
   const spanishWordCorrections = [
@@ -3488,8 +3961,8 @@
     const toggle = document.getElementById('languageToggle');
     if (toggle) {
       toggle.textContent = language === 'en' ? 'ES' : 'EN';
-      toggle.setAttribute('aria-label', language === 'en' ? 'Cambiar a espanol' : 'Switch to English');
-      toggle.setAttribute('title', language === 'en' ? 'Cambiar a espanol' : 'Switch to English');
+      toggle.setAttribute('aria-label', language === 'en' ? 'Cambiar a español' : 'Switch to English');
+      toggle.setAttribute('title', language === 'en' ? 'Cambiar a español' : 'Switch to English');
     }
 
     const cvPath = language === 'en' ? 'assets/docs/Resume_Arith_Maldonado_2026.pdf' : 'assets/docs/CV_Arith_Maldonado_2026.pdf';
@@ -3498,12 +3971,22 @@
     });
   }
 
+  function readStoredLanguage() {
+    try { return localStorage.getItem('portfolio-lang'); } catch (error) { return null; }
+  }
+
+  function storeLanguage(language) {
+    try { localStorage.setItem('portfolio-lang', language); } catch (error) { /* storage unavailable */ }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    applyLanguage('en');
+    applyLanguage(readStoredLanguage() === 'es' ? 'es' : 'en');
     const toggle = document.getElementById('languageToggle');
     if (toggle) {
       toggle.addEventListener('click', () => {
-        applyLanguage(activeLanguage === 'en' ? 'es' : 'en');
+        const next = activeLanguage === 'en' ? 'es' : 'en';
+        applyLanguage(next);
+        storeLanguage(next);
       });
     }
   });
@@ -3560,11 +4043,39 @@
     'globo-stack': 'globo'
   };
 
+  const projectOrder = ['prosthesis', '3dof', 'ball-beam', 'xgio', 'somnus', 'globo'];
+
+  function projectTitle(project) {
+    const card = document.querySelector(`.catalog-card[href="#${project}"] .catalog-title`);
+    return card ? card.textContent.trim() : project;
+  }
+
+  function updateProjectNav(project) {
+    document.querySelectorAll('.project-tabs a').forEach((tab) => {
+      const isActive = tab.dataset.tab === project;
+      tab.classList.toggle('active', isActive);
+      if (isActive) {
+        tab.setAttribute('aria-current', 'page');
+        tab.scrollIntoView({ block: 'nearest', inline: 'center' });
+      } else {
+        tab.removeAttribute('aria-current');
+      }
+    });
+    const index = projectOrder.indexOf(project);
+    if (index < 0) return;
+    const prev = projectOrder[(index - 1 + projectOrder.length) % projectOrder.length];
+    const next = projectOrder[(index + 1) % projectOrder.length];
+    document.getElementById('pagerPrev').href = `#${prev}`;
+    document.getElementById('pagerNext').href = `#${next}`;
+    document.getElementById('pagerPrevTitle').textContent = projectTitle(prev);
+    document.getElementById('pagerNextTitle').textContent = projectTitle(next);
+  }
+
   function setView(view, project = '') {
-    document.body.classList.toggle('projects-open', view === 'projects');
     document.body.classList.toggle('detail-open', view === 'detail');
     if (project) {
       document.body.dataset.project = project;
+      updateProjectNav(project);
     } else {
       document.body.removeAttribute('data-project');
     }
@@ -3572,12 +4083,12 @@
 
   function applyViewFromHash() {
     const id = window.location.hash.replace('#', '');
-    if (id === 'proyectos') {
-      setView('projects');
-      scheduleScrollToHashTarget();
+    const isDetail = projectDetailIds.has(id);
+    setView(isDetail ? 'detail' : 'home', projectBySection[id] || '');
+    if (isDetail && id === projectBySection[id]) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
       return;
     }
-    setView(projectDetailIds.has(id) ? 'detail' : 'home', projectBySection[id] || '');
     scheduleScrollToHashTarget();
   }
 
@@ -3601,6 +4112,98 @@
       setView(link.dataset.view);
     });
   });
+
+  // Mobile menu
+  const siteNav = document.getElementById('siteNav');
+  const navMenu = document.getElementById('navMenu');
+  function setMenu(open) {
+    siteNav.classList.toggle('menu-open', open);
+    navMenu.setAttribute('aria-expanded', String(open));
+  }
+  navMenu.addEventListener('click', () => setMenu(!siteNav.classList.contains('menu-open')));
+  document.querySelectorAll('#navLinks a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+
+  // Highlight the home section currently in view
+  const navSections = ['sobre-mi', 'proyectos', 'certificaciones', 'contacto']
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  if ('IntersectionObserver' in window) {
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        document.querySelectorAll('#navLinks a').forEach((link) => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+        });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    navSections.forEach((section) => navObserver.observe(section));
+  }
+
+  // Lightbox for gallery images, featured collages and certificates
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  let lightboxTrigger = null;
+  function openLightbox(src, caption, trigger) {
+    lightboxImg.src = src;
+    lightboxImg.alt = caption;
+    lightboxCaption.textContent = caption;
+    lightboxTrigger = trigger;
+    lightbox.hidden = false;
+    document.body.classList.add('lightbox-open');
+    document.getElementById('lightboxClose').focus();
+  }
+  function closeLightbox() {
+    if (lightbox.hidden) return;
+    lightbox.hidden = true;
+    lightboxImg.src = 'data:,';
+    document.body.classList.remove('lightbox-open');
+    if (lightboxTrigger) lightboxTrigger.focus();
+  }
+  document.querySelectorAll('.shot img, .visual-grid img').forEach((img) => {
+    img.tabIndex = 0;
+    const open = () => {
+      const caption = img.closest('figure')?.querySelector('figcaption strong')?.textContent || img.alt;
+      openLightbox(img.currentSrc || img.src, caption, img);
+    };
+    img.addEventListener('click', open);
+    img.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); }
+    });
+  });
+  document.querySelectorAll('.cert-card').forEach((card) => {
+    card.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+      event.preventDefault();
+      openLightbox(card.href, card.querySelector('.cert-title').textContent, card);
+    });
+  });
+  lightbox.addEventListener('click', (event) => {
+    if (event.target !== lightboxImg) closeLightbox();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') { closeLightbox(); setMenu(false); }
+  });
+
+  // Subtle reveal-on-scroll
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('js-reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const element = entry.target;
+        element.classList.add('is-visible');
+        revealObserver.unobserve(element);
+        // Drop the reveal classes afterwards so hover transforms keep working
+        setTimeout(() => element.classList.remove('reveal', 'is-visible'), 700);
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.catalog-card, .cert-card, .shot, .stack-card, .control-card, .artifact-card, .project-card, .summary-panel, .about-panel, .skill-group, .project-featured, .repo-card')
+      .forEach((element) => {
+        element.classList.add('reveal');
+        revealObserver.observe(element);
+      });
+  }
 
   window.addEventListener('hashchange', applyViewFromHash);
   window.addEventListener('load', scheduleScrollToHashTarget);

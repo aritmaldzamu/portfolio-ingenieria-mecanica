@@ -29,6 +29,14 @@ Este documento resume el estado del portafolio para continuar el trabajo en otra
 - Se implementó idioma inglés por defecto con botón manual `ES/EN`.
 - Se hizo revisión editorial de ortografía y traducción en inglés/español.
 
+## Estructura de la página
+
+- Inicio (una sola página): Hero con cifras clave → Sobre mí (formación, experiencia, habilidades) → Catálogo de proyectos → Certificaciones → Contacto.
+- Las fichas de proyecto (`.project-detail`) se muestran solo cuando el hash apunta a un proyecto; incluyen barra superior con pestañas (`.project-bar`) y navegación anterior/siguiente (`.project-pager`).
+- Las imágenes de galerías, collages y certificados se abren en un visor (lightbox) al hacer clic.
+- El idioma elegido se recuerda en `localStorage`.
+- El texto nuevo puede escribirse en español con acentos directamente en el HTML; la clave en `manualTranslations.text` debe ser idéntica al texto del HTML.
+
 ## Arquitectura del sitio
 
 El sitio no usa framework. Todo vive en `index.html`:
@@ -78,6 +86,15 @@ No usar Google Translate ni traducción automática para el contenido profesiona
    ```js
    const projectDetailIds = new Set([...]);
    const projectBySection = { ... };
+   const projectOrder = [...]; // orden para "Proyecto anterior / siguiente"
+   ```
+
+   Y en el CSS, agregar el selector `body.detail-open[data-project="<id>"] .project-detail[data-project="<id>"]`.
+
+   Agregar también una pestaña en `.project-tabs` (barra superior de las fichas):
+
+   ```html
+   <a href="#<id-del-proyecto>" data-tab="<id-del-proyecto>">07 · Nombre</a>
    ```
 
 6. Agregar traducciones manuales al objeto `manualTranslations.text`.
