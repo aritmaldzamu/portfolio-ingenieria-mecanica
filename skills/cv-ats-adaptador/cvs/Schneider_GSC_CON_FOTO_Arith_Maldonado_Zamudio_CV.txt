@@ -1,0 +1,51 @@
+Arith Maldonado Zamudio
+Mechatronics & Biomedical Engineer | Schneider Development Program – Global Supply Chain
+Puebla, Mexico · Open to relocation in Mexico | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+LinkedIn: linkedin.com/in/arith-maldonado-zamudio-4038262b5
+Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+SUMMARY
+Early-career engineer with two engineering degrees (Mechatronics, Dec 2026; Biomedical with Honors, GPA 9.1/10) and 6 months of
+customer-facing field service experience. Brings a cost- and data-driven approach to operations: qualified an alternative replacement
+part that cut a customer's cost by 90%, managed 15+ service cases end-to-end with full documentation, and designed parts for
+manufacturability (CNC, laser cutting, 3D printing). Certified in project management and fluent in English (C2). Available full-time from
+January 2027 and open to rotations and relocation anywhere in Mexico.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Medical device design and prototyping, material selection, finite element analysis
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla, Mexico Jul 2024 – Dec 2024
+Identified and qualified a functionally equivalent replacement for a failed power supply, reducing the customer's part cost by 90%
+(MXN $15,000 to $1,500).
+Managed 15+ service cases end-to-end: diagnosis, root-cause analysis, warranty/ticket processing, technical reports, and customer
+follow-up.
+Installed and maintained (preventive and corrective) ultrasound systems, X-ray units, and flat-panel detectors at hospital and clinic
+sites, keeping equipment in service.
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Fastener-Free Laser-Cut Assembly | SolidWorks · DXF · Laser cutting
+Designed for manufacturability (DFM) an MDF structure assembled only with slot-and-tab joints, sized to material thickness and
+laser-kerf tolerances; zero screws or adhesive.
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Led the redesign from user requirements to prototype: material selection, FEA validation (min. safety factor 2.88 under 50 N), and
+4.8/5 user satisfaction (QUEST 2.0).
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · 3D printing
+Designed two 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified fit, interference, and torque capacity in CAD before
+fabrication to avoid rework.
+XGIO Smart-Cane GPS Ecosystem | ESP32 · Python · Firebase · Dashboard Social service
+Coordinated a 7-module IoT system (device firmware, cloud backend, mobile app, web dashboard) and wrote Python data filters
+that removed GPS noise from tracking data.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · SolidWorks
+Integrated vision, control, and firmware into a working closed-loop system; validated it through iterative hardware testing and
+tuning.
+SKILLS & CERTIFICATIONS
+Operations & Supply Chain: Cost reduction, replacement-part qualification, root-cause analysis, DFM, manufacturing processes (CNC,
+lathe, milling, laser cutting, 3D printing), BOMs, technical documentation
+Data & Management: Excel, Power BI, Python (Pandas), MATLAB; project management (Google certificate); customer communication
+and training
+Engineering: SolidWorks (CSWA), FEA, GD&T, industrial automation, Siemens S7-1200 PLC (project-based), control systems, sensors
+and drives
+Certifications: Google Project Management; CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing
+Associate; Siemens Industry Foundations; Siemens Basics of Robotics
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)

@@ -1,0 +1,49 @@
+Arith Maldonado Zamudio
+Mechanical / Product Design Engineer | SolidWorks (CSWA) · FEA · GD&T
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors, triple SOLIDWORKS certified, with 7 designed
+and built prototypes. Designs parts that are validated before they are made: FEA with a 2.88 minimum safety factor on a medical
+device, verified planetary gearboxes, and fastener-free DFM assemblies. Work presented at the ISPO World Congress 2025.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90%
+(MXN $15,000 → $1,500).
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units, flat-
+panel detectors, and triggering devices at client sites.
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88 and
+checked stress, deformation, and fatigue on critical parts.
+Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the ISPO
+20th World Congress, Stockholm.
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · DRV8825 · 3D printing
+Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque
+capacity, and ratios (Willis equation) before printing.
+Diagnosed stepper-driver failures: calibrated DRV8825 current limit (VREF), traced thermal shutdown, and checked STEP-signal
+integrity.
+Fastener-Free Laser-Cut Assembly | SolidWorks · DXF · Laser cutting
+Designed an MDF structure assembled only with slot-and-tab joints, sizing slots to material thickness and laser-kerf tolerances
+(zero screws or adhesive).
+XGIO Smart-Cane GPS Ecosystem | ESP32 · Python · Firebase · React Native · SolidWorks Social service · DIF Puebla
+Wrote Python geospatial filters (Haversine, 2.5 m/s pedestrian threshold) to remove GPS noise; designed and 3D-printed the
+enclosure in SolidWorks.
+Therapeutic Games for Children with Autism | SolidWorks · User-centered design Social service · Autismo Puebla
+Designed in SolidWorks a series of games to develop motor skills and other developmental areas in children with autism (Jan –
+May 2024).
+SKILLS & CERTIFICATIONS
+CAD & Analysis: SolidWorks (CSWA), SolidWorks Simulation (static, fatigue, safety factor), CATIA V5 (self-taught), GD&T, tolerance
+analysis, engineering drawings, BOMs
+Product Development: DFM, material selection, rapid prototyping (3D printing, laser cutting, CNC), design iteration from user
+requirements, technical documentation
+Mechatronics: Motors and gear trains, ESP32/Arduino, sensors, MATLAB, Python
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)

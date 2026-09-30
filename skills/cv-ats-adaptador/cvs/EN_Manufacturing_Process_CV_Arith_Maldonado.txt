@@ -1,0 +1,47 @@
+Arith Maldonado Zamudio
+Manufacturing & Process Engineer | DFM · Prototyping · Technical Documentation
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors who takes parts from CAD to the shop floor:
+engineering drawings, BOMs, tolerance decisions, and hands-on fabrication with CNC, laser cutting, and 3D printing. Brings 6
+months of field experience with a strong cost focus (90% part-cost reduction) and a structured, documented approach to
+solving problems.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by
+90% (MXN $15,000 → $1,500).
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units,
+flat-panel detectors, and triggering devices at client sites.
+Documented 15+ service cases with technical reports, warranty/ticket records, and customer follow-up, keeping full
+traceability of each intervention.
+ENGINEERING PROJECTS
+Fastener-Free Laser-Cut Assembly | SolidWorks · DXF · Laser cutting
+Designed an MDF structure assembled only with slot-and-tab joints, sizing slots to material thickness and laser-kerf
+tolerances (zero screws or adhesive).
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · DRV8825 · 3D printing
+Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque
+capacity, and ratios (Willis equation) before printing.
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88
+and checked stress, deformation, and fatigue on critical parts.
+Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the
+ISPO 20th World Congress, Stockholm.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Modeled the platform and 3-arm linkage in SolidWorks and fabricated the prototype.
+Validated on hardware with manual-response tests and autonomous balancing runs; tuned gains, axis mapping, and
+center calibration iteratively.
+SKILLS & CERTIFICATIONS
+Manufacturing: DFM, rapid prototyping, CNC router, lathe, milling, laser cutting, 3D printing (FDM/resin), additive
+manufacturing (certified), blueprint interpretation
+Design & Documentation: SolidWorks (CSWA), SolidWorks Simulation, CATIA V5 (self-taught), engineering drawings,
+assemblies, BOMs, GD&T, metrology, technical reports
+Analysis & Tools: Project management (Google certificate), Excel, Power BI, Python, MATLAB
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)

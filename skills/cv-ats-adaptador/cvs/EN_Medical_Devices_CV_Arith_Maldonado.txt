@@ -1,0 +1,50 @@
+Arith Maldonado Zamudio
+Medical Device Engineer | Manufacturing · Quality · Service · Design Validation
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Biomedical Engineer with Honors and Mechatronics Engineer (B.Eng. Dec 2026) with 6 months of hands-on service on ultrasound
+and X-ray equipment. Combines device knowledge with engineering rigor: FEA and user validation of a prosthetic device presented
+at ISPO 2025, traceable service documentation, and a 90% cost reduction on a replacement part. Social service with DIF Puebla and
+Autismo Puebla.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units, flat-panel
+detectors, and triggering devices at client sites.
+Documented 15+ service cases with technical reports, warranty/ticket records, and customer follow-up, keeping full traceability
+of each intervention.
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90% (MXN
+$15,000 → $1,500).
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88 and
+checked stress, deformation, and fatigue on critical parts.
+Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the ISPO
+20th World Congress, Stockholm.
+XGIO Smart-Cane GPS Ecosystem | ESP32 · Python · Firebase · React Native · SolidWorks Social service · DIF Puebla
+Built a 7-module IoT system: ESP32/T-Beam firmware (GPS, MPU6050 fall detection, SOS), Firebase backend, caregiver mobile
+app, and web dashboard.
+Wrote Python geospatial filters (Haversine, 2.5 m/s pedestrian threshold) to remove GPS noise; designed and 3D-printed the
+enclosure in SolidWorks.
+Therapeutic Games for Children with Autism | SolidWorks · User-centered design Social service · Autismo Puebla
+Designed in SolidWorks a series of games to develop motor skills and other developmental areas in children with autism (Jan –
+May 2024).
+Supported therapy sessions and improved time management and the therapy-scheduling process, as well as the children's
+learning materials.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32 driving
+3 servos at up to 66 Hz.
+SKILLS & CERTIFICATIONS
+Medical Devices: Ultrasound, X-ray and flat-panel systems, installation and service, user training, biomechanics, device design and
+validation, user-satisfaction assessment (QUEST 2.0, PIADS)
+Engineering: SolidWorks (CSWA), FEA, GD&T, technical reports and traceability, ESP32/Arduino, Python, MATLAB
+Manufacturing: Rapid prototyping, additive manufacturing (certified), material selection, DFM
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)

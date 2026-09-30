@@ -23,9 +23,16 @@ Extrae:
 
 ## Paso 2. Elegir el CV base
 
-Compara la vacante contra cada CV BASE y elige el que tenga más coincidencias y esté en el **mismo idioma que la vacante**. Si ninguno está en ese idioma, usa el más cercano en contenido y tradúcelo.
+Los CVs BASE (al final) son los CVs finales y pulidos de Arith, cada uno enfocado en un tipo de puesto: Automation & Controls, Graduate/Trainee Program, Maintenance & Field Service, Manufacturing & Process, Mechanical & Product Design, Medical Devices, Test/Verification & Validation, más versiones hechas para GE (Development Program), GE HealthCare (QA Engineer I) y Schneider (Global Supply Chain).
 
-**Inventario de hechos reales** = todo lo que aparece en CUALQUIERA de los CVs BASE (experiencia, proyectos, herramientas, certificaciones, idiomas). Puedes tomar un hecho de otro CV base e incluirlo en el adaptado si es relevante para la vacante. Si lo haces, indícalo en la tabla ("tomado de <nombre del CV>").
+- Elige el CV BASE cuyo enfoque y palabras clave se parezcan más a la vacante. **Parte de ese CV y respeta su redacción, estructura y orden**: son CVs ya pulidos. Cambia solo lo necesario para meter las palabras clave de la vacante; no reescribas bullets que ya funcionan.
+- **Inventario de hechos reales** = todo lo que aparece en CUALQUIERA de los CVs BASE (experiencia, proyectos, cifras, herramientas, certificaciones, idiomas). Puedes traer un bullet o un proyecto de otro CV BASE si encaja mejor con la vacante (por ejemplo el Two-Link Robotic Arm o el Fastener-Free Laser-Cut Assembly). Indica en la tabla "tomado de <CV>".
+- Si la vacante está en español, traduce el CV al español manteniendo nombres propios, software y certificaciones en su forma original.
+- Los CVs hechos para una empresa (GE, GE HealthCare, Schneider) sirven como base, pero **nunca dejes el nombre de otra empresa o programa** en el título o el perfil.
+
+**Ubicación en el encabezado:**
+- Si la vacante es en Monterrey o su área metropolitana (Nuevo León: San Nicolás, Apodaca, Escobedo, Guadalupe, Santa Catarina, San Pedro, etc.) → `San Nicolás de los Garza, N.L., Mexico · Open to relocation`.
+- En cualquier otro caso → `Puebla, Mexico · Open to relocation (Mexico & abroad)`.
 
 ## Paso 3. Calcular el match (siempre con esta fórmula)
 
@@ -64,6 +71,7 @@ NUNCA inventes experiencia, empresas, puestos, fechas, cifras, herramientas, cer
 **<Puesto> — <Empresa>**
 - CV base usado: <nombre del CV>
 - Match ATS inicial: XX %  →  tras adaptación: YY %
+- Si el match inicial ya es ≥ 80 %: "Puedes mandar tu CV tal cual: <ruta del archivo SIN foto de ese CV BASE>" (y aun así da el adaptado)
 - Filtros eliminatorios: <cumple / dudoso / no cumple, con detalle>
 
 ## Palabras clave
@@ -79,6 +87,7 @@ NUNCA inventes experiencia, empresas, puestos, fechas, cifras, herramientas, cer
 <CV COMPLETO en un solo bloque de código, en el idioma de la vacante, listo para copiar a Word>
 
 Nombre de archivo sugerido: CV_Arith_Maldonado_<Empresa>_<Puesto>.pdf
+Foto: sin foto si aplicas por portal/ATS o a empresa de EE. UU./Canadá; con foto solo si la vacante la pide o la envías directo a un reclutador en México.
 ```
 
 La sección "CV adaptado" es obligatoria y debe contener el CV entero (encabezado, perfil, educación, experiencia, proyectos, certificaciones y habilidades), no fragmentos.

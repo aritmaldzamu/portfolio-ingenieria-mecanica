@@ -1,0 +1,46 @@
+Arith Maldonado Zamudio
+Maintenance & Field Service Engineer | Troubleshooting · Electromechanical Systems
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors with 6 months of on-site service experience:
+installation, preventive and corrective maintenance, and fault diagnosis of imaging and electromechanical equipment. Cut a
+client's repair cost by 90% by finding an equivalent replacement part. Comfortable training users and working directly with
+customers, in English and Spanish.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units,
+flat-panel detectors, and triggering devices at client sites.
+Resolved 15+ service cases end-to-end: troubleshooting, technical reports, warranty/ticket processing, and customer
+follow-up.
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by
+90% (MXN $15,000 → $1,500).
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · DRV8825 · 3D printing
+Diagnosed stepper-driver failures: calibrated DRV8825 current limit (VREF), traced thermal shutdown, and checked STEP-
+signal integrity.
+Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque
+capacity, and ratios (Willis equation) before printing.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Wrote fail-safe firmware: non-blocking command parser, motion ramping, angle limits, and a 700 ms timeout that returns
+the platform to a safe center.
+Validated on hardware with manual-response tests and autonomous balancing runs; tuned gains, axis mapping, and
+center calibration iteratively.
+Somnus Smart-Room Monitor | Raspberry Pi 5 · Python/PyQt5 · Firestore
+Integrated PIR sensing, relay-driven fans, and an L298N curtain motor on a Raspberry Pi 5; built a PyQt5 dashboard with
+live plots and CSV/Excel export, synced to a mobile app.
+SKILLS & CERTIFICATIONS
+Maintenance & Service: Preventive/corrective maintenance, installation and start-up, electrical and electromechanical
+troubleshooting, root-cause analysis, service reports, customer training
+Technical: Sensors, motors and drivers (servo, stepper, DC/L298N), relays, power supplies, Siemens S7-1200 PLC (project-
+based), pneumatic/hydraulic components, blueprint and diagram reading
+Tools: SolidWorks (CSWA), ESP32/Arduino, Raspberry Pi, Python, MATLAB, Excel; availability for travel and shift work
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)

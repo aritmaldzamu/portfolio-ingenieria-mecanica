@@ -5,7 +5,7 @@ Skill para pegar **solo el texto de una vacante** y recibir: veredicto (aplica /
 ## Archivos
 
 - `plantilla_skill.md`: las instrucciones de la skill. Edita aquí las reglas.
-- `actualizar_skill.py`: lee tus CVs (PDF/DOCX) y genera `SKILL.md` con todos adentro.
+- `actualizar_skill.py`: lee tus CVs (PDF/DOCX, incluidas subcarpetas), agrupa las versiones del mismo CV (con/sin foto, MTY/Puebla) y genera `SKILL.md` con los CVs distintos adentro.
 - `SKILL.md`: **generado**, es lo que copias a Gemini. No lo edites a mano.
 - `cvs/`: texto extraído de cada CV, para revisar que se leyó bien.
 

@@ -23,9 +23,16 @@ Extrae:
 
 ## Paso 2. Elegir el CV base
 
-Compara la vacante contra cada CV BASE y elige el que tenga más coincidencias y esté en el **mismo idioma que la vacante**. Si ninguno está en ese idioma, usa el más cercano en contenido y tradúcelo.
+Los CVs BASE (al final) son los CVs finales y pulidos de Arith, cada uno enfocado en un tipo de puesto: Automation & Controls, Graduate/Trainee Program, Maintenance & Field Service, Manufacturing & Process, Mechanical & Product Design, Medical Devices, Test/Verification & Validation, más versiones hechas para GE (Development Program), GE HealthCare (QA Engineer I) y Schneider (Global Supply Chain).
 
-**Inventario de hechos reales** = todo lo que aparece en CUALQUIERA de los CVs BASE (experiencia, proyectos, herramientas, certificaciones, idiomas). Puedes tomar un hecho de otro CV base e incluirlo en el adaptado si es relevante para la vacante. Si lo haces, indícalo en la tabla ("tomado de <nombre del CV>").
+- Elige el CV BASE cuyo enfoque y palabras clave se parezcan más a la vacante. **Parte de ese CV y respeta su redacción, estructura y orden**: son CVs ya pulidos. Cambia solo lo necesario para meter las palabras clave de la vacante; no reescribas bullets que ya funcionan.
+- **Inventario de hechos reales** = todo lo que aparece en CUALQUIERA de los CVs BASE (experiencia, proyectos, cifras, herramientas, certificaciones, idiomas). Puedes traer un bullet o un proyecto de otro CV BASE si encaja mejor con la vacante (por ejemplo el Two-Link Robotic Arm o el Fastener-Free Laser-Cut Assembly). Indica en la tabla "tomado de <CV>".
+- Si la vacante está en español, traduce el CV al español manteniendo nombres propios, software y certificaciones en su forma original.
+- Los CVs hechos para una empresa (GE, GE HealthCare, Schneider) sirven como base, pero **nunca dejes el nombre de otra empresa o programa** en el título o el perfil.
+
+**Ubicación en el encabezado:**
+- Si la vacante es en Monterrey o su área metropolitana (Nuevo León: San Nicolás, Apodaca, Escobedo, Guadalupe, Santa Catarina, San Pedro, etc.) → `San Nicolás de los Garza, N.L., Mexico · Open to relocation`.
+- En cualquier otro caso → `Puebla, Mexico · Open to relocation (Mexico & abroad)`.
 
 ## Paso 3. Calcular el match (siempre con esta fórmula)
 
@@ -64,6 +71,7 @@ NUNCA inventes experiencia, empresas, puestos, fechas, cifras, herramientas, cer
 **<Puesto> — <Empresa>**
 - CV base usado: <nombre del CV>
 - Match ATS inicial: XX %  →  tras adaptación: YY %
+- Si el match inicial ya es ≥ 80 %: "Puedes mandar tu CV tal cual: <ruta del archivo SIN foto de ese CV BASE>" (y aun así da el adaptado)
 - Filtros eliminatorios: <cumple / dudoso / no cumple, con detalle>
 
 ## Palabras clave
@@ -79,6 +87,7 @@ NUNCA inventes experiencia, empresas, puestos, fechas, cifras, herramientas, cer
 <CV COMPLETO en un solo bloque de código, en el idioma de la vacante, listo para copiar a Word>
 
 Nombre de archivo sugerido: CV_Arith_Maldonado_<Empresa>_<Puesto>.pdf
+Foto: sin foto si aplicas por portal/ATS o a empresa de EE. UU./Canadá; con foto solo si la vacante la pide o la envías directo a un reclutador en México.
 ```
 
 La sección "CV adaptado" es obligatoria y debe contener el CV entero (encabezado, perfil, educación, experiencia, proyectos, certificaciones y habilidades), no fragmentos.
@@ -87,209 +96,599 @@ La sección "CV adaptado" es obligatoria y debe contener el CV entero (encabezad
 
 # CVs BASE
 
-## CV BASE: CV_Arith_Maldonado_2026.docx
+## CV BASE: EN_Automation_Controls/CV_Arith_Maldonado.pdf
+
+Archivos con este mismo CV:
+- EN_Automation_Controls/CV_Arith_Maldonado.pdf
+- EN_CON_FOTO/EN_Automation_Controls_PHOTO.pdf
+- EN_CON_FOTO/EN_Automation_Controls/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/CON_FOTO/EN_Automation_Controls/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/SIN_FOTO/EN_Automation_Controls/CV_Arith_Maldonado.pdf
 
 ```
 Arith Maldonado Zamudio
-Biomedical Engineer | Mechatronics Engineering Student | Mechanical Design, CAD & Product Development
-C. San Simón 1214, Balcones de Santo Domingo, 66446 San Nicolás de los Garza, N.L.
-+52 221 974 4717 | maldonado.zamudio.arith@gmail.com
-linkedin.com/in/arith-maldonado-zamudio-4038262b5
-GPA: 9.1/10.0 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+Automation & Controls Engineer | Closed-Loop Control · PLC · Embedded Systems
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
 PROFILE
-Mechatronics Engineering student and graduated Biomedical Engineer (Honors Mention), specialized in mechanical design, product development, and R&D in advanced manufacturing environments. Hands-on experience with 3D CAD modeling (SolidWorks, Creo Parametric), FEA simulation, engineering drawings, assemblies, and BOMs; complemented by practical manufacturing skills (CNC, lathe, milling, laser cutting, 3D printing). Capable of applying DFM principles to translate design concepts into functional prototypes and collaborate with cross-functional engineering teams to solve product-related challenges.
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors who builds working control systems end to
+end: sensors, controller, firmware, and actuators. Designed and tuned closed-loop PID/PD controllers on real hardware, and
+brings 6 months of field experience installing and troubleshooting electromechanical equipment. Ready to support integration,
+commissioning, and troubleshooting of automated lines.
 EDUCATION
-Universidad Iberoamericana Puebla | Expected Dec. 2026
-B.Eng. Mechatronics Engineering (in progress) | Puebla, Mexico
-GPA: 9.1/10.0 | Relevant coursework: Strength of Materials, Advanced Control Systems, Embedded Systems, Mechanical Design, and Industrial Automation.
-Universidad Iberoamericana Puebla | 2020 - 2024
-B.Eng. Biomedical Engineering, Graduated with Honors Mention | Puebla, Mexico
-GPA: 9.1/10.0 | Focus: biomechanics, medical device design, finite element analysis, and prototyping.
-RELEVANT EXPERIENCE
-Medical Equipment Technical Specialist & Applications Specialist | Jul. 2024 - Dec. 2024
-Punto Focal Equipo Médico | Puebla, Mexico
-- Preventive/corrective maintenance, installation, and diagnosis of ultrasound equipment, X-ray systems, flat panels, and triggering devices.
-- Managed 15+ ultrasound-related cases: technical reports, client follow-up, warranty/ticket processing, and basic diagnostics.
-- Delivered technical training and product demonstrations to physicians, technicians, and clients.
-- Identified a functional replacement for a medical power supply, reducing the client cost from approx. MXN $15,000 to MXN $1,500 - applying cost-driven design evaluation.
-SELECTED PROJECTS
-3-DOF Ball Balancing Platform | Mechatronics
-ESP32, SG90 servos, Python, OpenCV, PID control, Bluetooth communication, SolidWorks (structural design)
-- Designed and manufactured the mechanical platform structure; generated assembly drawings and part specifications to support fabrication.
-- Implemented closed-loop control integrating servo actuation, camera feedback (OpenCV), and continuous PID - demonstrating full hardware-software integration.
-XGIO - GPS Ecosystem for Smart Cane | Social Service
-Mobile app, backend, admin dashboard, Firebase, Vercel, CAD/SolidWorks documentation
-- Developed the full GPS tracking system (app, backend, admin panel, user-device registration) for visually impaired individuals; produced CAD documentation and technical reports.
-AWARDS & CERTIFICATIONS
-- Poster accepted at ISPO 20th World Congress 2025, Stockholm: "Redesign and validation of a tool holding system for a transradial prosthesis for a stomatology student"; Honors Mention in Biomedical Engineering, Dec. 2024.
-- CSWA (Certified SOLIDWORKS Associate); Certified SOLIDWORKS Simulation Associate; Certified SOLIDWORKS Additive Manufacturing Associate; Google Project Management Certificate; Siemens Basics of Robotics; Siemens Expedite - Skills for Industry: Industry Foundations; EF SET English B2; German A2.
-SKILLS
-CAD / FEA: SolidWorks (CSWA certified), Creo Parametric, SolidWorks Simulation, engineering drawings, assemblies, BOMs, GD&T, metrology, and CAD documentation.
-Product Development: DFM principles, design reviews, rapid prototyping, tolerance analysis, and product lifecycle documentation.
-Manufacturing: CNC / router CNC, lathe, milling machine, laser cutting, 3D printing, and blueprint interpretation.
-Programming & Analysis: Python, OpenCV, MATLAB, Arduino/ESP32, Power BI, Excel, Firebase, and technical reporting.
-Languages: Native Spanish; Advanced English (B2); German A2.
-Availability: Full-time engineering roles from July 2026; interest in mechanical design, product development, advanced manufacturing, and electromechanical systems.
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units, flat-
+panel detectors, and triggering devices at client sites.
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90%
+(MXN $15,000 → $1,500).
+Resolved 15+ service cases end-to-end: troubleshooting, technical reports, warranty/ticket processing, and customer follow-
+up.
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Ball & Beam Digital Control Prototype | Arduino · NEMA 17/DRV8825 · MATLAB Expo Ibero 2026
+Modeled an open-loop-unstable system (Euler-Lagrange), discretized it with ZOH, and tuned a digital PID via Ziegler-Nichols
+and ISE (simulated: 2.8 s settling, 12% overshoot).
+Implemented and compared PID variants on Arduino at Ts = 50 ms: EMA sensor filtering, high-pass derivative, setpoint-kick
+reduction, and trapezoidal integration with anti-windup.
+Integrated a NEMA 17 stepper (DRV8825, 1/8 microstepping), position sensor, and ±15° actuation limits on a CAD-designed,
+3D-printed structure.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32
+driving 3 servos at up to 66 Hz.
+Wrote fail-safe firmware: non-blocking command parser, motion ramping, angle limits, and a 700 ms timeout that returns
+the platform to a safe center.
+Somnus Smart-Room Monitor | Raspberry Pi 5 · Python/PyQt5 · Firestore
+Integrated PIR sensing, relay-driven fans, and an L298N curtain motor on a Raspberry Pi 5; built a PyQt5 dashboard with live
+plots and CSV/Excel export, synced to a mobile app.
+SKILLS & CERTIFICATIONS
+Automation & Controls: PID/PD tuning (Ziegler-Nichols, ISE), discrete control (ZOH), Siemens S7-1200 PLC and relay control
+(project-based), sensors, servo/stepper drives, industrial automation coursework
+Embedded & Software: ESP32/Arduino, Raspberry Pi (GPIO), C/C++, Python (OpenCV, PyQt5), MATLAB/Simulink,
+Bluetooth/serial communication, Firebase
+Hardware & Design: Wiring and electrical diagnostics, Altium Designer, SolidWorks (CSWA), pneumatic/hydraulic components,
+rapid prototyping
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
 ```
 
-## CV BASE: CV_Arith_Maldonado_Zamudio.pdf
+## CV BASE: EN_Graduate_Trainee_Program/CV_Arith_Maldonado.pdf
 
-```
-Arith Maldonado Zamudio
-Puebla, Mexico | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
-LinkedIn: www.linkedin.com/in/arith-maldonado-zamudio-4038262b5
-Promedio: 9.1/10.0 | Portafolio de ingeniería: aritmaldzamu.github.io/portfolio-ingenieria-mecanica/
-Perfil Profesional
-Estudiante de Ingeniería Mecatrónica e Ingeniero Biomédico titulado, entusiasta por la automatización, producción, diseño mecánico y R&D
-en entornos de manufactura avanzada. Experiencia práctica en servicio técnico de equipos médicos, FEA, prototipado embebido, visión
-artificial y sistemas GPS; con capacidad para construir prototipos funcionales y resolver problemas técnicos integrando hardware, software y
-manufactura.
-Educación
-Ingeniería Mecatrónica (En curso)
-Universidad Iberoamericana Puebla
-Esperado dic. 2026
-• Promedio: 9.1/10.0. Materias relevantes: Resistencia de Materiales, Sistemas de Control Avanzado, Sistemas Embebidos, Diseño
-Mecánico y Automatización Industrial.
-Ingeniería Biomédica (Titulado con Mención Honorífica)
-Universidad Iberoamericana Puebla
-2020 - 2024
-• Promedio: 9.1/10.0. Enfoque en biomecánica, diseño de dispositivos médicos, análisis por elemento finito y prototipado.
-Experiencia Relevante
-Especialista Técnico y Aplicacionista de Equipo Médico
-Punto Focal Equipo Médico, Puebla, México
-jul. 2024 - dic. 2024
-• Realicé mantenimiento preventivo/correctivo, instalación y diagnóstico de equipos de ultrasonido, sistemas de rayos X, flat panels y
-disparadores.
-• Atendí más de 15 casos relacionados con ultrasonido, elaborando reportes técnicos, seguimiento a clientes, garantías/tickets y
-diagnósticos básicos.
-• Capacité a médicos, técnicos y clientes, además de apoyar en demostraciones técnicas y comerciales de producto.
-• Identifiqué un reemplazo funcional para una fuente de poder médica, reduciendo el costo para el cliente de aprox. MXN $15,000 a MXN
-$1,500.
-Proyectos Seleccionados
-Plataforma 3-DOF para Balanceo de Pelota
-ESP32, servos SG90, Python, OpenCV, control PID y comunicación Bluetooth
-Mecatrónica
-• Construí una plataforma mecatrónica funcional de lazo cerrado que usa retroalimentación por cámara y control PID continuo para
-balancear una pelota al centro de la placa.
-• Integré control embebido, actuación con servomotores, procesamiento de visión en tiempo real y comunicación PC-microcontrolador para
-prototipado mecatrónico.
-XGIO - Ecosistema GPS para Bastón Inteligente
-App móvil, backend, dashboard administrativo, Firebase, Vercel y documentación
-CAD/SolidWorks
-Servicio Social
-• Desarrollé un sistema funcional de rastreo GPS para personas con discapacidad visual, incluyendo app, backend, panel administrativo,
-registro usuario-dispositivo y documentación técnica.
-Reconocimientos, Certificaciones y Habilidades
-• Reconocimientos: Póster aceptado en ISPO 20th World Congress 2025, Estocolmo: “Redesign and validation of a tool holding system
-for a transradial prosthesis for a stomatology student”; Mención Honorífica en Ingeniería Biomédica, dic. 2024.
-• Certificaciones: CSWA, Certified SOLIDWORKS Simulation Associate, Certified SOLIDWORKS Additive Manufacturing Associate,
-Google Project Management Certificate, EF SET English B2.
-• Habilidades técnicas: SolidWorks, SolidWorks Simulation, MATLAB, Python, OpenCV, Arduino, ESP32, Firebase, Altium Designer,
-Power BI, Excel, CNC/router CNC, torno, fresa, corte láser, impresión 3D, interpretación de planos y metrología.
-```
-
-## CV BASE: CV_Arith_Maldonado_Zamudio_Automation_Intern_EN.pdf
+Archivos con este mismo CV:
+- EN_Graduate_Trainee_Program/CV_Arith_Maldonado.pdf
+- EN_CON_FOTO/EN_Graduate_Trainee_Program_PHOTO.pdf
+- EN_CON_FOTO/EN_Graduate_Trainee_Program/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/CON_FOTO/EN_Graduate_Trainee_Program/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/SIN_FOTO/EN_Graduate_Trainee_Program/CV_Arith_Maldonado.pdf
 
 ```
 Arith Maldonado Zamudio
-Puebla, Mexico | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com | linkedin.com/in/arith-maldonado-zamudio
-GPA: 9.1/10.0 | Project portfolio: aritmaldzamu.github.io/xgio-monorep/descargas/
-Professional Summary
-Mechatronics Engineering student and Biomedical Engineer seeking an Automation Intern role in the automotive industry. Hands-on
-experience in medical equipment service, mechanical design, FEA, embedded prototyping, computer vision, and GPS-based software
-systems; skilled in building functional prototypes and solving technical problems across hardware, software, and manufacturing.
-Education
-B.S. in Mechatronics Engineering (In progress)
-Universidad Iberoamericana Puebla
-Expected Dec. 2026
-• GPA: 9.1/10.0. Relevant coursework: Strength of Materials, Advanced Control Systems, Embedded Systems, Mechanical Design,
-Industrial Automation.
-B.S. in Biomedical Engineering (Graduated with Honorable Mention)
-Universidad Iberoamericana Puebla
-2020 - 2024
-• GPA: 9.1/10.0. Focus in biomechanics, medical device design, finite element analysis, and prototyping.
-Relevant Experience
-Technical Specialist & Medical Equipment Application Representative
-Punto Focal Equipo Médico, Puebla, Mexico
-Jul. 2024 - Dec. 2024
-• Performed preventive/corrective maintenance, installation, and troubleshooting of ultrasound devices, X-ray systems, flat panels, and
-triggers.
-• Supported 15+ ultrasound-related service cases, preparing technical reports, client follow-up, warranty/ticket documentation, and basic
-diagnostics.
-• Delivered technical training and product demonstrations to physicians, technicians, and customers.
-• Identified a functional replacement for a medical power supply, reducing client cost from approx. MXN $15,000 to MXN $1,500.
-Selected Projects
-3-DOF Ball-Balancing Platform
-ESP32, SG90 servos, Python, OpenCV, PID control, Bluetooth communication
-Mechatronics
-• Built a functional closed-loop mechatronic platform that uses camera-based feedback and continuous PID control to balance a ball at the
-center of the plate.
-• Integrated embedded control, servo actuation, real-time vision processing, and PC-to-microcontroller communication for automation-
-focused prototyping.
-XGIO Smart Cane GPS Tracking Ecosystem
-Mobile app, backend, admin dashboard, Firebase, Vercel, CAD/SolidWorks documentation
-Social Service
-• Developed a functional GPS-based system for people with visual impairment, including app, backend, administrative dashboard, user-
-device registration workflows, and technical documentation.
-Honors, Certifications and Skills
-• Honors: Poster accepted at ISPO 20th World Congress 2025, Stockholm: “Redesign and validation of a tool holding system for a
-transradial prosthesis for a stomatology student”; Honorable Mention in Biomedical Engineering, Dec. 2024.
-• Certifications: CSWA, Certified SOLIDWORKS Simulation Associate, Certified SOLIDWORKS Additive Manufacturing Associate, Google
-Project Management Certificate, EF SET English B2.
-• Technical skills: SolidWorks, SolidWorks Simulation, MATLAB, Python, OpenCV, Arduino, ESP32, Firebase, Altium Designer, Power BI,
-Excel, CNC/router CNC, lathe, milling, laser cutting, 3D printing, drawing interpretation, and metrology.
+Mechatronics & Biomedical Engineer | Graduate / Trainee Engineering Programs
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Two engineering degrees (Mechatronics, Dec 2026; Biomedical with Honors), GPA 9.1/10, and 6 months of field service experience.
+Has designed and built 7 working prototypes across control, embedded systems, IoT, and mechanical design, presented research at
+the ISPO World Congress 2025, and worked with DIF Puebla and Autismo Puebla during social service. Fast learner, open to
+rotations, shifts, and relocation in Mexico or abroad.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units, flat-panel
+detectors, and triggering devices at client sites.
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90% (MXN
+$15,000 → $1,500).
+Resolved 15+ service cases end-to-end: troubleshooting, technical reports, warranty/ticket processing, and customer follow-up.
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32 driving
+3 servos at up to 66 Hz.
+Wrote fail-safe firmware: non-blocking command parser, motion ramping, angle limits, and a 700 ms timeout that returns the
+platform to a safe center.
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88 and
+checked stress, deformation, and fatigue on critical parts.
+Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the ISPO
+20th World Congress, Stockholm.
+XGIO Smart-Cane GPS Ecosystem | ESP32 · Python · Firebase · React Native · SolidWorks Social service · DIF Puebla
+Built a 7-module IoT system: ESP32/T-Beam firmware (GPS, MPU6050 fall detection, SOS), Firebase backend, caregiver mobile
+app, and web dashboard.
+Therapeutic Games for Children with Autism | SolidWorks · User-centered design Social service · Autismo Puebla
+Designed in SolidWorks a series of games to build motor skills; supported therapy sessions and improved session scheduling and
+learning materials.
+Ball & Beam Digital Control Prototype | Arduino · NEMA 17/DRV8825 · MATLAB Expo Ibero 2026
+Modeled an open-loop-unstable system (Euler-Lagrange), discretized it with ZOH, and tuned a digital PID via Ziegler-Nichols and
+ISE (simulated: 2.8 s settling, 12% overshoot).
+SKILLS & CERTIFICATIONS
+Technical: SolidWorks (CSWA), FEA, PID control, ESP32/Arduino, Raspberry Pi, Python (OpenCV), MATLAB, Siemens S7-1200 PLC
+(project-based), CNC and 3D printing
+Professional: Project management (Google certificate), technical reporting, customer training, Excel, Power BI
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
 ```
 
-## CV BASE: Resume_Arith_Maldonado_Zamudio.pdf
+## CV BASE: EN_Maintenance_Field_Service/CV_Arith_Maldonado.pdf
+
+Archivos con este mismo CV:
+- EN_Maintenance_Field_Service/CV_Arith_Maldonado.pdf
+- EN_CON_FOTO/EN_Maintenance_Field_Service_PHOTO.pdf
+- EN_CON_FOTO/EN_Maintenance_Field_Service/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/CON_FOTO/EN_Maintenance_Field_Service/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/SIN_FOTO/EN_Maintenance_Field_Service/CV_Arith_Maldonado.pdf
 
 ```
 Arith Maldonado Zamudio
-Puebla, Mexico | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
-LinkedIn: www.linkedin.com/in/arith-maldonado-zamudio-4038262b5
-GPA: 9.1/10.0 | Engineering portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica/
-Professional Summary
-Mechatronics Engineering student and Biomedical Engineer enthusiastic about automation, production, mechanical design, and R&D within
-advanced manufacturing environments. Hands-on experience in medical equipment service, FEA, embedded prototyping, computer vision,
-and GPS-based software systems; skilled in building functional prototypes and solving technical problems across hardware, software, and
-manufacturing.
-Education
-B.S. in Mechatronics Engineering (In progress)
-Universidad Iberoamericana Puebla
-Expected Dec. 2026
-• GPA: 9.1/10.0. Relevant coursework: Strength of Materials, Advanced Control Systems, Embedded Systems, Mechanical Design,
-Industrial Automation.
-B.S. in Biomedical Engineering (Graduated with Honorable Mention)
-Universidad Iberoamericana Puebla
-2020 - 2024
-• GPA: 9.1/10.0. Focus in biomechanics, medical device design, finite element analysis, and prototyping.
-Relevant Experience
-Technical Specialist & Medical Equipment Application Representative
-Punto Focal Equipo Médico, Puebla, Mexico
-Jul. 2024 - Dec. 2024
-• Performed preventive/corrective maintenance, installation, and troubleshooting of ultrasound devices, X-ray systems, flat panels, and
-triggers.
-• Supported 15+ ultrasound-related service cases, preparing technical reports, client follow-up, warranty/ticket documentation, and basic
-diagnostics.
-• Delivered technical training and product demonstrations to physicians, technicians, and customers.
-• Identified a functional replacement for a medical power supply, reducing client cost from approx. MXN $15,000 to MXN $1,500.
-Selected Projects
-3-DOF Ball-Balancing Platform
-ESP32, SG90 servos, Python, OpenCV, PID control, Bluetooth communication
-Mechatronics
-• Built a functional closed-loop mechatronic platform that uses camera-based feedback and continuous PID control to balance a ball at the
-center of the plate.
-• Integrated embedded control, servo actuation, real-time vision processing, and PC-to-microcontroller communication for mechatronic
-prototyping.
-XGIO Smart Cane GPS Tracking Ecosystem
-Mobile app, backend, admin dashboard, Firebase, Vercel, CAD/SolidWorks documentation
-Social Service
-• Developed a functional GPS-based system for people with visual impairment, including app, backend, administrative dashboard, user-
-device registration workflows, and technical documentation.
-Honors, Certifications and Skills
-• Honors: Poster accepted at ISPO 20th World Congress 2025, Stockholm: “Redesign and validation of a tool holding system for a
-transradial prosthesis for a stomatology student”; Honorable Mention in Biomedical Engineering, Dec. 2024.
-• Certifications: CSWA, Certified SOLIDWORKS Simulation Associate, Certified SOLIDWORKS Additive Manufacturing Associate, Google
-Project Management Certificate, EF SET English B2.
-• Technical skills: SolidWorks, SolidWorks Simulation, MATLAB, Python, OpenCV, Arduino, ESP32, Firebase, Altium Designer, Power BI,
-Excel, CNC/router CNC, lathe, milling, laser cutting, 3D printing, drawing interpretation, and metrology.
+Maintenance & Field Service Engineer | Troubleshooting · Electromechanical Systems
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors with 6 months of on-site service experience:
+installation, preventive and corrective maintenance, and fault diagnosis of imaging and electromechanical equipment. Cut a
+client's repair cost by 90% by finding an equivalent replacement part. Comfortable training users and working directly with
+customers, in English and Spanish.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units,
+flat-panel detectors, and triggering devices at client sites.
+Resolved 15+ service cases end-to-end: troubleshooting, technical reports, warranty/ticket processing, and customer
+follow-up.
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by
+90% (MXN $15,000 → $1,500).
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · DRV8825 · 3D printing
+Diagnosed stepper-driver failures: calibrated DRV8825 current limit (VREF), traced thermal shutdown, and checked STEP-
+signal integrity.
+Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque
+capacity, and ratios (Willis equation) before printing.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Wrote fail-safe firmware: non-blocking command parser, motion ramping, angle limits, and a 700 ms timeout that returns
+the platform to a safe center.
+Validated on hardware with manual-response tests and autonomous balancing runs; tuned gains, axis mapping, and
+center calibration iteratively.
+Somnus Smart-Room Monitor | Raspberry Pi 5 · Python/PyQt5 · Firestore
+Integrated PIR sensing, relay-driven fans, and an L298N curtain motor on a Raspberry Pi 5; built a PyQt5 dashboard with
+live plots and CSV/Excel export, synced to a mobile app.
+SKILLS & CERTIFICATIONS
+Maintenance & Service: Preventive/corrective maintenance, installation and start-up, electrical and electromechanical
+troubleshooting, root-cause analysis, service reports, customer training
+Technical: Sensors, motors and drivers (servo, stepper, DC/L298N), relays, power supplies, Siemens S7-1200 PLC (project-
+based), pneumatic/hydraulic components, blueprint and diagram reading
+Tools: SolidWorks (CSWA), ESP32/Arduino, Raspberry Pi, Python, MATLAB, Excel; availability for travel and shift work
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
+```
+
+## CV BASE: EN_Manufacturing_Process/CV_Arith_Maldonado.pdf
+
+Archivos con este mismo CV:
+- EN_Manufacturing_Process/CV_Arith_Maldonado.pdf
+- EN_CON_FOTO/EN_Manufacturing_Process_PHOTO.pdf
+- EN_CON_FOTO/EN_Manufacturing_Process/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/CON_FOTO/EN_Manufacturing_Process/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/SIN_FOTO/EN_Manufacturing_Process/CV_Arith_Maldonado.pdf
+
+```
+Arith Maldonado Zamudio
+Manufacturing & Process Engineer | DFM · Prototyping · Technical Documentation
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors who takes parts from CAD to the shop floor:
+engineering drawings, BOMs, tolerance decisions, and hands-on fabrication with CNC, laser cutting, and 3D printing. Brings 6
+months of field experience with a strong cost focus (90% part-cost reduction) and a structured, documented approach to
+solving problems.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by
+90% (MXN $15,000 → $1,500).
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units,
+flat-panel detectors, and triggering devices at client sites.
+Documented 15+ service cases with technical reports, warranty/ticket records, and customer follow-up, keeping full
+traceability of each intervention.
+ENGINEERING PROJECTS
+Fastener-Free Laser-Cut Assembly | SolidWorks · DXF · Laser cutting
+Designed an MDF structure assembled only with slot-and-tab joints, sizing slots to material thickness and laser-kerf
+tolerances (zero screws or adhesive).
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · DRV8825 · 3D printing
+Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque
+capacity, and ratios (Willis equation) before printing.
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88
+and checked stress, deformation, and fatigue on critical parts.
+Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the
+ISPO 20th World Congress, Stockholm.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Modeled the platform and 3-arm linkage in SolidWorks and fabricated the prototype.
+Validated on hardware with manual-response tests and autonomous balancing runs; tuned gains, axis mapping, and
+center calibration iteratively.
+SKILLS & CERTIFICATIONS
+Manufacturing: DFM, rapid prototyping, CNC router, lathe, milling, laser cutting, 3D printing (FDM/resin), additive
+manufacturing (certified), blueprint interpretation
+Design & Documentation: SolidWorks (CSWA), SolidWorks Simulation, CATIA V5 (self-taught), engineering drawings,
+assemblies, BOMs, GD&T, metrology, technical reports
+Analysis & Tools: Project management (Google certificate), Excel, Power BI, Python, MATLAB
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
+```
+
+## CV BASE: EN_Mechanical_Product_Design/CV_Arith_Maldonado.pdf
+
+Archivos con este mismo CV:
+- EN_Mechanical_Product_Design/CV_Arith_Maldonado.pdf
+- EN_CON_FOTO/EN_Mechanical_Product_Design_PHOTO.pdf
+- EN_CON_FOTO/EN_Mechanical_Product_Design/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/CON_FOTO/EN_Mechanical_Product_Design/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/SIN_FOTO/EN_Mechanical_Product_Design/CV_Arith_Maldonado.pdf
+
+```
+Arith Maldonado Zamudio
+Mechanical / Product Design Engineer | SolidWorks (CSWA) · FEA · GD&T
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors, triple SOLIDWORKS certified, with 7 designed
+and built prototypes. Designs parts that are validated before they are made: FEA with a 2.88 minimum safety factor on a medical
+device, verified planetary gearboxes, and fastener-free DFM assemblies. Work presented at the ISPO World Congress 2025.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90%
+(MXN $15,000 → $1,500).
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units, flat-
+panel detectors, and triggering devices at client sites.
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88 and
+checked stress, deformation, and fatigue on critical parts.
+Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the ISPO
+20th World Congress, Stockholm.
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · DRV8825 · 3D printing
+Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque
+capacity, and ratios (Willis equation) before printing.
+Diagnosed stepper-driver failures: calibrated DRV8825 current limit (VREF), traced thermal shutdown, and checked STEP-signal
+integrity.
+Fastener-Free Laser-Cut Assembly | SolidWorks · DXF · Laser cutting
+Designed an MDF structure assembled only with slot-and-tab joints, sizing slots to material thickness and laser-kerf tolerances
+(zero screws or adhesive).
+XGIO Smart-Cane GPS Ecosystem | ESP32 · Python · Firebase · React Native · SolidWorks Social service · DIF Puebla
+Wrote Python geospatial filters (Haversine, 2.5 m/s pedestrian threshold) to remove GPS noise; designed and 3D-printed the
+enclosure in SolidWorks.
+Therapeutic Games for Children with Autism | SolidWorks · User-centered design Social service · Autismo Puebla
+Designed in SolidWorks a series of games to develop motor skills and other developmental areas in children with autism (Jan –
+May 2024).
+SKILLS & CERTIFICATIONS
+CAD & Analysis: SolidWorks (CSWA), SolidWorks Simulation (static, fatigue, safety factor), CATIA V5 (self-taught), GD&T, tolerance
+analysis, engineering drawings, BOMs
+Product Development: DFM, material selection, rapid prototyping (3D printing, laser cutting, CNC), design iteration from user
+requirements, technical documentation
+Mechatronics: Motors and gear trains, ESP32/Arduino, sensors, MATLAB, Python
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
+```
+
+## CV BASE: EN_Medical_Devices/CV_Arith_Maldonado.pdf
+
+Archivos con este mismo CV:
+- EN_Medical_Devices/CV_Arith_Maldonado.pdf
+- EN_CON_FOTO/EN_Medical_Devices_PHOTO.pdf
+- EN_CON_FOTO/EN_Medical_Devices/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/CON_FOTO/EN_Medical_Devices/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/SIN_FOTO/EN_Medical_Devices/CV_Arith_Maldonado.pdf
+
+```
+Arith Maldonado Zamudio
+Medical Device Engineer | Manufacturing · Quality · Service · Design Validation
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Biomedical Engineer with Honors and Mechatronics Engineer (B.Eng. Dec 2026) with 6 months of hands-on service on ultrasound
+and X-ray equipment. Combines device knowledge with engineering rigor: FEA and user validation of a prosthetic device presented
+at ISPO 2025, traceable service documentation, and a 90% cost reduction on a replacement part. Social service with DIF Puebla and
+Autismo Puebla.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Performed preventive and corrective maintenance, installation, and fault diagnosis on ultrasound systems, X-ray units, flat-panel
+detectors, and triggering devices at client sites.
+Documented 15+ service cases with technical reports, warranty/ticket records, and customer follow-up, keeping full traceability
+of each intervention.
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90% (MXN
+$15,000 → $1,500).
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88 and
+checked stress, deformation, and fatigue on critical parts.
+Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the ISPO
+20th World Congress, Stockholm.
+XGIO Smart-Cane GPS Ecosystem | ESP32 · Python · Firebase · React Native · SolidWorks Social service · DIF Puebla
+Built a 7-module IoT system: ESP32/T-Beam firmware (GPS, MPU6050 fall detection, SOS), Firebase backend, caregiver mobile
+app, and web dashboard.
+Wrote Python geospatial filters (Haversine, 2.5 m/s pedestrian threshold) to remove GPS noise; designed and 3D-printed the
+enclosure in SolidWorks.
+Therapeutic Games for Children with Autism | SolidWorks · User-centered design Social service · Autismo Puebla
+Designed in SolidWorks a series of games to develop motor skills and other developmental areas in children with autism (Jan –
+May 2024).
+Supported therapy sessions and improved time management and the therapy-scheduling process, as well as the children's
+learning materials.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32 driving
+3 servos at up to 66 Hz.
+SKILLS & CERTIFICATIONS
+Medical Devices: Ultrasound, X-ray and flat-panel systems, installation and service, user training, biomechanics, device design and
+validation, user-satisfaction assessment (QUEST 2.0, PIADS)
+Engineering: SolidWorks (CSWA), FEA, GD&T, technical reports and traceability, ESP32/Arduino, Python, MATLAB
+Manufacturing: Rapid prototyping, additive manufacturing (certified), material selection, DFM
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
+```
+
+## CV BASE: EN_Test_Verification_Validation/CV_Arith_Maldonado.pdf
+
+Archivos con este mismo CV:
+- EN_Test_Verification_Validation/CV_Arith_Maldonado.pdf
+- EN_CON_FOTO/EN_Test_Verification_Validation_PHOTO.pdf
+- EN_CON_FOTO/EN_Test_Verification_Validation/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/CON_FOTO/EN_Test_Verification_Validation/CV_Arith_Maldonado.pdf
+- MTY_San_Nicolas/SIN_FOTO/EN_Test_Verification_Validation/CV_Arith_Maldonado.pdf
+
+```
+Arith Maldonado Zamudio
+Test, Verification & Validation Engineer | Root-Cause Analysis · Embedded Systems · FEA
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+linkedin.com/in/arith-maldonado-zamudio-4038262b5 | Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Mechatronics Engineer (B.Eng. Dec 2026) and Biomedical Engineer with Honors, with 6 months of field experience diagnosing
+electromechanical and imaging equipment. Brings a verify-before-release mindset: FEA-validated a medical device (min. FOS
+2.88), verified gearbox designs before fabrication, and root-caused hardware faults on embedded control systems. Clear,
+traceable test documentation in English and Spanish.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Installed, tested, and diagnosed ultrasound systems, X-ray units, flat-panel detectors, and triggering devices; verified correct
+operation before handover to the client.
+Resolved 15+ service cases by structured fault isolation (symptom → subsystem → component), documenting findings,
+corrective actions, and results in technical reports.
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90%
+(MXN $15,000 → $1,500).
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88 and
+checked stress, deformation, and fatigue on critical parts.
+Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the
+ISPO 20th World Congress, Stockholm.
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · DRV8825 · 3D printing
+Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque
+capacity, and ratios (Willis equation) before printing.
+Diagnosed stepper-driver failures: calibrated DRV8825 current limit (VREF), traced thermal shutdown, and checked STEP-
+signal integrity.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32
+driving 3 servos at up to 66 Hz.
+Validated on hardware with manual-response tests and autonomous balancing runs; tuned gains, axis mapping, and center
+calibration iteratively.
+SKILLS & CERTIFICATIONS
+Test & Validation: Test planning and execution, functional and integration testing, fault isolation, root-cause analysis,
+calibration, test reports and traceability
+Analysis & CAD: SolidWorks (CSWA), SolidWorks Simulation (FEA: stress, safety factor, fatigue), GD&T, tolerance analysis,
+MATLAB/Simulink
+Embedded & Data: ESP32/Arduino, Raspberry Pi, Python (OpenCV, Pandas), C/C++, sensors and actuators, stepper/servo
+drivers, Excel, Power BI
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
+```
+
+## CV BASE: GE_Development_Program_CON_FOTO/Arith_Maldonado_Zamudio_CV_GE.pdf
+
+Archivos con este mismo CV:
+- GE_Development_Program_CON_FOTO/Arith_Maldonado_Zamudio_CV_GE.pdf
+
+```
+Arith Maldonado Zamudio
+Mechatronics & Biomedical Engineer | Field Service · Controls · Technical Support
+Puebla, Mexico · Open to relocation | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+LinkedIn: linkedin.com/in/arith-maldonado-zamudio-4038262b5
+Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+SUMMARY
+Early-career engineer with two engineering degrees (Mechatronics, Dec 2026; Biomedical with Honors, GPA 9.1/10) and 6
+months of customer-facing field service on ultrasound and X-ray equipment: installation, preventive and corrective maintenance,
+troubleshooting, and user training. Designed and built 7 working prototypes in control systems, embedded systems, IoT, and
+mechanical design (CAD/FEA), and presented research at the ISPO World Congress 2025. Clear technical communicator in English
+(C2) and Spanish; open to rotational assignments, travel, shifts, and relocation in Mexico or abroad.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, medical device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla, Mexico Jul 2024 – Dec 2024
+Performed installation, preventive and corrective maintenance, and fault diagnosis on ultrasound systems, X-ray units, flat-
+panel detectors, and triggering devices at hospital and clinic sites.
+Resolved 15+ service cases end-to-end: troubleshooting, root-cause analysis, technical reports, warranty/ticket processing,
+and customer follow-up.
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the customer's part cost by
+90% (MXN $15,000 to $1,500).
+Trained physicians and technicians on equipment operation, safe use, and first-level troubleshooting.
+ENGINEERING PROJECTS
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Built a vision-guided closed-loop control system: OpenCV ball tracking, PD controller, and Bluetooth commands to an ESP32
+driving 3 servos at up to 66 Hz.
+Wrote fail-safe firmware (motion ramping, angle limits, 700 ms timeout to a safe position) and validated it with hardware tests
+and gain tuning.
+Ball & Beam Digital Control Prototype | Arduino · NEMA 17/DRV8825 · MATLAB Expo Ibero 2026
+Modeled an open-loop-unstable system, discretized it (ZOH), and tuned a digital PID (Ziegler-Nichols, ISE) implemented on
+Arduino with anti-windup and sensor filtering.
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88; reached
+4.8/5 user satisfaction (QUEST 2.0).
+XGIO Smart-Cane GPS Ecosystem | ESP32 · Python · Firebase · React Native Social service
+Built a 7-module IoT system: ESP32 firmware (GPS, fall detection, SOS), Firebase backend, caregiver mobile app, and web
+dashboard.
+SKILLS & CERTIFICATIONS
+Field Service & Technical Support: Installation and start-up, preventive/corrective maintenance, electrical and electromechanical
+troubleshooting, root-cause analysis, service reports, customer training
+Engineering: SolidWorks (CSWA), FEA, GD&T, PID/closed-loop control, Siemens S7-1200 PLC (project-based), sensors, motors and
+drives, MATLAB/Simulink
+Software & Data: Python (OpenCV, Pandas), C/C++, ESP32/Arduino, Raspberry Pi, Excel, Power BI; project management (Google
+certificate)
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
+```
+
+## CV BASE: Schneider_GSC_CON_FOTO/Arith_Maldonado_Zamudio_CV.pdf
+
+Archivos con este mismo CV:
+- Schneider_GSC_CON_FOTO/Arith_Maldonado_Zamudio_CV.pdf
+
+```
+Arith Maldonado Zamudio
+Mechatronics & Biomedical Engineer | Schneider Development Program – Global Supply Chain
+Puebla, Mexico · Open to relocation in Mexico | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+LinkedIn: linkedin.com/in/arith-maldonado-zamudio-4038262b5
+Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+SUMMARY
+Early-career engineer with two engineering degrees (Mechatronics, Dec 2026; Biomedical with Honors, GPA 9.1/10) and 6 months of
+customer-facing field service experience. Brings a cost- and data-driven approach to operations: qualified an alternative replacement
+part that cut a customer's cost by 90%, managed 15+ service cases end-to-end with full documentation, and designed parts for
+manufacturability (CNC, laser cutting, 3D printing). Certified in project management and fluent in English (C2). Available full-time from
+January 2027 and open to rotations and relocation anywhere in Mexico.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Medical device design and prototyping, material selection, finite element analysis
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla, Mexico Jul 2024 – Dec 2024
+Identified and qualified a functionally equivalent replacement for a failed power supply, reducing the customer's part cost by 90%
+(MXN $15,000 to $1,500).
+Managed 15+ service cases end-to-end: diagnosis, root-cause analysis, warranty/ticket processing, technical reports, and customer
+follow-up.
+Installed and maintained (preventive and corrective) ultrasound systems, X-ray units, and flat-panel detectors at hospital and clinic
+sites, keeping equipment in service.
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Fastener-Free Laser-Cut Assembly | SolidWorks · DXF · Laser cutting
+Designed for manufacturability (DFM) an MDF structure assembled only with slot-and-tab joints, sized to material thickness and
+laser-kerf tolerances; zero screws or adhesive.
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Led the redesign from user requirements to prototype: material selection, FEA validation (min. safety factor 2.88 under 50 N), and
+4.8/5 user satisfaction (QUEST 2.0).
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · 3D printing
+Designed two 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified fit, interference, and torque capacity in CAD before
+fabrication to avoid rework.
+XGIO Smart-Cane GPS Ecosystem | ESP32 · Python · Firebase · Dashboard Social service
+Coordinated a 7-module IoT system (device firmware, cloud backend, mobile app, web dashboard) and wrote Python data filters
+that removed GPS noise from tracking data.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · SolidWorks
+Integrated vision, control, and firmware into a working closed-loop system; validated it through iterative hardware testing and
+tuning.
+SKILLS & CERTIFICATIONS
+Operations & Supply Chain: Cost reduction, replacement-part qualification, root-cause analysis, DFM, manufacturing processes (CNC,
+lathe, milling, laser cutting, 3D printing), BOMs, technical documentation
+Data & Management: Excel, Power BI, Python (Pandas), MATLAB; project management (Google certificate); customer communication
+and training
+Engineering: SolidWorks (CSWA), FEA, GD&T, industrial automation, Siemens S7-1200 PLC (project-based), control systems, sensors
+and drives
+Certifications: Google Project Management; CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing
+Associate; Siemens Industry Foundations; Siemens Basics of Robotics
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
+```
+
+## CV BASE: EN_CON_FOTO/GE_HealthCare_QA_Engineer_I/CV_Arith_Maldonado.pdf
+
+Archivos con este mismo CV:
+- EN_CON_FOTO/GE_HealthCare_QA_Engineer_I/CV_Arith_Maldonado.pdf
+
+```
+Arith Maldonado Zamudio
+QA Engineer | Medical Devices · Verification & Validation · CAPA · Root-Cause Analysis
+Puebla, Mexico · Open to relocation (Mexico & abroad) | +52 221 974 4717 | maldonado.zamudio.arith@gmail.com
+LinkedIn: linkedin.com/in/arith-maldonado-zamudio-4038262b5
+Portfolio: aritmaldzamu.github.io/portfolio-ingenieria-mecanica
+PROFILE
+Biomedical Engineer with Honors and Mechatronics Engineer (B.Eng. Dec 2026) with 6 months of quality-focused field
+experience in medical imaging equipment (ultrasound, X-ray). Verified equipment performance before release, handled
+customer complaints and warranty cases with traceable documentation, and led design verification and validation of a
+prosthetic device (FEA, user validation) presented at ISPO 2025. Bilingual English/Spanish (C2), strong problem solver who
+works independently.
+EDUCATION
+B.Eng. Mechatronics Engineering — Universidad Iberoamericana Puebla Expected Dec 2026
+GPA 9.1/10 · Industrial Automation, Advanced Control Systems, Embedded Systems, Mechanical Design, Strength of Materials
+B.Eng. Biomedical Engineering, Honors Mention — Universidad Iberoamericana Puebla 2020 – 2024
+GPA 9.1/10 · Biomechanics, finite element analysis, device design and prototyping
+PROFESSIONAL EXPERIENCE
+Technical Service & Applications Specialist — Punto Focal Equipo Médico, Puebla Jul 2024 – Dec 2024
+Installed, tested, and verified ultrasound systems, X-ray units, and flat-panel detectors against functional specifications
+before release to the client, documenting results in service reports.
+Handled 15+ field service cases and warranty claims end-to-end: complaint intake, troubleshooting, root-cause analysis,
+corrective actions, and customer follow-up, with full traceability of each record.
+Root-caused a failed power supply and qualified a functionally equivalent replacement, cutting the client's part cost by 90%
+(MXN $15,000 → $1,500).
+Trained physicians and technicians on equipment operation and first-level troubleshooting.
+ENGINEERING PROJECTS
+Transradial Prosthesis Tool Holder | SolidWorks Simulation · AISI 304 · PETG ISPO World Congress 2025
+Redesigned a dental-tool holder for a prosthesis user; FEA under a 50 N load confirmed a minimum safety factor of 2.88 and
+checked stress, deformation, and fatigue on critical parts.
+Selected materials, iterated CAD for assembly, and reached 4.8/5 device satisfaction (QUEST 2.0); poster accepted at the
+ISPO 20th World Congress, Stockholm.
+Two-Link Articulated Robotic Arm | SolidWorks · NEMA 17 · DRV8825 · 3D printing
+Designed two compact 3D-printed planetary gearboxes (4.36:1 and 6:1) and verified concentricity, interference, torque
+capacity, and ratios (Willis equation) before printing.
+3-DOF Ball-Balancing Platform | ESP32 · Python/OpenCV · Bluetooth · SolidWorks
+Built a vision-guided closed-loop system: OpenCV (HSV) ball tracking, PD controller, and Bluetooth commands to an ESP32
+driving 3 servos at up to 66 Hz.
+Validated on hardware with manual-response tests and autonomous balancing runs; tuned gains, axis mapping, and center
+calibration iteratively.
+SKILLS & CERTIFICATIONS
+Quality & Compliance: Design verification and validation, root-cause analysis, corrective and preventive actions (CAPA),
+complaint handling, risk assessment, technical documentation and traceability, GD&T, metrology
+Regulatory Knowledge: ISO 13485, FDA 21 CFR 820 (QSR), ISO 14971 risk management, NOM-241-SSA1 / COFEPRIS, Good
+Documentation Practices
+Tools: Microsoft Office (Excel, Word, PowerPoint), Power BI, SolidWorks (CSWA) and SolidWorks Simulation (FEA), MATLAB,
+Python; Google Project Management certificate
+Certifications: CSWA; SOLIDWORKS Simulation Associate; SOLIDWORKS Additive Manufacturing Associate; Siemens Basics of
+Robotics; Siemens Industry Foundations; Google Project Management
+Languages: Spanish (native); English (C2, EF SET certified); German (A2)
 ```
