@@ -161,9 +161,10 @@ try {
   expect('ES Nombre(s)', await v('#n1'), 'Arith');
   expect('ES Apellido paterno', await v('#n2'), 'Maldonado');
   expect('ES Apellido materno', await v('#n3'), 'Zamudio');
-  expect('ES Ciudad (Puebla)', await v('#a2'), 'Puebla');
+  expect('ES Ciudad (Puebla)', await v('#a2'), 'Heroica Puebla de Zaragoza');
   expect('ES Estado (Puebla)', await v('#a3'), 'Puebla');
-  expect('ES Dirección línea 1 vacía (falta en perfil)', await v('#a1'), '');
+  expect('ES Dirección línea 1 (Puebla)', await v('#a1'), 'C. 29 37');
+  expect('ES Código postal (Puebla)', await v('#a4'), '72190');
   expect('ES Tipo de teléfono', await v('#t1'), 'Móvil');
   expect('ES Código de país', await es.$eval('[data-automation-id="formField-t2"] [data-automation-id="selectedItem"]', (e) => e.textContent), 'México (+52)');
   expect('ES Teléfono', await v('#t3'), '2219744717');
@@ -177,7 +178,7 @@ try {
   expect('ES Mayor de edad', await v('#q'), 'Sí');
   const esPanel = await es.locator('#wdaf-root .card').innerText();
   console.log('--- panel ---\n' + esPanel + '\n-------------');
-  expect('ES panel marca dirección faltante', esPanel, /Dirección línea 1/);
+  expect('ES panel sin pendientes de dirección', /Dirección|Código postal/.test(esPanel), false);
   await es.screenshot({ path: path.join(here, 'e2e-result-es.png'), fullPage: true });
 
   // ---------- Popup y opciones cargan sin errores ----------
@@ -192,7 +193,7 @@ try {
     if (pg.includes('popup')) expect('Popup muestra direcciones', await p2.$$eval('#address option', (o) => o.map((x) => x.textContent).join('|')), 'Monterrey|Puebla');
     if (pg.includes('options')) {
       expect('Opciones: editor con perfil', await p2.$eval('#editor', (e) => JSON.parse(e.value).personal.firstName), 'Arith');
-      expect('Opciones: advierte Puebla incompleta', await p2.textContent('#warnings'), /Puebla/);
+      expect('Opciones: Puebla completa', /Puebla/.test(await p2.textContent('#warnings')), false);
       await p2.setViewportSize({ width: 1000, height: 900 });
       await p2.screenshot({ path: path.join(here, 'e2e-options.png') });
     }

@@ -8,12 +8,20 @@
     "lastNameFull": "Maldonado Zamudio",
     "email": "maldonado.zamudio.arith@gmail.com",
     "phone": {
-      "type": ["Mobile", "Móvil", "Celular"],
+      "type": [
+        "Mobile",
+        "Móvil",
+        "Celular"
+      ],
       "countryName": "Mexico",
       "countryCode": "+52",
       "number": "2219744717"
     },
-    "nationality": ["Mexican", "Mexicana", "Mexico"],
+    "nationality": [
+      "Mexican",
+      "Mexicana",
+      "Mexico"
+    ],
     "linkedin": "https://www.linkedin.com/in/arith-maldonado-zamudio-4038262b5",
     "github": "https://github.com/aritmaldzamu",
     "portfolio": "https://aritmaldzamu.github.io/portfolio-ingenieria-mecanica/"
@@ -21,8 +29,14 @@
   "addresses": [
     {
       "label": "Monterrey",
-      "country": ["Mexico", "México"],
-      "state": ["Nuevo León", "Nuevo Leon"],
+      "country": [
+        "Mexico",
+        "México"
+      ],
+      "state": [
+        "Nuevo León",
+        "Nuevo Leon"
+      ],
       "municipality": "San Nicolás de los Garza",
       "city": "San Nicolás de los Garza",
       "neighborhood": "Balcones de Santo Domingo",
@@ -32,22 +46,32 @@
       "postalCode": "66446",
       "line1": "C. San Simón 1214",
       "line2": "Balcones de Santo Domingo",
-      "line3": ""
+      "line3": "",
+      "full": "C. San Simón 1214, Balcones de Santo Domingo, 66446 San Nicolás de los Garza, N.L."
     },
     {
       "label": "Puebla",
-      "country": ["Mexico", "México"],
-      "state": ["Puebla"],
-      "municipality": "",
-      "city": "Puebla",
-      "neighborhood": "",
-      "street": "",
-      "exteriorNumber": "",
+      "country": [
+        "Mexico",
+        "México"
+      ],
+      "state": [
+        "Puebla"
+      ],
+      "municipality": "Puebla",
+      "city": [
+        "Heroica Puebla de Zaragoza",
+        "Puebla"
+      ],
+      "neighborhood": "San José Vista Hermosa",
+      "street": "C. 29",
+      "exteriorNumber": "37",
       "interiorNumber": "",
-      "postalCode": "",
-      "line1": "",
-      "line2": "",
-      "line3": ""
+      "postalCode": "72190",
+      "line1": "C. 29 37",
+      "line2": "San José Vista Hermosa",
+      "line3": "",
+      "full": "C. 29 37, San José Vista Hermosa, 72190 Heroica Puebla de Zaragoza, Pue."
     }
   ],
   "summary": "Mechatronics Engineering student and graduated Biomedical Engineer (Honors Mention), specialized in mechanical design, product development, and R&D in advanced manufacturing environments. Hands-on experience with 3D CAD modeling (SolidWorks, Creo Parametric), FEA simulation, engineering drawings, assemblies, and BOMs; complemented by practical manufacturing skills (CNC, lathe, milling, laser cutting, 3D printing).",
@@ -65,80 +89,286 @@
   ],
   "education": [
     {
-      "school": ["Universidad Iberoamericana Puebla", "Universidad Iberoamericana"],
-      "degree": ["Bachelor's Degree", "Bachelor", "Licenciatura", "Ingeniería"],
-      "fieldOfStudy": ["Mechatronics Engineering", "Mechatronics", "Ingeniería Mecatrónica", "Mechanical Engineering"],
+      "school": [
+        "Universidad Iberoamericana Puebla",
+        "Universidad Iberoamericana"
+      ],
+      "degree": [
+        "Bachelor's Degree",
+        "Bachelor",
+        "Licenciatura",
+        "Ingeniería"
+      ],
+      "fieldOfStudy": [
+        "Mechatronics Engineering",
+        "Mechatronics",
+        "Ingeniería Mecatrónica",
+        "Mechanical Engineering"
+      ],
       "gpa": "9.1",
       "start": "",
       "end": "2026-12"
     },
     {
-      "school": ["Universidad Iberoamericana Puebla", "Universidad Iberoamericana"],
-      "degree": ["Bachelor's Degree", "Bachelor", "Licenciatura", "Ingeniería"],
-      "fieldOfStudy": ["Biomedical Engineering", "Ingeniería Biomédica", "Bioengineering"],
+      "school": [
+        "Universidad Iberoamericana Puebla",
+        "Universidad Iberoamericana"
+      ],
+      "degree": [
+        "Bachelor's Degree",
+        "Bachelor",
+        "Licenciatura",
+        "Ingeniería"
+      ],
+      "fieldOfStudy": [
+        "Biomedical Engineering",
+        "Ingeniería Biomédica",
+        "Bioengineering"
+      ],
       "gpa": "9.1",
       "start": "2020",
       "end": "2024-12"
     }
   ],
   "languages": [
-    { "language": ["Spanish", "Español"], "native": true, "proficiency": ["Native", "Nativo", "Fluent", "Expert"] },
-    { "language": ["English", "Inglés"], "native": false, "proficiency": ["Advanced", "Avanzado", "Upper Intermediate", "Fluent", "Intermediate"] },
-    { "language": ["German", "Alemán"], "native": false, "proficiency": ["Beginner", "Basic", "Básico", "Elementary", "Principiante"] }
+    {
+      "language": [
+        "Spanish",
+        "Español"
+      ],
+      "native": true,
+      "proficiency": [
+        "Native",
+        "Nativo",
+        "Fluent",
+        "Expert"
+      ]
+    },
+    {
+      "language": [
+        "English",
+        "Inglés"
+      ],
+      "native": false,
+      "proficiency": [
+        "Advanced",
+        "Avanzado",
+        "Upper Intermediate",
+        "Fluent",
+        "Intermediate"
+      ]
+    },
+    {
+      "language": [
+        "German",
+        "Alemán"
+      ],
+      "native": false,
+      "proficiency": [
+        "Beginner",
+        "Basic",
+        "Básico",
+        "Elementary",
+        "Principiante"
+      ]
+    }
   ],
   "websites": [
     "https://aritmaldzamu.github.io/portfolio-ingenieria-mecanica/",
     "https://github.com/aritmaldzamu"
   ],
   "skills": [
-    ["SolidWorks", "SOLIDWORKS"],
-    ["Creo Parametric", "PTC Creo", "Creo"],
-    ["Finite Element Analysis (FEA)", "Finite Element Analysis", "FEA"],
-    ["Computer-Aided Design (CAD)", "CAD", "Computer Aided Design"],
-    ["Geometric Dimensioning and Tolerancing (GD&T)", "GD&T", "Geometric Dimensioning and Tolerancing"],
-    ["Design for Manufacturing", "DFM", "Design for Manufacturability"],
-    ["Rapid Prototyping", "Prototyping"],
-    ["Engineering Drawings", "Technical Drawing"],
-    ["Bill of Materials (BOM)", "Bill of Materials"],
-    ["CNC", "CNC Machining", "CNC Programming"],
-    ["3D Printing", "Additive Manufacturing"],
-    ["Metrology"],
-    ["Python", "Python (Programming Language)"],
-    ["OpenCV"],
-    ["MATLAB"],
-    ["Arduino"],
-    ["PID Control", "Control Systems"],
-    ["Microsoft Power BI", "Power BI"],
-    ["Microsoft Excel", "Excel"],
-    ["Technical Documentation", "Technical Writing"]
+    [
+      "SolidWorks",
+      "SOLIDWORKS"
+    ],
+    [
+      "Creo Parametric",
+      "PTC Creo",
+      "Creo"
+    ],
+    [
+      "Finite Element Analysis (FEA)",
+      "Finite Element Analysis",
+      "FEA"
+    ],
+    [
+      "Computer-Aided Design (CAD)",
+      "CAD",
+      "Computer Aided Design"
+    ],
+    [
+      "Geometric Dimensioning and Tolerancing (GD&T)",
+      "GD&T",
+      "Geometric Dimensioning and Tolerancing"
+    ],
+    [
+      "Design for Manufacturing",
+      "DFM",
+      "Design for Manufacturability"
+    ],
+    [
+      "Rapid Prototyping",
+      "Prototyping"
+    ],
+    [
+      "Engineering Drawings",
+      "Technical Drawing"
+    ],
+    [
+      "Bill of Materials (BOM)",
+      "Bill of Materials"
+    ],
+    [
+      "CNC",
+      "CNC Machining",
+      "CNC Programming"
+    ],
+    [
+      "3D Printing",
+      "Additive Manufacturing"
+    ],
+    [
+      "Metrology"
+    ],
+    [
+      "Python",
+      "Python (Programming Language)"
+    ],
+    [
+      "OpenCV"
+    ],
+    [
+      "MATLAB"
+    ],
+    [
+      "Arduino"
+    ],
+    [
+      "PID Control",
+      "Control Systems"
+    ],
+    [
+      "Microsoft Power BI",
+      "Power BI"
+    ],
+    [
+      "Microsoft Excel",
+      "Excel"
+    ],
+    [
+      "Technical Documentation",
+      "Technical Writing"
+    ]
   ],
   "certifications": [
-    { "name": "Certified SOLIDWORKS Associate (CSWA)", "issuer": "Dassault Systèmes", "number": "", "date": "" },
-    { "name": "Certified SOLIDWORKS Simulation Associate", "issuer": "Dassault Systèmes", "number": "", "date": "" },
-    { "name": "Certified SOLIDWORKS Additive Manufacturing Associate", "issuer": "Dassault Systèmes", "number": "", "date": "" },
-    { "name": "Google Project Management Certificate", "issuer": "Google / Coursera", "number": "", "date": "" },
-    { "name": "Basics of Robotics", "issuer": "Siemens / Coursera", "number": "", "date": "" },
-    { "name": "Siemens Expedite - Skills for Industry: Industry Foundations", "issuer": "Siemens / Coursera", "number": "", "date": "" }
+    {
+      "name": "Certified SOLIDWORKS Associate (CSWA)",
+      "issuer": "Dassault Systèmes",
+      "number": "",
+      "date": ""
+    },
+    {
+      "name": "Certified SOLIDWORKS Simulation Associate",
+      "issuer": "Dassault Systèmes",
+      "number": "",
+      "date": ""
+    },
+    {
+      "name": "Certified SOLIDWORKS Additive Manufacturing Associate",
+      "issuer": "Dassault Systèmes",
+      "number": "",
+      "date": ""
+    },
+    {
+      "name": "Google Project Management Certificate",
+      "issuer": "Google / Coursera",
+      "number": "",
+      "date": ""
+    },
+    {
+      "name": "Basics of Robotics",
+      "issuer": "Siemens / Coursera",
+      "number": "",
+      "date": ""
+    },
+    {
+      "name": "Siemens Expedite - Skills for Industry: Industry Foundations",
+      "issuer": "Siemens / Coursera",
+      "number": "",
+      "date": ""
+    }
   ],
   "preferences": {
-    "source": ["LinkedIn"],
+    "source": [
+      "LinkedIn"
+    ],
     "salaryExpectation": "",
     "availability": ""
   },
   "answers": [
-    { "question": "previously (worked|been employed)|ever worked for|trabajado (anteriormente|antes|previamente)|has sido emplead|ex ?emplead", "answer": "No" },
-    { "question": "(18|eighteen) (years|anos)|at least 18|mayor de edad", "answer": "Yes" },
-    { "question": "(legally )?(authorized|eligible) to work in mexico|autorizad[oa] (legalmente )?para trabajar en mexico|permiso (legal )?para trabajar en mexico", "answer": "Yes" },
-    { "question": "willing to relocate|open to relocat|dispuest[oa] a (reubicarte|cambiar(te)? de (residencia|ciudad)|mudarte)|disponibilidad (para|de) (reubicacion|cambio de residencia)", "answer": "Yes" },
-    { "question": "willing to travel|disponibilidad (para|de) viajar|dispuest[oa] a viajar", "answer": "Yes" },
-    { "question": "(relative|family member|familiar).*(work|employ|trabaj)|familiares (que )?trabaj", "answer": "No" },
-    { "question": "non ?compete|no competencia", "answer": "No" },
-    { "question": "highest (level of )?education|maximo (grado|nivel) de estudios|ultimo grado de estudios", "answer": ["Bachelor's Degree", "Bachelor", "Licenciatura"] },
-    { "question": "english (level|proficiency)|nivel de ingles", "answer": ["Advanced", "Avanzado"] },
-    { "question": "(require|need).*(sponsorship|visa)|patrocinio|requier(e|es) visa", "answer": "" },
-    { "question": "gender|genero|\\bsexo\\b", "answer": "" },
-    { "question": "hispanic|latino|ethnicity|race|etnia", "answer": "" },
-    { "question": "veteran|veterano", "answer": "" },
-    { "question": "disability|discapacidad", "answer": "" }
+    {
+      "question": "previously (worked|been employed)|ever worked for|trabajado (anteriormente|antes|previamente)|has sido emplead|ex ?emplead",
+      "answer": "No"
+    },
+    {
+      "question": "(18|eighteen) (years|anos)|at least 18|mayor de edad",
+      "answer": "Yes"
+    },
+    {
+      "question": "(legally )?(authorized|eligible) to work in mexico|autorizad[oa] (legalmente )?para trabajar en mexico|permiso (legal )?para trabajar en mexico",
+      "answer": "Yes"
+    },
+    {
+      "question": "willing to relocate|open to relocat|dispuest[oa] a (reubicarte|cambiar(te)? de (residencia|ciudad)|mudarte)|disponibilidad (para|de) (reubicacion|cambio de residencia)",
+      "answer": "Yes"
+    },
+    {
+      "question": "willing to travel|disponibilidad (para|de) viajar|dispuest[oa] a viajar",
+      "answer": "Yes"
+    },
+    {
+      "question": "(relative|family member|familiar).*(work|employ|trabaj)|familiares (que )?trabaj",
+      "answer": "No"
+    },
+    {
+      "question": "non ?compete|no competencia",
+      "answer": "No"
+    },
+    {
+      "question": "highest (level of )?education|maximo (grado|nivel) de estudios|ultimo grado de estudios",
+      "answer": [
+        "Bachelor's Degree",
+        "Bachelor",
+        "Licenciatura"
+      ]
+    },
+    {
+      "question": "english (level|proficiency)|nivel de ingles",
+      "answer": [
+        "Advanced",
+        "Avanzado"
+      ]
+    },
+    {
+      "question": "(require|need).*(sponsorship|visa)|patrocinio|requier(e|es) visa",
+      "answer": ""
+    },
+    {
+      "question": "gender|genero|\\bsexo\\b",
+      "answer": ""
+    },
+    {
+      "question": "hispanic|latino|ethnicity|race|etnia",
+      "answer": ""
+    },
+    {
+      "question": "veteran|veterano",
+      "answer": ""
+    },
+    {
+      "question": "disability|discapacidad",
+      "answer": ""
+    }
   ]
 }

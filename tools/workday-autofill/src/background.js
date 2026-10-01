@@ -1,11 +1,27 @@
 // Service worker: atajo de teclado, puente popup -> pestaña y perfil inicial.
 const CONTENT_FILES = ['src/content/utils.js', 'src/content/fields.js', 'src/content/rules.js', 'src/content/widgets.js', 'src/content/panel.js', 'src/content/main.js'];
 
+const isBlank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
+
+/**
+ * Al instalar: carga el perfil de ejemplo. Al actualizar: completa SOLO los
+ * datos de dirección que estén vacíos en tu perfil guardado (por etiqueta,
+ * p.ej. "Puebla"), sin pisar nada que ya hayas escrito.
+ */
 chrome.runtime.onInstalled.addListener(async () => {
+  const example = await (await fetch(chrome.runtime.getURL('profile.example.json'))).json();
   const { profile } = await chrome.storage.local.get('profile');
-  if (profile) return;
-  const res = await fetch(chrome.runtime.getURL('profile.example.json'));
-  await chrome.storage.local.set({ profile: await res.json() });
+  if (!profile) return chrome.storage.local.set({ profile: example });
+  const mine = (profile.addresses = profile.addresses || []);
+  for (const ex of example.addresses || []) {
+    const cur = mine.find((a) => a.label === ex.label);
+    if (!cur) {
+      mine.push(ex);
+      continue;
+    }
+    for (const [k, v] of Object.entries(ex)) if (isBlank(cur[k]) && !isBlank(v)) cur[k] = v;
+  }
+  await chrome.storage.local.set({ profile });
 });
 
 async function activeTab() {
