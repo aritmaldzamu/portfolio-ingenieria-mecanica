@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fixture · Workday-like application</title>
+<!--
+  Simulación de los widgets de Workday para probar la extensión sin una cuenta real:
+  - Listas desplegables: <button aria-haspopup="listbox"> que abre un popup con [role=option]
+  - Prompts con búsqueda: input[data-automation-id=searchBox] + Enter -> [data-automation-id=promptOption]
+    (con categorías anidadas, como "How Did You Hear About Us?")
+  - Fechas por segmento: dateSectionMonth-input / dateSectionYear-input
+  - Secciones repetibles con botón "Add" que crea ids tipo workExperience-<n>--jobTitle
+  - Al elegir país, la dirección se vuelve a renderizar (como Workday)
+-->
+<style>
+  body { font-family: sans-serif; max-width: 760px; margin: 20px auto; }
+  [data-automation-id^="formField"] { margin: 10px 0; }
+  label, legend { display: block; font-weight: 600; }
+  [data-automation-popup] { position: absolute; background: #fff; border: 1px solid #999; z-index: 10; max-height: 200px; overflow: auto; }
+  [role="option"], [data-automation-id="promptOption"] { padding: 3px 8px; cursor: pointer; }
+  [data-automation-id="selectedItem"] { display: inline-block; background: #def; margin: 2px; padding: 2px 6px; }
+  section { border: 1px solid #ccc; padding: 8px; margin: 12px 0; }
+</style>
+</head>
+<body>
+<div data-automation-id="applyFlowPage">
+  <div data-automation-id="progressBarActiveStep">My Information</div>
+
+  <div data-automation-id="formField-source">
+    <label>How Did You Hear About Us?<abbr title="required">*</abbr></label>
+    <div class="prompt" data-tree="source"><div data-automation-id="multiselectInputContainer"><input data-automation-id="searchBox" id="source--source" placeholder="Search"></div></div>
+  </div>
+
+  <fieldset data-automation-id="formField-candidateIsPreviousWorker">
+    <legend>Have you previously worked for Acme? *</legend>
+    <label><input type="radio" name="candidateIsPreviousWorker" value="true" id="prev-yes"> Yes</label>
+    <label><input type="radio" name="candidateIsPreviousWorker" value="false" id="prev-no"> No</label>
+  </fieldset>
+
+  <div data-automation-id="formField-country">
+    <label for="country--country">Country*</label>
+    <button type="button" id="country--country" aria-haspopup="listbox" data-options="United States of America|Mexico|Canada|Germany">Select One</button>
+  </div>
+
+  <div data-automation-id="formField-legalName--firstName"><label for="name--legalName--firstName">Given Name(s)*</label><input id="name--legalName--firstName" aria-required="true"></div>
+  <div data-automation-id="formField-legalName--lastName"><label for="name--legalName--lastName">Family Name*</label><input id="name--legalName--lastName" aria-required="true"></div>
+  <div data-automation-id="formField-legalName--secondaryLastName"><label for="name--legalName--secondaryLastName">Secondary Family Name</label><input id="name--legalName--secondaryLastName"></div>
+
+  <div id="address-block"></div>
+
+  <div data-automation-id="formField-email"><label for="email">Email Address*</label><input id="email" type="email"></div>
+
+  <div data-automation-id="formField-phoneType">
+    <label for="phoneNumber--phoneType">Phone Device Type*</label>
+    <button type="button" id="phoneNumber--phoneType" aria-haspopup="listbox" data-options="Home|Mobile|Work">Select One</button>
+  </div>
+  <div data-automation-id="formField-countryPhoneCode">
+    <label>Country Phone Code*</label>
+    <div class="prompt" data-tree="phone"><div data-automation-id="multiselectInputContainer"><input data-automation-id="searchBox" id="phoneNumber--countryPhoneCode"></div></div>
+  </div>
+  <div data-automation-id="formField-phoneNumber"><label for="phoneNumber--phoneNumber">Phone Number*</label><input id="phoneNumber--phoneNumber"></div>
+  <div data-automation-id="formField-extension"><label for="phoneNumber--extension">Phone Extension</label><input id="phoneNumber--extension"></div>
+
+  <h2>My Experience</h2>
+  <section role="group" aria-labelledby="we-h"><h3 id="we-h">Work Experience</h3><div class="entries"></div><button type="button" data-automation-id="add-button" aria-label="Add Work Experience" data-kind="workExperience">Add</button></section>
+  <section role="group" aria-labelledby="ed-h"><h3 id="ed-h">Education</h3><div class="entries"></div><button type="button" data-automation-id="add-button" aria-label="Add Education" data-kind="education">Add</button></section>
+  <section role="group" aria-labelledby="la-h"><h3 id="la-h">Languages</h3><div class="entries"></div><button type="button" data-automation-id="add-button" aria-label="Add Languages" data-kind="language">Add</button></section>
+  <section role="group" aria-labelledby="ws-h"><h3 id="ws-h">Websites</h3><div class="entries"></div><button type="button" data-automation-id="add-button" aria-label="Add Websites" data-kind="webAddress">Add</button></section>
+
+  <div data-automation-id="formField-skills">
+    <label>Type to Add Skills</label>
+    <div class="prompt" data-tree="skills"><div data-automation-id="multiselectInputContainer"><input data-automation-id="searchBox" id="skills--skills"></div></div>
+  </div>
+
+  <div data-automation-id="formField-resume">
+    <label>Resume/CV</label>
+    <input type="file" data-automation-id="file-upload-input-ref" id="resume-input">
+    <div id="resume-name"></div>
+  </div>
+
+  <div data-automation-id="formField-linkedin"><label for="socialNetworkAccounts--linkedInAccount">LinkedIn</label><input id="socialNetworkAccounts--linkedInAccount"></div>
+
+  <h2>Application Questions</h2>
+  <div data-automation-id="formField-q1">
+    <label for="q1">Are you legally authorized to work in Mexico?*</label>
+    <button type="button" id="q1" aria-haspopup="listbox" data-options="Yes|No">Select One</button>
+  </div>
+  <fieldset data-automation-id="formField-q2"><legend>¿Estás dispuesto a cambiar de residencia? *</legend>
+    <label><input type="radio" name="q2" id="q2y"> Sí</label><label><input type="radio" name="q2" id="q2n"> No</label>
+  </fieldset>
+  <div data-automation-id="formField-q3"><label for="q3">What is your salary expectation?*</label><input id="q3" aria-required="true"></div>
+  <div data-automation-id="formField-q4"><label for="q4">Do you have a valid driver's license?*</label>
+    <button type="button" id="q4" aria-haspopup="listbox" data-options="Yes|No">Select One</button></div>
+  <div data-automation-id="formField-q5"><label for="q5">Highest level of education*</label>
+    <select id="q5"><option value="">Select</option><option value="hs">High School</option><option value="ba">Bachelor's Degree</option><option value="ms">Master's Degree</option></select></div>
+  <div data-automation-id="formField-q6"><label for="q6">Marital status (Estado civil)</label><input id="q6"></div>
+
+  <button type="button" data-automation-id="bottom-navigation-next-button" id="next">Save and Continue</button>
+</div>
+
+<script src="fixture-widgets.js"></script>
+</body>
+</html>

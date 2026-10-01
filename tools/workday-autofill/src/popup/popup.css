@@ -1,0 +1,14 @@
+:root { color-scheme: light dark; --bg: #fff; --fg: #1f2937; --muted: #6b7280; --line: #e5e7eb; --accent: #0b5cad; }
+@media (prefers-color-scheme: dark) { :root { --bg: #1f2124; --fg: #e5e7eb; --muted: #9ca3af; --line: #374151; --accent: #3b82f6; } }
+body { width: 300px; margin: 0; padding: 12px 14px; font: 13px/1.4 "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.muted { color: var(--muted); font-size: 12px; }
+.primary { width: 100%; padding: 10px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
+.primary[disabled] { opacity: .7; cursor: progress; }
+.result { margin: 8px 0 0; padding: 8px; border-radius: 8px; background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.result.err { background: color-mix(in srgb, #dc2626 15%, transparent); }
+.field { display: block; margin-top: 12px; font-weight: 600; }
+.field select { display: block; width: 100%; margin-top: 4px; padding: 5px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+.check { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
+footer { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line); }
+a { color: var(--accent); }

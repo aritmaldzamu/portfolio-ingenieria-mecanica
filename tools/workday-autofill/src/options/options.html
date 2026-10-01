@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Autollenado · Perfil</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <h1>⚡ Autollenado · Tu perfil</h1>
+    <p class="muted">Todo se guarda solo en este navegador (<code>chrome.storage.local</code>). Nada se envía a ningún servidor.</p>
+
+    <section>
+      <h2>CVs para subir</h2>
+      <p class="muted">Se suben automáticamente en el campo "Resume/CV" de Workday. Elige cuál usar desde el ícono de la extensión.</p>
+      <ul id="resumes"></ul>
+      <label class="btn">Agregar CV (PDF/DOCX)<input type="file" id="resumeFile" accept=".pdf,.doc,.docx" multiple hidden></label>
+    </section>
+
+    <section>
+      <h2>Datos (JSON)</h2>
+      <p class="muted">
+        Valores entre corchetes <code>["A", "B"]</code> = alternativas para listas desplegables (usa la primera que exista).
+        Fechas como <code>"2024-07"</code>. En <code>answers</code>, <code>question</code> es una expresión regular (sin acentos, minúsculas)
+        y <code>answer</code> la respuesta. Si una pregunta sale como "no reconocida", usa "Copiar preguntas sin respuesta" en el panel y pégala aquí.
+      </p>
+      <div class="toolbar">
+        <button id="save" class="primary">Guardar</button>
+        <button id="format">Formatear</button>
+        <button id="export">Exportar .json</button>
+        <label class="btn">Importar .json<input type="file" id="importFile" accept=".json,application/json" hidden></label>
+        <button id="reset" class="danger">Restaurar ejemplo</button>
+        <span id="status"></span>
+      </div>
+      <ul id="warnings"></ul>
+      <textarea id="editor" spellcheck="false"></textarea>
+    </section>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

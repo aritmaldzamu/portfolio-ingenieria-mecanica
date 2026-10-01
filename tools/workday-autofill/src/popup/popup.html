@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <strong>⚡ Autollenado</strong>
+    <span id="who" class="muted"></span>
+  </header>
+
+  <button id="fill" class="primary">Llenar esta página</button>
+  <div id="result" class="result" hidden></div>
+
+  <label class="field">Dirección a usar
+    <select id="address"></select>
+  </label>
+  <label class="field">CV a subir
+    <select id="resume"></select>
+  </label>
+
+  <label class="check"><input type="checkbox" id="overwrite"> Sobrescribir campos que ya tienen valor</label>
+  <label class="check"><input type="checkbox" id="floatingButton"> Botón flotante en Workday</label>
+  <label class="check"><input type="checkbox" id="autoOnStep"> Llenar solo al cambiar de paso</label>
+  <label class="check"><input type="checkbox" id="addCertifications"> Agregar entradas de certificaciones</label>
+
+  <footer>
+    <a href="#" id="options">Editar perfil y CVs</a>
+    <span class="muted">Atajo: Alt+Shift+L</span>
+  </footer>
+  <script src="popup.js"></script>
+</body>
+</html>
