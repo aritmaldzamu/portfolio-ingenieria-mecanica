@@ -4,9 +4,15 @@ Gem de Gemini que entra a tu Gmail y te dice cómo van tus postulaciones: a cuá
 
 ## Archivos
 
+- `SKILL.md`: la habilidad para subir a Gemini (nombre `seguimiento-postulaciones`, en kebab-case).
+- `gemini/seguimiento-postulaciones.zip`: la carpeta lista para **Subir una habilidad** en Gemini (contiene `seguimiento-postulaciones/SKILL.md`).
 - `gemini/Instrucciones_Gem_Postulaciones.txt`: se pega completo en **Instrucciones** del Gem. No necesita archivos de conocimiento.
 
-## Crear el Gem
+## Subirla como habilidad (recomendado)
+
+En Gemini → **Subir una habilidad** → elige `gemini/seguimiento-postulaciones.zip` (o la carpeta `seguimiento-postulaciones` con su `SKILL.md`). Si actualizas `SKILL.md`, vuelve a generar el zip.
+
+## O crear un Gem
 
 1. En gemini.google.com → **Explorar Gems** → **Nuevo Gem**.
 2. Nombre: `Seguimiento de postulaciones`.
