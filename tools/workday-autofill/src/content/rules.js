@@ -25,9 +25,9 @@
   function dateValue(f, raw) {
     const d = parseDate(raw);
     if (!d) return null;
-    if (f.kind === 'date-year') return d.year;
-    if (f.kind === 'date-month') return d.month;
-    if (f.kind === 'date-day') return d.day;
+    // segmentos (MM / AAAA / DD): se pasa la fecha completa; el widget llena todo el grupo
+    const part = { 'date-year': 'year', 'date-month': 'month', 'date-day': 'day' }[f.kind];
+    if (part) return d[part] ? { date: d, part } : null;
     if (f.kind === 'date-native') return `${d.year}-${d.month || '01'}-${d.day || '01'}`;
     return null;
   }
@@ -90,6 +90,13 @@
     { name: 'Código postal', label: /postal|\bzip\b|codigo postal|^c ?p$/, tokens: /postal|\bzip\b/, kinds: TEXT, value: (c) => c.addr?.postalCode },
     { name: 'Estado', label: /^(state|estado|province|provincia|region|entidad federativa|state province)\b|\bstate\b/, tokens: /country region|\bstate\b|\bprovince\b/, exclude: /civil|marital|status|estatus|united/, kinds: [...CHOICE, 'text'], value: (c) => c.addr?.state },
     // --- otros datos personales ---
+    {
+      name: '¿Trabajaste antes aquí?',
+      label: /previously (worked|been employed)|(worked|been employed) (for|at|with) .{0,60}(before|previously)|former employee|ex ?emplead|trabaj(o|aste|ado)( usted)? (antes|anteriormente|previamente)|(ha|has|haya) trabajado (antes|anteriormente|previamente|para|en)|ha sido emplead|has sido emplead/,
+      tokens: /previous worker|previously worked|former employee/,
+      kinds: CHOICE,
+      value: (c) => pick(c.p.preferences?.previousWorker, 'No'),
+    },
     { name: 'Nacionalidad', label: /nationality|nacionalidad|citizenship|ciudadania/, kinds: [...CHOICE, 'text'], value: (c) => c.p.personal.nationality },
     { name: 'LinkedIn', label: /linked ?in/, tokens: /linked ?in/, kinds: TEXT, value: (c) => c.p.personal.linkedin },
     { name: 'GitHub', label: /github/, tokens: /github/, kinds: TEXT, value: (c) => c.p.personal.github },

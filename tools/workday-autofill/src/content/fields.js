@@ -40,7 +40,7 @@
   function cleanLabel(s) {
     return String(s || '')
       .replace(/\*/g, ' ')
-      .replace(/\b(required|requerido|obligatorio|select one|selecciona uno|seleccione uno)\b/gi, ' ')
+      .replace(/\b(required|requerido|obligatorio|select one|selecciona uno|seleccione uno|seleccione un valor|selecciona un valor)\b/gi, ' ')
       .replace(/\s+/g, ' ')
       .trim();
   }
@@ -211,7 +211,7 @@
         return !el.value || el.selectedIndex <= 0;
       case 'dropdown': {
         const t = norm(text(el));
-        return !t || /^(select one|selecciona uno|seleccione uno|seleccionar|select|choose|elige una opcion|seleccione)$/.test(t);
+        return !t || /^(select|selecciona|seleccione|seleccionar|choose|elige|escoge|please select|por favor seleccione)\b/.test(t) || /^(none|ninguno|\-+)$/.test(t);
       }
       case 'multiselect': {
         const box = el.closest('[data-automation-id="multiSelectContainer"], [data-automation-id="multiselectInputContainer"]')?.parentElement || f.container;

@@ -37,7 +37,8 @@
     ul.setAttribute('role', 'listbox');
     ul.id = btn.id + '-listbox';
     btn.setAttribute('aria-controls', ul.id);
-    for (const o of btn.dataset.options.split('|')) {
+    const all = btn.dataset.options.split('|');
+    const makeLi = (o) => {
       const li = document.createElement('li');
       li.setAttribute('role', 'option');
       li.innerHTML = `<div>${o}</div>`;
@@ -46,9 +47,33 @@
         btn.dispatchEvent(new CustomEvent('wd-change', { bubbles: true, detail: o }));
         closePopup();
       });
-      ul.appendChild(li);
+      return li;
+    };
+    const win = Number(btn.dataset.virtual || 0);
+    if (win) {
+      // lista virtualizada: sólo dibuja `win` opciones según el scroll
+      const ROW = 24;
+      Object.assign(p.style, { height: win * ROW + 'px', overflowY: 'auto', width: '220px' });
+      const spacer = document.createElement('div');
+      spacer.style.cssText = `position:relative;height:${all.length * ROW}px`;
+      Object.assign(ul.style, { position: 'absolute', left: 0, right: 0, margin: 0, padding: 0, listStyle: 'none' });
+      spacer.appendChild(ul);
+      const draw = () => {
+        const first = Math.floor(p.scrollTop / ROW);
+        ul.style.top = first * ROW + 'px';
+        ul.replaceChildren(...all.slice(first, first + win + 1).map((o) => {
+          const li = makeLi(o);
+          li.style.height = ROW + 'px';
+          return li;
+        }));
+      };
+      p.addEventListener('scroll', draw);
+      draw();
+      p.appendChild(spacer);
+    } else {
+      all.forEach((o) => ul.appendChild(makeLi(o)));
+      p.appendChild(ul);
     }
-    p.appendChild(ul);
   });
 
   // ---------- prompts con búsqueda ----------
@@ -166,4 +191,28 @@
   // ---------- CV ----------
   document.getElementById('resume-input')?.addEventListener('change', (e) => {
     document.getElementById('resume-name').textContent = [...e.target.files].map((f) => `${f.name} (${f.size} bytes)`).join(', ');
+  });
+
+  // ---------- fechas por segmento: como Workday, al completar el mes el foco salta al año ----------
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (el.getAttribute?.('data-automation-id') !== 'dateSectionMonth-input') return;
+    el.maxLength = 2;
+    if (el.value.length >= 2) el.closest('[data-automation-id="dateInputWrapper"]')?.querySelector('[data-automation-id="dateSectionYear-input"]')?.focus();
+  });
+  document.addEventListener('focusin', (e) => {
+    const t = e.target;
+    if (t.getAttribute?.('data-automation-id') === 'dateSectionMonth-input') t.maxLength = 2;
+    if (t.getAttribute?.('data-automation-id') === 'dateSectionYear-input') t.maxLength = 4;
+  });
+
+  // ---------- variante estricta: el segmento sólo responde a teclas (cancela el keydown y escribe él mismo) ----------
+  document.addEventListener('keydown', (e) => {
+    const el = e.target;
+    const wrap = el.closest?.('[data-automation-id="dateInputWrapper"][data-strict]');
+    if (!wrap || !/^\d$/.test(e.key)) return;
+    e.preventDefault();
+    const max = el.getAttribute('data-automation-id') === 'dateSectionMonth-input' ? 2 : 4;
+    el.value = el.value.length >= max || el.selectionStart === 0 && el.selectionEnd === el.value.length && el.value ? e.key : el.value + e.key;
+    if (el.value.length >= max) wrap.querySelector('[data-automation-id="dateSectionYear-input"]')?.focus();
   });

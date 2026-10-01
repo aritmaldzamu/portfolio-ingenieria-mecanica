@@ -21,25 +21,26 @@
   <div data-automation-id="progressBarActiveStep">Mi información</div>
 
   <div data-automation-id="formField-how"><label for="how">¿Cómo te enteraste de nosotros? *</label>
-    <button type="button" id="how" aria-haspopup="listbox" data-options="Bolsa de trabajo - OCC|Bolsa de trabajo - LinkedIn|Referido|Página de la empresa">Selecciona uno</button></div>
+    <button type="button" id="how" aria-haspopup="listbox" data-options="Bolsa de trabajo - OCC|Bolsa de trabajo - LinkedIn|Referido|Página de la empresa">Seleccione un valor</button></div>
 
-  <fieldset data-automation-id="formField-prev"><legend>¿Has trabajado anteriormente en Acme? *</legend>
+  <fieldset data-automation-id="formField-prev"><legend>¿Trabajó antes para Stanley Black &amp; Decker? Si la respuesta es sí, responda las siguientes preguntas. Si la respuesta es no, continúe hacia la sección siguiente. *</legend>
     <label><input type="radio" name="prev" id="prev-si"> Sí</label><label><input type="radio" name="prev" id="prev-no"> No</label></fieldset>
 
   <div data-automation-id="formField-pais"><label for="pais">País *</label>
-    <button type="button" id="pais" aria-haspopup="listbox" data-options="Estados Unidos|México|Canadá">Selecciona uno</button></div>
+    <button type="button" id="pais" aria-haspopup="listbox" data-options="Estados Unidos|México|Canadá">Seleccione un valor</button></div>
 
+  <div data-automation-id="formField-tt"><label for="tt">Tratamiento</label><button type="button" id="tt" aria-haspopup="listbox" data-options="Seleccione un valor|Miss|Mr|Mrs|Ms">Seleccione un valor</button></div>
   <div data-automation-id="formField-n1"><label for="n1">Nombre(s) *</label><input id="n1" data-automation-id="legalNameSection_firstName"></div>
   <div data-automation-id="formField-n2"><label for="n2">Apellido paterno *</label><input id="n2" data-automation-id="legalNameSection_lastName"></div>
   <div data-automation-id="formField-n3"><label for="n3">Apellido materno</label><input id="n3" data-automation-id="legalNameSection_secondaryLastName"></div>
   <div data-automation-id="formField-a1"><label for="a1">Dirección línea 1 *</label><input id="a1" data-automation-id="addressSection_addressLine1"></div>
   <div data-automation-id="formField-a2"><label for="a2">Ciudad *</label><input id="a2" data-automation-id="addressSection_city"></div>
   <div data-automation-id="formField-a3"><label for="a3">Estado *</label>
-    <button type="button" id="a3" aria-haspopup="listbox" data-options="Jalisco|Nuevo León|Puebla">Selecciona uno</button></div>
+    <button type="button" id="a3" aria-haspopup="listbox" data-virtual="6" data-options="Seleccione un valor|Aguascalientes|Baja California|Baja California Sur|Campeche|Chiapas|Chihuahua|Ciudad de México|Coahuila|Colima|Durango|Estado de México|Guanajuato|Guerrero|Hidalgo|Jalisco|Michoacán|Morelos|Nayarit|Nuevo León|Oaxaca|Puebla|Querétaro|Quintana Roo|San Luis Potosí|Sinaloa|Sonora|Tabasco|Tamaulipas|Tlaxcala|Veracruz|Yucatán|Zacatecas">Seleccione un valor</button></div>
   <div data-automation-id="formField-a4"><label for="a4">Código postal *</label><input id="a4" data-automation-id="addressSection_postalCode"></div>
   <div data-automation-id="formField-e"><label for="e">Correo electrónico *</label><input id="e" data-automation-id="email"></div>
   <div data-automation-id="formField-t1"><label for="t1">Tipo de dispositivo telefónico *</label>
-    <button type="button" id="t1" aria-haspopup="listbox" data-options="Casa|Móvil|Trabajo">Selecciona uno</button></div>
+    <button type="button" id="t1" aria-haspopup="listbox" data-options="Casa|Móvil|Trabajo">Seleccione un valor</button></div>
   <div data-automation-id="formField-t2"><label>Código de país *</label>
     <div class="prompt" data-tree="phonees"><div data-automation-id="multiselectInputContainer"><input data-automation-id="searchBox" id="t2"></div></div></div>
   <div data-automation-id="formField-t3"><label for="t3">Número de teléfono *</label><input id="t3" data-automation-id="phone-number"></div>
@@ -49,12 +50,12 @@
   <section role="group" aria-labelledby="s-lang"><h3 id="s-lang">Idiomas</h3><div class="entries"></div><button type="button" data-kind="lang">Agregar</button></section>
 
   <div data-automation-id="formField-q"><label for="q">¿Eres mayor de edad? *</label>
-    <button type="button" id="q" aria-haspopup="listbox" data-options="Sí|No">Selecciona uno</button></div>
+    <button type="button" id="q" aria-haspopup="listbox" data-options="Sí|No">Seleccione un valor</button></div>
 
   <button type="button" id="next">Siguiente</button>
 </div>
 <script>
-  const dates = (lbl) => `<div data-automation-id="formField-d"><label>${lbl}</label><div data-automation-id="dateInputWrapper">
+  const dates = (lbl) => `<div data-automation-id="formField-d"><label>${lbl}</label><div data-automation-id="dateInputWrapper" data-strict="1">
       <input data-automation-id="dateSectionMonth-input" placeholder="MM" size="2"><input data-automation-id="dateSectionYear-input" placeholder="AAAA" size="4"></div></div>`;
   window.FIXTURE_TEMPLATES = {
     exp: (n, i) => `<div role="group" aria-labelledby="g${n}"><h4 id="g${n}">Experiencia laboral ${i}</h4>
@@ -65,12 +66,12 @@
       <div data-automation-id="formField-4"><label for="d${n}">Descripción del puesto</label><textarea id="d${n}" class="desc"></textarea></div></div>`,
     edu: (n, i) => `<div role="group" aria-labelledby="g${n}"><h4 id="g${n}">Educación ${i}</h4>
       <div data-automation-id="formField-1"><label for="u${n}">Escuela o universidad *</label><input id="u${n}" class="uni"></div>
-      <div data-automation-id="formField-2"><label for="t${n}">Título *</label><button type="button" id="t${n}" class="titulo" aria-haspopup="listbox" data-options="Bachillerato|Licenciatura|Maestría">Selecciona uno</button></div>
+      <div data-automation-id="formField-2"><label for="t${n}">Título *</label><button type="button" id="t${n}" class="titulo" aria-haspopup="listbox" data-options="Bachillerato|Licenciatura|Maestría">Seleccione un valor</button></div>
       <div data-automation-id="formField-3"><label for="r${n}">Carrera</label><input id="r${n}" class="carrera"></div>
       <div data-automation-id="formField-4"><label for="p${n}">Promedio</label><input id="p${n}" class="prom"></div></div>`,
     lang: (n, i) => `<div role="group" aria-labelledby="g${n}"><h4 id="g${n}">Idiomas ${i}</h4>
-      <div data-automation-id="formField-1"><label for="l${n}">Idioma *</label><button type="button" id="l${n}" class="idioma" aria-haspopup="listbox" data-options="Alemán|Español|Francés|Inglés">Selecciona uno</button></div>
-      <div data-automation-id="formField-2"><label for="v${n}">Nivel de dominio *</label><button type="button" id="v${n}" class="nivel" aria-haspopup="listbox" data-options="Básico|Intermedio|Avanzado|Nativo">Selecciona uno</button></div></div>`,
+      <div data-automation-id="formField-1"><label for="l${n}">Idioma *</label><button type="button" id="l${n}" class="idioma" aria-haspopup="listbox" data-options="Alemán|Español|Francés|Inglés">Seleccione un valor</button></div>
+      <div data-automation-id="formField-2"><label for="v${n}">Nivel de dominio *</label><button type="button" id="v${n}" class="nivel" aria-haspopup="listbox" data-options="Básico|Intermedio|Avanzado|Nativo">Seleccione un valor</button></div></div>`,
   };
 </script>
 <script>window.EXTRA_TREES = { phonees: { '': ['Estados Unidos (+1)', 'México (+52)', 'Canadá (+1)'] } };</script>

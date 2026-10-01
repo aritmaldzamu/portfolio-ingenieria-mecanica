@@ -120,6 +120,7 @@
       <div class="actions">
         <button class="btn" data-a="again">Volver a llenar</button>
         <button class="btn" data-a="copy">Copiar preguntas sin respuesta</button>
+        <button class="btn" data-a="diag">Copiar diagnóstico</button>
         <button class="btn" data-a="clear">Quitar marcas</button>
       </div>
       <div class="note">Verde = lo llené yo. Naranja = revísalo tú. Nunca doy clic en Next/Submit.</div>`;
@@ -137,6 +138,35 @@
     });
     card.querySelector('[data-a="again"]').onclick = () => WD.fill?.();
     card.querySelector('[data-a="clear"]').onclick = clearMarks;
+    card.querySelector('[data-a="diag"]').onclick = async (ev) => {
+      // estructura de los campos problemáticos (sin valores escritos) para poder ajustar reglas
+      const html = (el) =>
+        (el?.outerHTML || '')
+          .replace(/\svalue="[^"]*"/g, '')
+          .replace(/\s(class|style)="[^"]*"/g, '')
+          .replace(/\s+/g, ' ')
+          .slice(0, 1500);
+      const report = {
+        url: location.host + location.pathname,
+        paso: document.querySelector('[data-automation-id="progressBarActiveStep"]')?.textContent?.trim() || '',
+        version: chrome.runtime.getManifest().version,
+        campos: [...pending, ...optional].map((i) => ({
+          estado: i.status,
+          etiqueta: i.f.label,
+          tipo: i.f.kind,
+          regla: i.rule || '',
+          nota: i.note || '',
+          tokens: i.f.tokens,
+          html: html(i.f.container || i.f.el),
+        })),
+      };
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(report, null, 1));
+        ev.target.textContent = 'Diagnóstico copiado ✔';
+      } catch (_) {
+        ev.target.textContent = 'No se pudo copiar';
+      }
+    };
     card.querySelector('[data-a="copy"]').onclick = async (ev) => {
       const qs = [...pending, ...optional].filter((i) => i.status === 'unknown' || i.status === 'failed').map((i) => i.f.label).filter(Boolean);
       const json = JSON.stringify(

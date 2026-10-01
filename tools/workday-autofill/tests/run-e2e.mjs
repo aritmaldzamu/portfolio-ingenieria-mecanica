@@ -162,7 +162,8 @@ try {
   expect('ES Apellido paterno', await v('#n2'), 'Maldonado');
   expect('ES Apellido materno', await v('#n3'), 'Zamudio');
   expect('ES Ciudad (Puebla)', await v('#a2'), 'Heroica Puebla de Zaragoza');
-  expect('ES Estado (Puebla)', await v('#a3'), 'Puebla');
+  expect('ES Estado (Puebla, lista virtualizada de 32)', await v('#a3'), 'Puebla');
+  expect('ES Tratamiento sin tocar', await v('#tt'), 'Seleccione un valor');
   expect('ES Dirección línea 1 (Puebla)', await v('#a1'), 'C. 29 37');
   expect('ES Código postal (Puebla)', await v('#a4'), '72190');
   expect('ES Tipo de teléfono', await v('#t1'), 'Móvil');
