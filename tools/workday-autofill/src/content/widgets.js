@@ -57,15 +57,14 @@
     const ctrl = btn.getAttribute('aria-controls') || btn.getAttribute('aria-owns');
     const own = ctrl && document.getElementById(ctrl);
     if (own && isVisible(own)) return own;
-    const all = visibleListboxes();
-    if (!all.length) return null;
-    const fresh = all.filter((l) => !before.has(l));
+    const fresh = visibleListboxes().filter((l) => !before.has(l) && !l.querySelector('[data-automation-id="promptSelectionLabel"], [data-automation-id="selectedItem"]'));
+    if (!fresh.length) return null;
     const br = btn.getBoundingClientRect();
     const dist = (l) => {
       const r = l.getBoundingClientRect();
       return Math.abs(r.top - br.bottom) + Math.abs(r.left - br.left);
     };
-    return (fresh.length ? fresh : all).sort((a, b) => dist(a) - dist(b))[0];
+    return fresh.sort((a, b) => dist(a) - dist(b))[0];
   }
 
   async function openListbox(btn) {
@@ -157,41 +156,69 @@
   }
 
   // ---------------- prompt con búsqueda (Workday "multiselect") ----------------
-  function pillCount(f) {
+  /**
+   * Lo ya seleccionado en el campo. En Workday las "fichas" (× LinkedIn) se dibujan como
+   * [role=option] dentro de un listbox del propio campo, así que se distinguen del menú
+   * por estar DENTRO del contenedor del campo.
+   */
+  function selectedLabels(f) {
     const scope = f.container || f.el.parentElement;
-    return [...(scope?.querySelectorAll('[data-automation-id="selectedItem"]') || [])].filter(isVisible).length;
+    if (!scope) return [];
+    return [...scope.querySelectorAll('[data-automation-id="selectedItem"], [data-automation-id="promptSelectionLabel"], [role="option"]')]
+      .filter((el) => isVisible(el) && !el.contains(f.el))
+      .filter((el, _, all) => !all.some((o) => o !== el && el.contains(o)))
+      .map((el) => el.getAttribute('data-automation-label') || text(el))
+      .filter(Boolean);
+  }
+  const isPicked = (f, label) => selectedLabels(f).some((t) => similarity(t, label) >= 0.9);
+  const optionChecked = (el) => el.getAttribute('aria-selected') === 'true' || el.getAttribute('aria-checked') === 'true' || !!el.querySelector('input[type="checkbox"]:checked');
+
+  /** Opciones del menú abierto: nuevas desde `stale` y fuera del contenedor del campo (no fichas). */
+  function menuOptions(f, stale) {
+    const fresh = visibleOptions().filter((o) => !stale.has(o.el));
+    const outside = fresh.filter((o) => !(f.container && f.container.contains(o.el)));
+    return outside.length ? outside : fresh;
   }
 
   async function pickOne(f, alternatives) {
     const input = f.el;
-    const startPills = pillCount(f);
+        // ya está: no volver a dar clic (en multiselección un segundo clic lo DESMARCA)
+    if (alternatives.some((a) => isPicked(f, a))) return true;
+    const startCount = selectedLabels(f).length;
+    let clicked = false;
     for (const term of alternatives) {
+      const stale = new Set(visibleOptions().map((o) => o.el));
       realClick(input);
       await typeInto(input, String(term));
       press(input, 'Enter');
       const opts = await waitFor(() => {
-        const o = visibleOptions();
+        const o = menuOptions(f, stale);
         return o.length ? o : null;
       }, { timeout: 3000 });
       let best = opts && bestOption(opts, alternatives, 0.55);
-      // categorías anidadas (p.ej. "Job Board" > "LinkedIn"): hasta 2 niveles
+      // categorías anidadas (p.ej. "Job Board" > "LinkedIn"): hasta 3 niveles
       for (let depth = 0; best && depth < 3; depth++) {
         const label = best.text;
-        realClick(best.el);
-        await sleep(350);
-        if (pillCount(f) > startPills || (!f.el.closest('[data-automation-id="multiselectInputContainer"]') && norm(input.value) === norm(label))) {
+        if (optionChecked(best.el) || isPicked(f, label)) {
           await closePopups();
           return true;
         }
-        const next = visibleOptions();
+        realClick(best.el);
+        clicked = true;
+        await sleep(400);
+        if (isPicked(f, label) || optionChecked(best.el) || selectedLabels(f).length > startCount) {
+          await closePopups();
+          return true;
+        }
+        const next = menuOptions(f, stale).filter((o) => o.el !== best.el && o.text !== label);
         best = next.length ? bestOption(next, alternatives, 0.55) : null;
-        if (best && best.text === label) best = null;
       }
-      // sin coincidencia: limpiar búsqueda antes de intentar el siguiente término
       await typeInto(input, '');
       await closePopups();
+      // si ya dimos clic a una opción, no intentar otra ortografía: podría desmarcarla
+      if (clicked) break;
     }
-    return pillCount(f) > startPills;
+    return selectedLabels(f).length > startCount || alternatives.some((a) => isPicked(f, a));
   }
 
   async function setMultiselect(f, value) {

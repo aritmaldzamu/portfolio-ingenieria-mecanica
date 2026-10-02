@@ -77,21 +77,37 @@
   });
 
   // ---------- prompts con búsqueda ----------
-  function addPill(prompt, value) {
-    const pill = document.createElement('div');
-    pill.setAttribute('data-automation-id', 'selectedItem');
-    pill.textContent = value;
-    prompt.prepend(pill);
+  // Como el Workday real: lo seleccionado se dibuja como opciones de un listbox dentro del campo
+  function pillList(prompt) {
+    let ul = prompt.querySelector(':scope > ul[role="listbox"]');
+    if (!ul) {
+      ul = document.createElement('ul');
+      ul.setAttribute('role', 'listbox');
+      prompt.prepend(ul);
+    }
+    return ul;
   }
-  function showPrompt(input, entries, onPick) {
+  const pillLabels = (prompt) => [...prompt.querySelectorAll('[data-automation-id="promptSelectionLabel"]')].map((p) => p.textContent);
+  function addPill(prompt, value) {
+    const li = document.createElement('li');
+    li.setAttribute('role', 'option');
+    li.setAttribute('aria-selected', 'true');
+    li.innerHTML = `<p data-automation-id="promptSelectionLabel">${value}</p>`;
+    pillList(prompt).appendChild(li);
+  }
+  function removePill(prompt, value) {
+    [...prompt.querySelectorAll('[data-automation-id="promptSelectionLabel"]')].filter((p) => p.textContent === value).forEach((p) => p.closest('li').remove());
+  }
+  function showPrompt(input, entries, onPick, selected = []) {
     const p = popupNear(input);
     for (const ent of entries) {
       const d = document.createElement('div');
       d.setAttribute('data-automation-id', 'promptOption');
       d.setAttribute('data-automation-label', ent.label);
       d.setAttribute('role', 'option');
+      d.setAttribute('aria-selected', String(selected.includes(ent.label)));
       d.textContent = ent.label;
-      d.addEventListener('click', () => onPick(ent));
+      d.addEventListener('click', () => onPick(ent, d));
       p.appendChild(d);
     }
   }
@@ -99,12 +115,19 @@
     const input = prompt.querySelector('input');
     const tree = TREES[prompt.dataset.tree];
     const single = prompt.dataset.tree !== 'skills';
-    const pick = (ent) => {
+    const pick = (ent, el) => {
       if (ent.children) return showPrompt(input, ent.children.map((c) => ({ label: c })), pick);
-      if (single) prompt.querySelectorAll('[data-automation-id="selectedItem"]').forEach((x) => x.remove());
-      addPill(prompt, ent.label);
-      input.value = '';
-      closePopup();
+      if (single) {
+        pillList(prompt).innerHTML = '';
+        addPill(prompt, ent.label);
+        input.value = '';
+        closePopup();
+        return;
+      }
+      // multiselección: un clic marca, otro clic desmarca; la lista sigue abierta
+      if (pillLabels(prompt).includes(ent.label)) removePill(prompt, ent.label);
+      else addPill(prompt, ent.label);
+      el?.setAttribute('aria-selected', String(pillLabels(prompt).includes(ent.label)));
     };
     input.addEventListener('click', () => {
       if (input.value) return;
@@ -116,7 +139,7 @@
       e.preventDefault();
       const q = strip(input.value.trim());
       const leaves = Object.values(tree).flat().filter((l) => strip(l).includes(q));
-      showPrompt(input, leaves.map((l) => ({ label: l })), pick);
+      showPrompt(input, leaves.map((l) => ({ label: l })), pick, pillLabels(prompt));
     });
   }
   document.querySelectorAll('.prompt').forEach(wirePrompt);

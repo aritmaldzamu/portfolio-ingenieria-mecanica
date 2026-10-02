@@ -215,7 +215,7 @@
       }
       case 'multiselect': {
         const box = el.closest('[data-automation-id="multiSelectContainer"], [data-automation-id="multiselectInputContainer"]')?.parentElement || f.container;
-        const pills = box?.querySelectorAll('[data-automation-id="selectedItem"], [data-automation-id="selectedItemList"] li, [role="listitem"]') || [];
+        const pills = box?.querySelectorAll('[data-automation-id="selectedItem"], [data-automation-id="promptSelectionLabel"], [data-automation-id="selectedItemList"] li, [role="listitem"], [role="option"]') || [];
         return ![...pills].some(isVisible) && !el.value;
       }
       case 'radio':

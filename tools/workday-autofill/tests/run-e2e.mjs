@@ -73,7 +73,7 @@ try {
   await page.locator('#wdaf-root .card .stats').waitFor({ timeout: 90000 });
 
   const val = (sel) => page.$eval(sel, (el) => (el.tagName === 'BUTTON' ? el.textContent.trim() : el.value));
-  const pills = (sel) => page.$$eval(`${sel} [data-automation-id="selectedItem"]`, (els) => els.map((e) => e.textContent.trim()));
+  const pills = (sel) => page.$$eval(`${sel} [data-automation-id="promptSelectionLabel"]`, (els) => els.map((e) => e.textContent.trim()));
 
   expect('Cómo te enteraste', (await pills('[data-automation-id="formField-source"]')).join(), 'LinkedIn');
   expect('Trabajó antes (radio No)', await page.$eval('#prev-no', (e) => e.checked), true);
@@ -105,8 +105,8 @@ try {
   expect('Educación: 2 entradas agregadas', eduCount, 2);
   expect('Educación 1: escuela', await page.$$eval('[id$="--schoolName"]', (e) => e[0].value), 'Universidad Iberoamericana Puebla');
   expect('Educación 1: título', await page.$$eval('[id$="--degree"]', (e) => e[0].textContent.trim()), "Bachelor's Degree");
-  expect('Educación 1: carrera', await page.$$eval('[data-automation-id="formField-fieldOfStudy"]', (e) => e[0].querySelector('[data-automation-id="selectedItem"]')?.textContent), 'Mechatronics');
-  expect('Educación 2: carrera', await page.$$eval('[data-automation-id="formField-fieldOfStudy"]', (e) => e[1].querySelector('[data-automation-id="selectedItem"]')?.textContent), 'Biomedical Engineering');
+  expect('Educación 1: carrera', await page.$$eval('[data-automation-id="formField-fieldOfStudy"]', (e) => e[0].querySelector('[data-automation-id="promptSelectionLabel"]')?.textContent), 'Mechatronics');
+  expect('Educación 2: carrera', await page.$$eval('[data-automation-id="formField-fieldOfStudy"]', (e) => e[1].querySelector('[data-automation-id="promptSelectionLabel"]')?.textContent), 'Biomedical Engineering');
   expect('Educación 2: año inicio', await page.$$eval('[id$="--firstYearAttended-dateSectionYear-input"]', (e) => e[1].value), '2020');
   expect('Educación 1: año fin', await page.$$eval('[id$="--lastYearAttended-dateSectionYear-input"]', (e) => e[0].value), '2026');
   expect('Educación: promedio', await page.$$eval('[id$="--gradeAverage"]', (e) => e[0].value), '9.1');
@@ -141,6 +141,8 @@ try {
   await page.locator('#wdaf-root [data-a="again"]').click();
   await page.waitForTimeout(500);
   await page.locator('#wdaf-root .card .stats').waitFor({ timeout: 90000 });
+  expect('Re-llenar no desmarca skills', (await pills('[data-automation-id="formField-skills"]')).length, skills.length);
+  expect('Re-llenar mantiene "Cómo te enteraste"', (await pills('[data-automation-id="formField-source"]')).join(), 'LinkedIn');
   expect('Re-llenar no duplica educación', await page.$$eval('[id$="--schoolName"]', (els) => els.length), 2);
 
   await page.screenshot({ path: path.join(here, 'e2e-result.png'), fullPage: true });
@@ -167,7 +169,7 @@ try {
   expect('ES Dirección línea 1 (Puebla)', await v('#a1'), 'C. 29 37');
   expect('ES Código postal (Puebla)', await v('#a4'), '72190');
   expect('ES Tipo de teléfono', await v('#t1'), 'Móvil');
-  expect('ES Código de país', await es.$eval('[data-automation-id="formField-t2"] [data-automation-id="selectedItem"]', (e) => e.textContent), 'México (+52)');
+  expect('ES Código de país', await es.$eval('[data-automation-id="formField-t2"] [data-automation-id="promptSelectionLabel"]', (e) => e.textContent), 'México (+52)');
   expect('ES Teléfono', await v('#t3'), '2219744717');
   expect('ES Cargo', (await all('.cargo')).join('|'), /Technical Specialist/);
   expect('ES Fechas experiencia', (await all('[data-automation-id="dateSectionMonth-input"], [data-automation-id="dateSectionYear-input"]')).join('/'), '07/2024/12/2024');
