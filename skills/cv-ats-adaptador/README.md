@@ -17,7 +17,10 @@ Pegas **solo el texto de una vacante** en Gemini y te regresa: veredicto (aplica
 2. Copia el bloque de la sección **CV adaptado**.
 3. Abre `generar_cv.html` en Chrome o Edge (doble clic) y pega el bloque.
 4. Marca **Con foto** si lo necesitas (la primera vez elige tu foto; se queda guardada en ese navegador).
-5. Pulsa **Guardar PDF** → Destino «Guardar como PDF», Tamaño «Carta», Márgenes «Ninguno».
+5. En **Nombre del PDF** deja `CV_Arith_Maldonado` o agrégale la empresa (por ejemplo `CV_Arith_Maldonado_Ford`).
+6. Pulsa **Guardar PDF** → Destino «Guardar como PDF», Tamaño «Carta», Márgenes «Ninguno». El archivo ya sale con ese nombre.
+
+El PDF lleva enlaces reales, igual que tus originales: LinkedIn y portafolio con `https://`, correo con `mailto:` y teléfono con `tel:`.
 
 La letra del cuerpo se ajusta sola entre 10.4 y 9.4 pt para llenar una página, como en tus PDFs. Si aun así no cabe, el generador te avisa.
 

@@ -65,6 +65,7 @@
   }
   button.primary { background: var(--ui-accent); color: #fff; }
   .file input { display: none; }
+  .controls input[type="text"] { font: inherit; padding: 6px 8px; border: 1px solid var(--ui-border); border-radius: 8px; width: 240px; color: var(--ui-text); }
   .status { margin-top: 10px; font-size: 13px; color: var(--ui-muted); min-height: 1.4em; }
   .status.warn { color: var(--ui-warn); font-weight: 600; }
   .preview { overflow-x: auto; }
@@ -105,6 +106,7 @@
   .cv .title { font-size: 11.6pt; font-weight: 700; color: #13497b; margin: 1.5pt 0 2.6pt; line-height: 1.2; }
   .cv .contact { font-size: 9.4pt; color: #333; line-height: 1.2; margin: 0; }
   .cv .contact .sep { padding: 0 4.25pt; }
+  .cv a { color: inherit; text-decoration: none; }
   .cv h2 {
     font-size: 10.6pt;
     font-weight: 700;
@@ -160,6 +162,9 @@
     <div class="controls">
       <label><input type="checkbox" id="withPhoto"> Con foto</label>
       <label class="file">Elegir foto<input type="file" id="photoFile" accept="image/*"></label>
+    </div>
+    <div class="controls">
+      <label>Nombre del PDF <input type="text" id="fileName" value="CV_Arith_Maldonado" spellcheck="false"></label>
       <button class="primary" id="print">Guardar PDF</button>
     </div>
     <div class="status" id="status"></div>
@@ -212,13 +217,33 @@ function inline(s) {
   return h;
 }
 
+// Enlaces reales, igual que en tus PDFs originales. Sin "https://" el visor de PDF
+// abre "linkedin.com/..." como si fuera un archivo de tu computadora.
+function link(text, href) {
+  return `<a href="${esc(href)}">${esc(text)}</a>`;
+}
+
+function linkify(part) {
+  const email = part.match(/[\w.+-]+@[\w-]+(\.[\w-]+)+/);
+  if (email) return esc(part.slice(0, email.index)) + link(email[0], "mailto:" + email[0]) + esc(part.slice(email.index + email[0].length));
+  const phone = part.match(/\+?\d[\d\s().-]{7,}\d/);
+  if (phone) return esc(part.slice(0, phone.index)) + link(phone[0], "tel:" + phone[0].replace(/[^\d+]/g, "")) + esc(part.slice(phone.index + phone[0].length));
+  const url = part.match(/(https?:\/\/)?(www\.)?([\w-]+\.)+[a-z]{2,}(\/[^\s|]*)?/i);
+  if (url) {
+    let href = url[0].replace(/^https?:\/\//i, "").replace(/^www\./i, "");
+    href = "https://" + (/^linkedin\.com/i.test(href) ? "www." : "") + href;
+    return esc(part.slice(0, url.index)) + link(url[0], href) + esc(part.slice(url.index + url[0].length));
+  }
+  return esc(part);
+}
+
 function contactLine(line, withPhoto) {
   const parts = line.split(/\s+\|\s+/);
   // En la versión con foto, LinkedIn y Portafolio van en renglones separados (como tus PDFs con foto).
   if (withPhoto && /linkedin\.com/i.test(line)) {
-    return parts.map((p) => `<p class="contact">${esc(/^linkedin/i.test(p) ? "LinkedIn: " + p : p)}</p>`).join("");
+    return parts.map((p) => `<p class="contact">${linkify(/^linkedin/i.test(p) ? "LinkedIn: " + p : p)}</p>`).join("");
   }
-  return `<p class="contact">${parts.map(esc).join('<span class="sep">|</span>')}</p>`;
+  return `<p class="contact">${parts.map(linkify).join('<span class="sep">|</span>')}</p>`;
 }
 
 const TAMANOS = [10.4, 10.2, 10, 9.8, 9.6, 9.4];
@@ -311,7 +336,14 @@ $("photoFile").addEventListener("change", (e) => {
   };
   reader.readAsDataURL(file);
 });
-$("print").addEventListener("click", () => window.print());
+// Chrome usa el título de la página como nombre del PDF.
+$("print").addEventListener("click", () => {
+  const nombre = $("fileName").value.trim().replace(/\.pdf$/i, "").replace(/[\s\\/:*?"<>|]+/g, "_") || "CV_Arith_Maldonado";
+  const titulo = document.title;
+  document.title = nombre;
+  window.print();
+  document.title = titulo;
+});
 document.fonts.ready.then(render);
 render();
 </script>
