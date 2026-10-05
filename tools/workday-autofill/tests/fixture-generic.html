@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Trabaja con nosotros · Acme</title>
+<!-- Formulario propio de una empresa (no Workday): mezcla de patrones comunes
+     en Greenhouse/Lever/Google Forms/sitios hechos a mano. -->
+<style>
+  body { font-family: sans-serif; max-width: 720px; margin: 20px auto; }
+  .row { margin: 12px 0; }
+  .row > label, .q { display: block; font-weight: 600; }
+  .combo { position: relative; }
+  .menu { position: absolute; background: #fff; border: 1px solid #999; z-index: 5; width: 100%; }
+  .menu [role="option"] { padding: 4px 8px; cursor: pointer; }
+  [role="radio"], [role="checkbox"] { display: inline-block; padding: 4px 10px; border: 1px solid #aaa; margin: 2px; cursor: pointer; border-radius: 12px; }
+  [aria-checked="true"] { background: #cde; }
+  .gf-list { border: 1px solid #aaa; display: inline-block; min-width: 200px; cursor: pointer; }
+  .gf-list [role="option"] { padding: 4px 8px; }
+  .gf-list[aria-expanded="false"] [role="option"]:not([aria-selected="true"]) { display: none; }
+</style>
+</head>
+<body>
+<h1>Practicante de Ingeniería · Solicitud</h1>
+<form onsubmit="return false">
+  <div class="row"><label for="fullname">Nombre completo *</label><input id="fullname" name="name" required></div>
+  <div class="row"><div>Correo electrónico</div><input type="email" id="mail"></div>
+  <div class="row"><label for="tel">Teléfono / WhatsApp</label><input type="tel" id="tel"></div>
+
+  <div class="row"><label for="loc">Ubicación actual</label>
+    <div class="combo" data-options="Monterrey, Nuevo León, México|San Nicolás de los Garza, Nuevo León, México|San Pedro Garza García, Nuevo León, México|Puebla, Puebla, México">
+      <input id="loc" role="combobox" aria-autocomplete="list" aria-expanded="false" autocomplete="off"></div></div>
+
+  <div class="row"><label for="uni">Universidad</label>
+    <div class="combo rs" data-options="Instituto Tecnológico de Monterrey|Universidad Autónoma de Nuevo León|Universidad Iberoamericana Puebla|Universidad de las Américas Puebla">
+      <div class="select__single-value"></div><input id="uni" role="combobox" aria-autocomplete="list" autocomplete="off"></div></div>
+
+  <div class="row"><label for="carrera">Carrera</label><input id="carrera"></div>
+  <div class="row"><label for="grad">Fecha de graduación</label><input type="month" id="grad"></div>
+  <div class="row"><label for="emp">Empresa actual</label><input id="emp"></div>
+  <div class="row"><label for="li">LinkedIn URL</label><input id="li" type="url"></div>
+  <div class="row"><label for="cv">CV (PDF)</label><input type="file" id="cv" name="resume" accept=".pdf"><span id="cv-name"></span></div>
+
+  <div class="row">
+    <div class="q" id="q-en">¿Cuál es tu nivel de inglés? *</div>
+    <div role="radiogroup" aria-labelledby="q-en" aria-required="true">
+      <div role="radio" aria-checked="false" aria-label="Básico" tabindex="0">Básico</div>
+      <div role="radio" aria-checked="false" aria-label="Intermedio" tabindex="0">Intermedio</div>
+      <div role="radio" aria-checked="false" aria-label="Avanzado" tabindex="0">Avanzado</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="q" id="q-src">¿Cómo te enteraste de la vacante?</div>
+    <div class="gf-list" id="gf" role="listbox" aria-expanded="false" aria-labelledby="q-src">
+      <div role="option" aria-selected="true">Elige</div>
+      <div role="option" aria-selected="false">OCC Mundial</div>
+      <div role="option" aria-selected="false">LinkedIn</div>
+      <div role="option" aria-selected="false">Referido</div>
+    </div>
+  </div>
+
+  <x-field id="xcity" label="Ciudad"></x-field>
+
+  <div class="row"><label for="lic">¿Cuentas con licencia de manejo?</label>
+    <select id="lic"><option value="">Selecciona</option><option>Sí</option><option>No</option></select></div>
+  <div class="row"><label for="why">¿Por qué quieres trabajar en Acme?</label><textarea id="why"></textarea></div>
+
+  <div class="row"><div role="checkbox" id="priv" aria-checked="false" tabindex="0">Acepto el aviso de privacidad</div></div>
+
+  <button type="button" id="send">Enviar solicitud</button>
+</form>
+
+<script>
+  window.__sent = 0;
+  document.getElementById('send').addEventListener('click', () => window.__sent++);
+  const strip = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+  // autocompletar: muestra sugerencias al escribir; react-select (.rs) limpia el input y muestra el valor al lado
+  document.querySelectorAll('.combo').forEach((box) => {
+    const input = box.querySelector('input');
+    const all = box.dataset.options.split('|');
+    let menu;
+    const close = () => { menu?.remove(); menu = null; input.setAttribute('aria-expanded', 'false'); };
+    input.addEventListener('input', () => {
+      close();
+      const q = strip(input.value.trim());
+      if (!q) return;
+      const hits = all.filter((o) => strip(o).split(/[ ,]+/).some((w) => w.startsWith(q.split(' ')[0])));
+      if (!hits.length) return;
+      menu = document.createElement('div');
+      menu.className = 'menu';
+      menu.setAttribute('role', 'listbox');
+      for (const h of hits) {
+        const o = document.createElement('div');
+        o.setAttribute('role', 'option');
+        o.textContent = h;
+        o.addEventListener('mousedown', (e) => e.preventDefault());
+        o.addEventListener('click', () => {
+          if (box.classList.contains('rs')) { box.querySelector('.select__single-value').textContent = h; input.value = ''; }
+          else input.value = h;
+          close();
+        });
+        menu.appendChild(o);
+      }
+      box.appendChild(menu);
+      input.setAttribute('aria-expanded', 'true');
+    });
+    input.addEventListener('blur', () => setTimeout(close, 150));
+  });
+
+  // radios / casillas ARIA (Google Forms)
+  document.querySelectorAll('[role="radio"]').forEach((r) => r.addEventListener('click', () => {
+    r.parentElement.querySelectorAll('[role="radio"]').forEach((x) => x.setAttribute('aria-checked', String(x === r)));
+  }));
+  document.querySelectorAll('[role="checkbox"]').forEach((c) => c.addEventListener('click', () => c.setAttribute('aria-checked', String(c.getAttribute('aria-checked') !== 'true'))));
+
+  // lista de Google Forms: se despliega dentro de sí misma
+  const gf = document.getElementById('gf');
+  gf.addEventListener('click', (e) => {
+    const opt = e.target.closest('[role="option"]');
+    if (gf.getAttribute('aria-expanded') === 'true' && opt) {
+      gf.querySelectorAll('[role="option"]').forEach((o) => o.setAttribute('aria-selected', String(o === opt)));
+      gf.setAttribute('aria-expanded', 'false');
+    } else gf.setAttribute('aria-expanded', 'true');
+  });
+
+  // web component con Shadow DOM
+  customElements.define('x-field', class extends HTMLElement {
+    connectedCallback() {
+      const root = this.attachShadow({ mode: 'open' });
+      root.innerHTML = `<div class="row"><label for="in" style="display:block;font-weight:600">${this.getAttribute('label')}</label><input id="in"></div>`;
+    }
+  });
+
+  document.getElementById('cv').addEventListener('change', (e) => (document.getElementById('cv-name').textContent = [...e.target.files].map((f) => f.name).join(', ')));
+</script>
+</body>
+</html>

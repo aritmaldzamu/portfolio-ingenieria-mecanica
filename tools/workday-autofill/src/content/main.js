@@ -1,6 +1,6 @@
 // Orquestador: agrega entradas faltantes (experiencia, educación, idiomas…),
-// recorre los campos en varias pasadas (Workday re-renderiza al cambiar país,
-// etc.), llena lo que reconoce y reporta lo pendiente. Nunca da clic en Next.
+// recorre los campos en varias pasadas (algunos sitios re-renderizan al cambiar
+// país, etc.), llena lo que reconoce y reporta lo pendiente. Nunca da clic en Next.
 (() => {
   const WD = (window.__WDAF = window.__WDAF || {});
   if (WD.fill) return;
@@ -14,8 +14,8 @@
   const SECTION_KEYS = ['experience', 'education', 'languages', 'websites', 'certifications'];
 
   async function loadData() {
-    const data = await chrome.storage.local.get(['profile', 'settings', 'resumes']);
-    return { profile: data.profile, settings: { ...DEFAULT_SETTINGS, ...(data.settings || {}) }, resumes: data.resumes || [] };
+    const data = await chrome.storage.local.get(['profile', 'settings', 'resumes', 'learned']);
+    return { profile: data.profile, settings: { ...DEFAULT_SETTINGS, ...(data.settings || {}) }, resumes: data.resumes || [], learned: data.learned || {} };
   }
 
   // ---------- botones "Add / Agregar" de secciones repetibles ----------
@@ -64,13 +64,15 @@
     }
   }
 
-  function buildCtx(profile, addr, resume, fields) {
+  function buildCtx(profile, addr, resume, fields, learned) {
     const names = (f) => resolve({ p: profile, addr }, f)?.rule;
     const present = new Set(fields.map(names).filter(Boolean));
     return {
       p: profile,
       addr,
       resume,
+      learned,
+      hasLastName: present.has('Apellido') || present.has('Apellido materno'),
       hasSecondLastName: present.has('Apellido materno'),
       hasPhoneCode: present.has('Código de país (teléfono)'),
       hasExteriorNumber: present.has('Número exterior'),
@@ -87,11 +89,12 @@
     running = true;
     let started = false;
     try {
-      const { profile, settings, resumes } = await loadData();
+      const { profile, settings, resumes, learned } = await loadData();
       const first = scan();
       if (!first.fields.length && window !== window.top) return { skipped: true };
       panel.setBusy(true);
       started = true;
+      WD.markUsed?.();
       if (!profile) {
         panel.render([], { message: 'Aún no tienes perfil guardado. Abre las opciones de la extensión y carga tu perfil.' });
         return { error: 'no-profile' };
@@ -109,7 +112,7 @@
       const report = new Map();
       for (let pass = 0; pass < 5; pass++) {
         const { fields } = scan();
-        const ctx = buildCtx(profile, addr, resume, fields);
+        const ctx = buildCtx(profile, addr, resume, fields, learned);
         const plan = fields.map((f) => ({ f, r: resolve(ctx, f) })).sort((a, b) => (b.r?.early ? 1 : 0) - (a.r?.early ? 1 : 0));
         let acted = 0;
         let rescan = false;
@@ -179,17 +182,24 @@
     return false;
   });
 
-  // ---------- botón flotante y llenado automático por paso ----------
+  // ---------- botón flotante, aprendizaje y llenado automático por paso ----------
   const isWorkday = /(^|\.)(myworkdayjobs|myworkdaysite|workday)\.com$/.test(location.hostname);
 
   async function setupUi() {
     const { settings } = await loadData();
-    const hasForm = () => !!document.querySelector('[data-automation-id^="formField"], [data-automation-id="applyFlowPage"], form input');
-    if (isWorkday && settings.floatingButton) {
-      // Workday es una SPA: esperar a que aparezca un formulario
-      const check = () => panel.showButton(hasForm());
-      check();
-      new MutationObserver(debounce(check, 500)).observe(document.body, { childList: true, subtree: true });
+    WD.learn.hook();
+    if (settings.floatingButton) {
+      // cualquier sitio de empleo con un formulario (las SPA lo dibujan después: observar)
+      let shown = false;
+      const check = () => {
+        const want = WD.learn.isJobPage() && scan().fields.length >= 3;
+        if (want !== shown) {
+          shown = want;
+          panel.showButton(want);
+        }
+      };
+      setTimeout(check, 800);
+      new MutationObserver(debounce(check, 1500)).observe(document.body, { childList: true, subtree: true });
     }
     if (isWorkday && settings.autoOnStep) {
       let lastStep = '';

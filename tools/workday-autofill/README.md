@@ -1,9 +1,38 @@
-# ⚡ Autollenado de solicitudes (Workday) — extensión para Edge/Chrome
+# ⚡ Autollenado de solicitudes de empleo — extensión para Edge/Chrome
 
-Llena las páginas de solicitud de Workday (y, en modo "mejor esfuerzo", otros portales)
-con tu perfil: datos personales, dirección, teléfono, experiencia, educación, idiomas,
-sitios web, skills, CV y preguntas frecuentes. **Tú revisas y das Next.** La extensión
-nunca da clic en Next ni en Submit, y nunca toca contraseñas ni casillas de consentimiento.
+Llena formularios de empleo **en cualquier sitio**: Workday, Greenhouse, Lever, SuccessFactors,
+iCIMS, Taleo, SmartRecruiters, bolsas de trabajo, páginas propias de las empresas y Google Forms.
+Usa tu perfil (datos, dirección de Monterrey o Puebla, experiencia, educación, idiomas, skills, CV)
+y **aprende tus respuestas**: si una pregunta no está en tu perfil, la contestas una vez a mano y
+la próxima vez se llena sola en cualquier sitio.
+
+**Tú revisas y das Next.** La extensión nunca da clic en Next ni en Enviar, nunca toca contraseñas
+y nunca marca casillas de aceptación (aviso de privacidad, términos y condiciones, "certifico que…").
+
+## Qué reconoce
+
+- **Campos nativos y personalizados:** texto, listas, radios, casillas, fechas (incluidos los segmentos
+  MM/AAAA de Workday), carga de CV, autocompletar (ubicación, universidad, react-select), listas que
+  se abren con clic, radios y listas de Google Forms, y campos dentro de web components (Shadow DOM).
+- **Etiquetas de cualquier tipo:** `<label>`, ARIA, el título de la pregunta o el texto suelto junto al campo.
+- **Inglés y español.**
+- **Nombre completo o separado** según lo pida el formulario. Lo mismo con el teléfono: con lada aparte o con +52 incluido.
+- **Ubicación actual, empresa y puesto actual, universidad, carrera, promedio, graduación, años de
+  experiencia, fecha de nacimiento, CURP, RFC, NSS y estado civil.** Estos últimos solo si los pones en tu perfil.
+
+## Aprende de ti
+
+1. Llenas el formulario con ⚡. Lo que no sabe sale en naranja como **"Pregunta nueva"**.
+2. Contéstalo tú, como siempre.
+3. Al dar **Siguiente / Enviar / Guardar y continuar**, la extensión guarda esas respuestas. También
+   puedes forzarlo con **💾 Recordar mis respuestas** en el panel.
+4. En el siguiente formulario, de cualquier empresa, esas preguntas se llenan solas.
+
+Reglas para que no aprenda de más:
+- Solo aprende en páginas de empleo, o donde ya usaste ⚡.
+- Solo aprende preguntas que tu perfil **no** cubre. Tu perfil siempre manda; para cambiar un dato del perfil, edítalo en Opciones.
+- Nunca guarda contraseñas, datos bancarios, códigos de verificación, búsquedas ni casillas de aceptación.
+- Puedes ver, corregir o borrar todo en **Opciones → Respuestas aprendidas**.
 
 ## Instalación (Microsoft Edge)
 
@@ -71,7 +100,7 @@ por ejemplo `["Bachelor's Degree", "Licenciatura"]`.
 - **Reconoce campos por varias señales:** los `data-automation-id` e ids de Workday (los nuevos,
   como `workExperience-29--jobTitle`, y los antiguos, como `legalNameSection_firstName`), la etiqueta
   visible, `aria-label` y los títulos de sección. Funciona en inglés y en español.
-- **Usa los widgets reales de Workday:** listas (botón + listbox), prompts con búsqueda y Enter
+- **Workday a fondo:** listas (botón + listbox), prompts con búsqueda y Enter
   (incluidas categorías anidadas, como "How did you hear → Job Board → LinkedIn"), fechas por
   segmento MM/AAAA, radios, checkboxes y carga del CV.
 - **Escribe como si fuera teclado** (eventos reales que React acepta) y luego verifica que el valor haya quedado.
@@ -85,15 +114,19 @@ por ejemplo `["Bachelor's Degree", "Licenciatura"]`.
 
 ## Pruebas
 
-`tests/` incluye dos formularios que imitan Workday. Uno usa el layout nuevo en inglés y otro el
-layout antiguo en español con la dirección de Puebla. También incluye una prueba de punta a punta
-que carga la extensión real en Chromium:
+`tests/` incluye cuatro formularios de prueba:
+- Workday con el layout nuevo, en inglés.
+- Workday con el layout antiguo, en español y con la dirección de Puebla.
+- Un formulario propio de una empresa, con autocompletar, react-select, Google Forms, Shadow DOM y aviso de privacidad.
+- Un blog que **no** es de empleo, donde la extensión no debe aparecer ni aprender nada.
+
+También incluye una prueba de punta a punta que carga la extensión real en Chromium:
 
 ```bash
 node tests/run-e2e.mjs   # requiere playwright
 ```
 
-Verifica más de 70 campos, que no duplique entradas al volver a llenar y que **nunca** dé clic en Next.
+Verifica más de 100 puntos: que llene bien, que aprenda y reutilice tus respuestas, que no duplique entradas ni desmarque nada al volver a llenar y que **nunca** dé clic en Next o Enviar.
 
 ## Limitaciones conocidas
 
@@ -102,13 +135,15 @@ Verifica más de 70 campos, que no duplique entradas al volver a llenar y que **
 - El catálogo de *Skills* de Workday es cerrado: solo se agregan las skills que existen en él.
   El panel indica cuáles no encontró.
 - Crear la cuenta e iniciar sesión siguen siendo manuales. Para eso usa el gestor de contraseñas de Edge.
-- En otros portales (Greenhouse, Lever, SuccessFactors) funciona en modo "mejor esfuerzo" con el
-  botón del popup o con el atajo, porque los campos de texto se reconocen por su etiqueta.
+- Si el botón ⚡ no aparece en una página de empleo (por ejemplo, un formulario con un título muy
+  genérico), usa el ícono de la extensión → **Llenar esta página**, o **Alt+Shift+L**. Funciona en cualquier página.
+- Los captchas, los formularios dentro de PDF y los sitios que bloquean extensiones no se pueden llenar.
+- La primera vez en un portal nuevo, revisa todo con calma. Si algo sale mal, usa **Copiar diagnóstico**.
 
 ## Estructura
 
 ```
-manifest.json            MV3: permisos, atajo Alt+Shift+L y scripts para *.myworkdayjobs.com, *.myworkdaysite.com y *.workday.com
+manifest.json            MV3: permisos, atajo Alt+Shift+L y scripts en todas las páginas (el botón solo aparece en páginas de empleo)
 profile.example.json     perfil inicial (datos del CV)
 src/background.js        atajo, puente popup → pestaña y perfil inicial
 src/content/utils.js     normalización, esperas, escritura compatible con React
@@ -116,6 +151,7 @@ src/content/fields.js    descubre campos: tipo, etiqueta, sección (experiencia/
 src/content/rules.js     reglas campo → dato del perfil y banco de respuestas
 src/content/widgets.js   cómo operar cada widget de Workday
 src/content/panel.js     botón flotante y panel de resultados (Shadow DOM)
+src/content/learn.js     aprende tus respuestas (solo en páginas de empleo)
 src/content/main.js      orquestador (agregar entradas, pasadas, reporte)
 src/popup/, src/options/ interfaz
 tests/                   formularios simulados y prueba de punta a punta

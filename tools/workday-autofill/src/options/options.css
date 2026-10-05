@@ -18,3 +18,10 @@ textarea { width: 100%; min-height: 60vh; font: 12.5px/1.45 Consolas, "Cascadia 
 #warnings { margin: 0 0 8px; padding-left: 18px; color: var(--warn); font-size: 13px; }
 #resumes { list-style: none; padding: 0; margin: 8px 0; }
 #resumes li { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 6px; overflow-wrap: anywhere; }
+#learned { list-style: none; padding: 0; margin: 8px 0 0; max-height: 50vh; overflow: auto; }
+#learned li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+#learned li .q { overflow-wrap: anywhere; }
+#learned li .q small { display: block; color: var(--muted); }
+#learned li input { width: 100%; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font: inherit; }
+#learnedFilter { padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font: inherit; min-width: 0; flex: 1 1 200px; }
+@media (max-width: 640px) { #learned li { grid-template-columns: 1fr; } }

@@ -205,5 +205,42 @@
     return (el?.innerText ?? el?.textContent ?? '').replace(/\s+/g, ' ').trim();
   }
 
-  WD.utils = { sleep, norm, splitTokens, waitFor, isVisible, isUsable, setNativeValue, fire, press, realClick, typeInto, blur, similarity, bestOption, expandAliases, text };
+  /** querySelectorAll que también entra a web components (Shadow DOM abierto). */
+  // ¿la página usa web components? (se revisa como máximo cada 2 s; recorrer todo el DOM cuesta)
+  let shadowCheckedAt = 0;
+  let pageHasShadow = false;
+  function hasShadow() {
+    if (Date.now() - shadowCheckedAt > 2000) {
+      shadowCheckedAt = Date.now();
+      pageHasShadow = false;
+      const w = document.createTreeWalker(document, NodeFilter.SHOW_ELEMENT);
+      for (let n = w.currentNode; n; n = w.nextNode()) {
+        if (n.shadowRoot && n.id !== 'wdaf-root') {
+          pageHasShadow = true;
+          break;
+        }
+      }
+    }
+    return pageHasShadow;
+  }
+
+  function deepQueryAll(selector, root = document) {
+    const out = [...root.querySelectorAll(selector)];
+    if (root === document && !hasShadow()) return out;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT);
+    for (let n = walker.currentNode; n; n = walker.nextNode()) {
+      if (n.shadowRoot && n.id !== 'wdaf-root') out.push(...deepQueryAll(selector, n.shadowRoot));
+    }
+    return out;
+  }
+
+  /** document o shadowRoot del elemento (para label[for] / getElementById dentro de web components). */
+  const rootOf = (el) => {
+    const r = el?.getRootNode?.();
+    return r && r.querySelector ? r : document;
+  };
+  const byId = (el, id) => (id ? rootOf(el).getElementById?.(id) || document.getElementById(id) : null);
+  const labelFor = (el) => (el.id ? rootOf(el).querySelector(`label[for="${CSS.escape(el.id)}"]`) : null);
+
+  WD.utils = { deepQueryAll, rootOf, byId, labelFor, sleep, norm, splitTokens, waitFor, isVisible, isUsable, setNativeValue, fire, press, realClick, typeInto, blur, similarity, bestOption, expandAliases, text };
 })();

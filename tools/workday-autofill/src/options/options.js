@@ -170,5 +170,48 @@ $('resumeFile').onchange = async (e) => {
   renderResumes();
 };
 
+// ---------- respuestas aprendidas ----------
+async function renderLearned() {
+  const { learned = {} } = await chrome.storage.local.get('learned');
+  const q = $('learnedFilter').value.toLowerCase();
+  const ul = $('learned');
+  ul.innerHTML = '';
+  const entries = Object.entries(learned)
+    .filter(([, v]) => !q || v.label.toLowerCase().includes(q))
+    .sort((a, b) => String(b[1].at).localeCompare(String(a[1].at)));
+  if (!entries.length) ul.innerHTML = '<li class="muted">Aún no hay respuestas aprendidas. Contesta a mano una pregunta nueva en un formulario de empleo.</li>';
+  for (const [key, v] of entries) {
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="q"><span></span><small></small></span><input><button>Borrar</button>';
+    li.querySelector('.q span').textContent = v.label;
+    li.querySelector('.q small').textContent = `${v.host || ''} · ${String(v.at || '').slice(0, 10)}`;
+    const input = li.querySelector('input');
+    input.value = Array.isArray(v.value) ? v.value.join(' | ') : String(v.value);
+    input.onchange = async () => {
+      const { learned: cur = {} } = await chrome.storage.local.get('learned');
+      if (!cur[key]) return;
+      const raw = input.value.trim();
+      cur[key].value = typeof v.value === 'boolean' ? /^(true|si|sí|yes|1)$/i.test(raw) : Array.isArray(v.value) ? raw.split(/\s*\|\s*/).filter(Boolean) : raw;
+      await chrome.storage.local.set({ learned: cur });
+      setStatus('Respuesta actualizada ✔', 'ok');
+    };
+    li.querySelector('button').onclick = async () => {
+      const { learned: cur = {} } = await chrome.storage.local.get('learned');
+      delete cur[key];
+      await chrome.storage.local.set({ learned: cur });
+      renderLearned();
+    };
+    ul.appendChild(li);
+  }
+}
+$('learnedFilter').oninput = renderLearned;
+$('learnedClear').onclick = async () => {
+  if (!confirm('¿Borrar todas las respuestas aprendidas?')) return;
+  await chrome.storage.local.set({ learned: {} });
+  renderLearned();
+};
+chrome.storage.onChanged.addListener((ch) => ch.learned && renderLearned());
+
 loadProfile();
 renderResumes();
+renderLearned();

@@ -1,12 +1,14 @@
 // Descubre los campos del formulario y los describe: tipo de widget, etiqueta,
 // tokens de id, sección repetible (experiencia, educación…) e índice de entrada.
+// Funciona en cualquier sitio: inputs nativos, widgets ARIA (Google Forms,
+// react-select, listas personalizadas), Workday y web components (Shadow DOM).
 (() => {
   const WD = (window.__WDAF = window.__WDAF || {});
   if (WD.fields) return;
-  const { norm, splitTokens, isUsable, isVisible, text } = WD.utils;
+  const { norm, splitTokens, isUsable, isVisible, text, deepQueryAll, byId, labelFor } = WD.utils;
 
-  // Secciones repetibles de Workday. `id` cubre ids nuevos (workExperience-29--jobTitle)
-  // y `heading` cubre tenants viejos o en español donde sólo hay título visible.
+  // Secciones repetibles. `id` cubre ids de Workday (workExperience-29--jobTitle)
+  // y `heading` cubre formularios donde sólo hay título visible.
   const SECTIONS = [
     { key: 'experience', id: /^(work ?experience|experience|employment)$/, heading: /work experience|employment history|experiencia (laboral|profesional)|historial laboral|empleos? anteriores/ },
     { key: 'education', id: /^education$/, heading: /\beducation\b|educacion|formacion academica|estudios/ },
@@ -32,7 +34,7 @@
     if (!ids) return '';
     return ids
       .split(/\s+/)
-      .map((id) => text(document.getElementById(id)))
+      .map((id) => text(byId(el, id)))
       .filter(Boolean)
       .join(' ');
   }
@@ -45,23 +47,51 @@
       .trim();
   }
 
+  const isRoleRadio = (el) => el.type === 'radio' || el.getAttribute('role') === 'radio';
+  const isRoleCheckbox = (el) => el.type === 'checkbox' || el.getAttribute('role') === 'checkbox';
+  const isChecked = (el) => !!el.checked || el.getAttribute('aria-checked') === 'true';
+
   /** Contenedor del campo: en Workday cada campo vive en data-automation-id="formField-…". */
   function fieldContainer(el) {
-    return el.closest('[data-automation-id^="formField"]') || el.closest('fieldset') || el.parentElement;
+    return (
+      el.closest('[data-automation-id^="formField"]') ||
+      (isRoleRadio(el) && el.closest('[role="radiogroup"]')) ||
+      el.closest('fieldset') ||
+      el.parentElement
+    );
   }
 
+  const HAS_FIELD = 'input:not([type="hidden"]), select, textarea, [role="radio"], [role="checkbox"], [role="combobox"], [role="listbox"]';
+
+  /** Texto suelto junto al campo (formularios hechos a mano: <div>Nombre</div><input>). */
+  function nearbyText(el) {
+    let node = el;
+    for (let depth = 0; depth < 4 && node && node !== document.body; depth++) {
+      let sib = node.previousElementSibling;
+      for (let k = 0; sib && k < 3; k++, sib = sib.previousElementSibling) {
+        if (sib.matches(HAS_FIELD) || sib.querySelector(HAS_FIELD)) break;
+        const t = text(sib);
+        if (t && t.length < 200) return t;
+      }
+      node = node.parentElement;
+    }
+    return '';
+  }
+
+  /** Devuelve { label, raw } — raw conserva el "*" de obligatorio. */
   function resolveLabel(el, container) {
     const tries = [];
-    const isRadio = el.type === 'radio';
-    if (el.id && !isRadio) {
-      const lab = document.querySelector(`label[for="${CSS.escape(el.id)}"]`);
+    const radio = isRoleRadio(el);
+    const box = isRoleCheckbox(el);
+    if (!radio) {
+      const lab = labelFor(el);
       if (lab) tries.push(text(lab));
     }
     const wrapLabel = el.closest('label');
-    if (wrapLabel && !isRadio && el.type !== 'checkbox') tries.push(text(wrapLabel));
-    if (isRadio) {
+    if (wrapLabel && !radio && !box) tries.push(text(wrapLabel));
+    if (radio) {
       const rg = el.closest('[role="radiogroup"]');
-      if (rg) tries.push(labelledByText(rg) || rg.getAttribute('aria-label') || '');
+      if (rg) tries.push(labelledByText(rg) || rg.getAttribute('aria-label') || nearbyText(rg));
     }
     if (container && container.matches?.('[data-automation-id^="formField"]')) {
       const lab = container.querySelector('label, legend, [data-automation-id="richText"]');
@@ -72,30 +102,30 @@
       const lg = fs.querySelector('legend');
       if (lg) tries.push(text(lg));
     }
-    if (!isRadio) {
+    if (!radio) {
       tries.push(labelledByText(el));
-      tries.push(el.getAttribute('aria-label') || '');
+      tries.push(box ? '' : el.getAttribute('aria-label') || '');
     }
-    tries.push(el.getAttribute('placeholder') || '');
+    tries.push(nearbyText(radio ? container || el : el));
+    if (!radio) tries.push(el.getAttribute('placeholder') || '');
     tries.push(el.getAttribute('title') || '');
-    const first = tries.map(cleanLabel).find((t) => t && t.length < 300);
-    return first || '';
+    if (box) tries.push(el.getAttribute('aria-label') || '');
+    const raw = tries.find((t) => cleanLabel(t) && cleanLabel(t).length < 300) || '';
+    return { label: cleanLabel(raw), raw };
   }
 
   /** Para checkboxes/radios: texto propio de la opción. */
   function optionLabel(el) {
-    if (el.id) {
-      const lab = document.querySelector(`label[for="${CSS.escape(el.id)}"]`);
-      if (lab) return text(lab);
-    }
+    const lab = labelFor(el);
+    if (lab) return text(lab);
     const wrap = el.closest('label');
     if (wrap) return text(wrap);
-    return el.getAttribute('aria-label') || labelledByText(el) || el.value || '';
+    return el.getAttribute('aria-label') || el.getAttribute('data-value') || labelledByText(el) || text(el) || el.value || '';
   }
 
   /** Sección y número de entrada (experiencia 1, 2…) del campo. */
   function locateSection(el) {
-    // 1) ids nuevos de Workday: workExperience-29--jobTitle
+    // 1) ids de Workday: workExperience-29--jobTitle
     for (let n = el; n && n !== document.body; n = n.parentElement) {
       const m = (n.id || '').match(ENTRY_ID_RE) || (n.getAttribute?.('data-automation-id') || '').match(ENTRY_ID_RE);
       if (m) {
@@ -103,7 +133,7 @@
         if (key) return { section: key, entryKey: `${m[1]}-${m[2]}`, entryEl: null };
       }
     }
-    // 2) tenants viejos: grupos con título "Work Experience 2" dentro de la sección "Work Experience"
+    // 2) grupos con título "Work Experience 2" dentro de la sección "Work Experience"
     let entryEl = null;
     let entryKey = null;
     for (let n = el.parentElement; n && n !== document.body; n = n.parentElement) {
@@ -117,6 +147,8 @@
         entryKey = `${key}-${numbered[1]}`;
         continue;
       }
+      // una sección con título pero sin entradas numeradas en un formulario genérico
+      // ("Educación" con un solo bloque de campos) cuenta como su primera entrada
       return { section: key, entryKey: entryKey || `${key}-single`, entryEl: entryEl || n };
     }
     if (entryEl) return { section: entryKey.split('-')[0], entryKey, entryEl };
@@ -126,9 +158,15 @@
   function kindOf(el) {
     const aid = el.getAttribute('data-automation-id') || '';
     const tag = el.tagName;
+    const role = el.getAttribute('role');
     if (tag === 'SELECT') return 'select';
     if (tag === 'TEXTAREA') return 'textarea';
-    if (tag === 'BUTTON') return 'dropdown';
+    if (tag !== 'INPUT') {
+      if (role === 'radio') return 'radio';
+      if (role === 'checkbox') return 'checkbox';
+      if (role === 'textbox' && el.isContentEditable) return null;
+      return 'dropdown'; // button/div con listbox
+    }
     const type = (el.getAttribute('type') || 'text').toLowerCase();
     if (type === 'checkbox') return 'checkbox';
     if (type === 'radio') return 'radio';
@@ -136,43 +174,56 @@
     if (/dateSectionMonth/i.test(aid) || /dateSectionMonth/i.test(el.id)) return 'date-month';
     if (/dateSectionYear/i.test(aid) || /dateSectionYear/i.test(el.id)) return 'date-year';
     if (/dateSectionDay/i.test(aid) || /dateSectionDay/i.test(el.id)) return 'date-day';
-    if (type === 'date') return 'date-native';
+    if (type === 'date' || type === 'month') return 'date-native';
     if (aid === 'searchBox' || el.closest('[data-automation-id="multiselectInputContainer"]') || el.getAttribute('data-uxi-widget-type') === 'selectinput') return 'multiselect';
+    if (role === 'combobox' || el.getAttribute('aria-autocomplete') === 'list' || el.getAttribute('aria-autocomplete') === 'both') return 'combobox';
     if (['text', 'email', 'tel', 'url', 'number', 'search', ''].includes(type)) return 'text';
     return null;
   }
 
-  function isRequired(el, container, label) {
+  function isRequired(el, container, raw) {
     if (el.required || el.getAttribute('aria-required') === 'true') return true;
+    const group = el.closest('[role="radiogroup"]');
+    if (group?.getAttribute('aria-required') === 'true') return true;
     if (container?.querySelector?.('[aria-required="true"], abbr[title="required"], [data-automation-id="requiredIndicator"]')) return true;
-    const raw = container ? text(container.querySelector('label, legend')) : '';
-    return /\*/.test(raw) || /\*/.test(label);
+    const lab = container?.querySelector?.('label, legend');
+    return /\*/.test(raw) || (!!lab && /\*/.test(text(lab)));
   }
 
   const SELECTOR = [
-    'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="password"]):not([type="image"])',
+    'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="password"]):not([type="image"]):not([type="range"]):not([type="color"])',
     'textarea',
     'select',
     'button[aria-haspopup="listbox"]',
+    '[role="button"][aria-haspopup="listbox"]',
+    '[role="combobox"]:not(input)',
+    '[role="listbox"][aria-expanded]',
+    '[role="radio"]:not(input)',
+    '[role="checkbox"]:not(input)',
   ].join(',');
 
-  /** Lista de campos visibles. Radios se agrupan por name en un solo campo. */
-  function scan(root = document) {
+  /** Lista de campos visibles. Radios se agrupan (por name o por radiogroup) en un solo campo. */
+  function scan() {
     const out = [];
     const radioGroups = new Map();
-    for (const el of root.querySelectorAll(SELECTOR)) {
+    const seen = new Set();
+    for (const el of deepQueryAll(SELECTOR)) {
+      if (seen.has(el)) continue;
+      seen.add(el);
       if (el.closest('#wdaf-root')) continue;
       if (!isUsable(el)) continue;
       const kind = kindOf(el);
       if (!kind) continue;
-      // checkboxes que en realidad son opciones de un listbox abierto
-      if (el.closest('[role="listbox"]')) continue;
+      // opciones dentro de un menú abierto, o fichas de selección: no son campos
+      if (el.parentElement?.closest('[role="listbox"], [role="menu"]')) continue;
+      // un combobox ARIA que envuelve a un <input>: el input es el campo
+      if (kind === 'dropdown' && el.querySelector('input:not([type="hidden"])')) continue;
       const container = fieldContainer(el);
-      const label = resolveLabel(el, container);
-      const tokens = [el.id, el.name, el.getAttribute('data-automation-id'), container?.getAttribute?.('data-automation-id')].filter(Boolean).map(splitTokens).join(' ');
+      const { label, raw } = resolveLabel(el, container);
+      const tokens = [el.id, el.name, el.getAttribute('data-automation-id'), el.getAttribute('autocomplete'), container?.getAttribute?.('data-automation-id')].filter(Boolean).map(splitTokens).join(' ');
       const loc = locateSection(el);
       if (kind === 'radio') {
-        const gkey = el.name || label;
+        const gkey = (el.type === 'radio' && el.name) || el.closest('[role="radiogroup"]') || container || label;
         if (!radioGroups.has(gkey)) {
           const f = { el, kind, label, tokens, container, options: [], required: false, ...loc };
           radioGroups.set(gkey, f);
@@ -180,10 +231,10 @@
         }
         const g = radioGroups.get(gkey);
         g.options.push({ el, text: optionLabel(el) });
-        g.required = g.required || isRequired(el, container, label);
+        g.required = g.required || isRequired(el, container, raw);
         continue;
       }
-      out.push({ el, kind, label, tokens, container, required: isRequired(el, container, label), optionText: kind === 'checkbox' ? optionLabel(el) : '', ...loc });
+      out.push({ el, kind, label, tokens, container, required: isRequired(el, container, raw), optionText: kind === 'checkbox' ? optionLabel(el) : '', ...loc });
     }
     // índice de entrada dentro de su sección, en orden del documento
     const bySection = {};
@@ -196,7 +247,24 @@
     return { fields: out, entryCounts: Object.fromEntries(Object.entries(bySection).map(([k, v]) => [k, v.length])) };
   }
 
-  /** ¿El campo está vacío? (para no pisar lo que ya llenaste o lo que Workday pre-llenó). */
+  const PLACEHOLDER_RE = /^(select|selecciona|seleccione|seleccionar|choose|elige|escoge|please select|por favor seleccione|start typing|empieza a escribir)\b/;
+
+  /** Valor visible de un combobox tipo react-select (el input queda vacío y el valor va al lado). */
+  function comboDisplay(f) {
+    if (f.el.value) return f.el.value;
+    const shown = f.container?.querySelector?.('[class*="single-value"], [class*="singleValue"], [class*="multi-value"], [class*="multiValue"], [class*="selected-value"]');
+    return shown ? text(shown) : '';
+  }
+
+  function pillTexts(f) {
+    const box = f.el.closest('[data-automation-id="multiSelectContainer"], [data-automation-id="multiselectInputContainer"]')?.parentElement || f.container;
+    return [...(box?.querySelectorAll('[data-automation-id="selectedItem"], [data-automation-id="promptSelectionLabel"], [data-automation-id="selectedItemList"] li, [role="listitem"], [role="option"]') || [])]
+      .filter(isVisible)
+      .map(text)
+      .filter(Boolean);
+  }
+
+  /** ¿El campo está vacío? (para no pisar lo que ya llenaste o lo que el sitio pre-llenó). */
   function isEmpty(f) {
     const el = f.el;
     switch (f.kind) {
@@ -210,18 +278,17 @@
       case 'select':
         return !el.value || el.selectedIndex <= 0;
       case 'dropdown': {
-        const t = norm(text(el));
-        return !t || /^(select|selecciona|seleccione|seleccionar|choose|elige|escoge|please select|por favor seleccione)\b/.test(t) || /^(none|ninguno|\-+)$/.test(t);
+        const t = norm(text(el) || el.getAttribute('aria-label') || '');
+        return !t || PLACEHOLDER_RE.test(t) || /^(none|ninguno|\-+)$/.test(t) || norm(t) === norm(f.label);
       }
-      case 'multiselect': {
-        const box = el.closest('[data-automation-id="multiSelectContainer"], [data-automation-id="multiselectInputContainer"]')?.parentElement || f.container;
-        const pills = box?.querySelectorAll('[data-automation-id="selectedItem"], [data-automation-id="promptSelectionLabel"], [data-automation-id="selectedItemList"] li, [role="listitem"], [role="option"]') || [];
-        return ![...pills].some(isVisible) && !el.value;
-      }
+      case 'multiselect':
+        return !pillTexts(f).length && !el.value;
+      case 'combobox':
+        return !comboDisplay(f);
       case 'radio':
-        return !f.options.some((o) => o.el.checked);
+        return !f.options.some((o) => isChecked(o.el));
       case 'checkbox':
-        return !el.checked;
+        return !isChecked(el);
       case 'file':
         return !(el.files && el.files.length) && !f.container?.querySelector?.('[data-automation-id="file-upload-item"], [data-automation-id="file-upload-successful"]');
       default:
@@ -229,5 +296,31 @@
     }
   }
 
-  WD.fields = { scan, isEmpty, sectionFromHeading, SECTIONS, fieldContainer };
+  /** Lo que el campo tiene ahora, como texto (para aprender tus respuestas). */
+  function readValue(f) {
+    if (isEmpty(f)) return null;
+    const el = f.el;
+    switch (f.kind) {
+      case 'select':
+        return el.options[el.selectedIndex]?.text?.trim() || null;
+      case 'dropdown':
+        return text(el) || null;
+      case 'multiselect': {
+        const p = pillTexts(f);
+        return p.length > 1 ? p : p[0] || null;
+      }
+      case 'combobox':
+        return comboDisplay(f) || null;
+      case 'radio':
+        return f.options.find((o) => isChecked(o.el))?.text?.trim() || null;
+      case 'checkbox':
+        return isChecked(el);
+      case 'file':
+        return null;
+      default:
+        return el.value || null;
+    }
+  }
+
+  WD.fields = { scan, isEmpty, readValue, isChecked, sectionFromHeading, SECTIONS, fieldContainer };
 })();

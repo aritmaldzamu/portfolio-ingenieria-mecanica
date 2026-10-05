@@ -12,7 +12,7 @@
   const asList = (v) => (Array.isArray(v) ? v : [v]).filter((x) => x != null && x !== '');
 
   function visibleOptions(scope = document) {
-    return [...scope.querySelectorAll(OPTION_SEL)]
+    return (scope === document ? WD.utils.deepQueryAll(OPTION_SEL) : [...scope.querySelectorAll(OPTION_SEL)])
       .filter((el) => isVisible(el) && !el.closest('#wdaf-root'))
       // evitar contar el contenedor y su hijo como dos opciones
       .filter((el, _, all) => !all.some((o) => o !== el && el.contains(o)))
@@ -49,14 +49,15 @@
 
   // ---------------- lista desplegable (button aria-haspopup=listbox) ----------------
   function visibleListboxes() {
-    return [...document.querySelectorAll('[role="listbox"]')].filter((l) => isVisible(l) && !l.closest('#wdaf-root'));
+    return WD.utils.deepQueryAll('[role="listbox"]').filter((l) => isVisible(l) && !l.closest('#wdaf-root'));
   }
 
   /** Listbox de este botón: aria-controls, o el que apareció tras el clic, el más cercano al botón. */
   function findListbox(btn, before) {
     const ctrl = btn.getAttribute('aria-controls') || btn.getAttribute('aria-owns');
-    const own = ctrl && document.getElementById(ctrl);
+    const own = ctrl && WD.utils.byId(btn, ctrl);
     if (own && isVisible(own)) return own;
+    if (btn.getAttribute('role') === 'listbox' && visibleOptions(btn).length > 1) return btn;
     const fresh = visibleListboxes().filter((l) => !before.has(l) && !l.querySelector('[data-automation-id="promptSelectionLabel"], [data-automation-id="selectedItem"]'));
     if (!fresh.length) return null;
     const br = btn.getBoundingClientRect();
@@ -237,22 +238,60 @@
   }
 
   // ---------------- checkbox / radio ----------------
+  const checked = (el) => !!el.checked || el.getAttribute('aria-checked') === 'true';
+  const clickTarget = (el) => (isVisible(el) ? el : WD.utils.labelFor(el) || el.closest('label') || el);
+
   async function setCheckbox(f, want) {
-    if (f.el.checked === !!want) return true;
-    const lab = f.el.id && document.querySelector(`label[for="${CSS.escape(f.el.id)}"]`);
-    realClick(isVisible(f.el) ? f.el : lab || f.el);
-    await sleep(120);
-    return f.el.checked === !!want;
+    if (checked(f.el) === !!want) return true;
+    realClick(clickTarget(f.el));
+    await sleep(150);
+    return checked(f.el) === !!want;
   }
 
   async function setRadio(f, value) {
     const best = bestOption(f.options, asList(value));
-    if (!best) return false;
-    if (best.el.checked) return true;
-    const lab = best.el.id && document.querySelector(`label[for="${CSS.escape(best.el.id)}"]`);
-    realClick(isVisible(best.el) ? best.el : lab || best.el);
-    await sleep(120);
-    return best.el.checked;
+    if (!best) return { ok: false, note: `Sin opción para "${asList(value)[0]}". Vi: ${f.options.map((o) => o.text).slice(0, 6).join(', ')}` };
+    if (checked(best.el)) return true;
+    realClick(clickTarget(best.el));
+    await sleep(150);
+    return checked(best.el);
+  }
+
+  // ---------------- autocompletar (react-select, ubicación de Lever/Greenhouse, etc.) ----------------
+  async function setCombobox(f, value) {
+    const input = f.el;
+    const alts = asList(value);
+    for (const term of alts) {
+      const stale = new Set(visibleOptions().map((o) => o.el));
+      realClick(input);
+      await typeInto(input, String(term));
+      const opts = await waitFor(() => {
+        const o = visibleOptions().filter((x) => !stale.has(x.el) && !x.el.contains(input));
+        return o.length ? o : null;
+      }, { timeout: 2500 });
+      if (!opts) {
+        // sin sugerencias: es texto libre; se queda lo escrito
+        if (input.value === String(term)) {
+          blur(input);
+          return true;
+        }
+        continue;
+      }
+      const best = bestOption(opts, alts, 0.5);
+      if (!best) {
+        await typeInto(input, '');
+        await closePopups();
+        continue;
+      }
+      best.el.scrollIntoView?.({ block: 'nearest' });
+      realClick(best.el);
+      await sleep(350);
+      blur(input);
+      const shown = norm(input.value + ' ' + text(f.container));
+      if (shown.includes(norm(best.text)) || similarity(input.value, best.text) >= 0.6) return true;
+      return { ok: true, note: `Elegí "${best.text}", revisa que haya quedado` };
+    }
+    return { ok: false, note: `Sin sugerencia para "${alts[0]}"` };
   }
 
   // ---------------- fechas por segmento (MM / YYYY) ----------------
@@ -366,6 +405,8 @@
         return setDropdown(f, value);
       case 'multiselect':
         return setMultiselect(f, value);
+      case 'combobox':
+        return setCombobox(f, value);
       case 'checkbox':
         return setCheckbox(f, value);
       case 'radio':

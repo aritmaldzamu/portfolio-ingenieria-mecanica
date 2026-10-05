@@ -1,12 +1,12 @@
 // Service worker: atajo de teclado, puente popup -> pestaña y perfil inicial.
-const CONTENT_FILES = ['src/content/utils.js', 'src/content/fields.js', 'src/content/rules.js', 'src/content/widgets.js', 'src/content/panel.js', 'src/content/main.js'];
+const CONTENT_FILES = ['src/content/utils.js', 'src/content/fields.js', 'src/content/rules.js', 'src/content/widgets.js', 'src/content/learn.js', 'src/content/panel.js', 'src/content/main.js'];
 
 const isBlank = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
 
 /**
  * Al instalar: carga el perfil de ejemplo. Al actualizar: completa SOLO los
  * datos de dirección que estén vacíos en tu perfil guardado (por etiqueta,
- * p.ej. "Puebla"), sin pisar nada que ya hayas escrito.
+ * p.ej. "Puebla") y los campos nuevos, sin pisar nada que ya hayas escrito.
  */
 chrome.runtime.onInstalled.addListener(async () => {
   const example = await (await fetch(chrome.runtime.getURL('profile.example.json'))).json();
@@ -21,6 +21,11 @@ chrome.runtime.onInstalled.addListener(async () => {
     }
     for (const [k, v] of Object.entries(ex)) if (isBlank(cur[k]) && !isBlank(v)) cur[k] = v;
   }
+  // campos nuevos de versiones recientes (CURP, RFC…): se agregan vacíos o con el valor de ejemplo
+  for (const sec of ['personal', 'preferences']) {
+    profile[sec] = profile[sec] || {};
+    for (const [k, v] of Object.entries(example[sec] || {})) if (!(k in profile[sec])) profile[sec][k] = v;
+  }
   await chrome.storage.local.set({ profile });
 });
 
@@ -29,7 +34,7 @@ async function activeTab() {
   return tab;
 }
 
-/** En sitios Workday el script ya está cargado; en otros (Greenhouse, Lever…) se inyecta al pedirlo. */
+/** El script ya está en todas las páginas; si la pestaña se abrió antes de instalar, se inyecta al pedirlo. */
 async function fillTab(tab) {
   if (!tab?.id) return { error: 'Sin pestaña activa' };
   try {

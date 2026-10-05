@@ -22,6 +22,11 @@
       "Mexicana",
       "Mexico"
     ],
+    "dateOfBirth": "",
+    "maritalStatus": "",
+    "curp": "",
+    "rfc": "",
+    "nss": "",
     "linkedin": "https://www.linkedin.com/in/arith-maldonado-zamudio-4038262b5",
     "github": "https://github.com/aritmaldzamu",
     "portfolio": "https://aritmaldzamu.github.io/portfolio-ingenieria-mecanica/"
@@ -304,7 +309,8 @@
       "LinkedIn"
     ],
     "salaryExpectation": "",
-    "availability": ""
+    "availability": "",
+    "yearsExperience": ""
   },
   "answers": [
     {

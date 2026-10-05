@@ -39,7 +39,7 @@ const userDir = fs.mkdtempSync(path.join(os.tmpdir(), 'wdaf-'));
 const ctx = await chromium.launchPersistentContext(userDir, {
   channel: 'chromium',
   headless: true,
-  args: [`--disable-extensions-except=${extDir}`, `--load-extension=${extDir}`, `--host-resolver-rules=MAP ${HOST} 127.0.0.1`],
+  args: [`--disable-extensions-except=${extDir}`, `--load-extension=${extDir}`, `--host-resolver-rules=MAP ${HOST} 127.0.0.1, MAP careers.acme-example.com 127.0.0.1, MAP blog.example.org 127.0.0.1`],
 });
 
 const failures = [];
@@ -184,6 +184,69 @@ try {
   expect('ES panel sin pendientes de dirección', /Dirección|Código postal/.test(esPanel), false);
   await es.screenshot({ path: path.join(here, 'e2e-result-es.png'), fullPage: true });
 
+  // ---------- Escenario 3: formulario propio de empresa (no Workday) + aprendizaje ----------
+  console.log('\n=== Escenario sitio de empresa (genérico) + aprendizaje ===');
+  await sw.evaluate(() => chrome.storage.local.set({ settings: { activeAddress: 0, uploadResume: true }, learned: {} }));
+  const gen = await ctx.newPage();
+  gen.on('pageerror', (e) => console.log('[page exception]', e.message));
+  const GURL = `http://careers.acme-example.com:${PORT}/fixture-generic.html`;
+  await gen.goto(GURL);
+  await gen.locator('#wdaf-root .fab').waitFor({ state: 'visible', timeout: 10000 });
+  await gen.locator('#wdaf-root .fab').click();
+  await gen.locator('#wdaf-root .card .stats').waitFor({ timeout: 90000 });
+  const g = (sel) => gen.$eval(sel, (el) => el.value);
+  expect('GEN Nombre completo', await g('#fullname'), 'Arith Maldonado Zamudio');
+  expect('GEN Correo (etiqueta suelta)', await g('#mail'), 'maldonado.zamudio.arith@gmail.com');
+  expect('GEN Teléfono con lada', await g('#tel'), '+52 2219744717');
+  expect('GEN Ubicación (autocompletar)', await g('#loc'), 'San Nicolás de los Garza, Nuevo León, México');
+  expect('GEN Universidad (react-select)', await gen.textContent('.rs .select__single-value'), 'Universidad Iberoamericana Puebla');
+  expect('GEN Carrera', await g('#carrera'), 'Mechatronics Engineering');
+  expect('GEN Graduación (type=month)', await g('#grad'), '2026-12');
+  expect('GEN Empresa actual', await g('#emp'), 'Punto Focal Equipo Médico');
+  expect('GEN LinkedIn', await g('#li'), /linkedin\.com\/in\//);
+  expect('GEN CV subido', await gen.textContent('#cv-name'), /CV_Prueba\.pdf/);
+  expect('GEN Inglés (radio ARIA)', await gen.$eval('[aria-label="Avanzado"]', (e) => e.getAttribute('aria-checked')), 'true');
+  expect('GEN Cómo te enteraste (lista Google Forms)', await gen.$eval('#gf [aria-selected="true"]', (e) => e.textContent), 'LinkedIn');
+  expect('GEN Ciudad (Shadow DOM)', await gen.$eval('#xcity', (x) => x.shadowRoot.querySelector('input').value), 'San Nicolás de los Garza');
+  expect('GEN Aviso de privacidad sin marcar', await gen.$eval('#priv', (e) => e.getAttribute('aria-checked')), 'false');
+  expect('GEN Licencia sin responder (pregunta nueva)', await g('#lic'), '');
+  expect('GEN Nunca envió', await gen.evaluate(() => window.__sent), 0);
+  const genPanel = await gen.locator('#wdaf-root .card').innerText();
+  console.log('--- panel ---\n' + genPanel + '\n-------------');
+
+  // el usuario contesta a mano las preguntas nuevas y da "Enviar"
+  await gen.selectOption('#lic', 'Sí');
+  await gen.fill('#why', 'Me interesa aplicar diseño mecánico y automatización en manufactura.');
+  await gen.click('#priv');
+  await gen.click('#send');
+  await gen.waitForTimeout(800);
+  const learned = await sw.evaluate(async () => (await chrome.storage.local.get('learned')).learned || {});
+  console.log('   aprendido:', Object.values(learned).map((v) => `${v.label} = ${JSON.stringify(v.value)}`).join(' | '));
+  expect('Aprendió licencia', Object.values(learned).some((v) => /licencia/.test(v.label) && v.value === 'Sí'), true);
+  expect('Aprendió "por qué"', Object.values(learned).some((v) => /por que quieres|por qué quieres/i.test(v.label)), true);
+  expect('NO aprendió aviso de privacidad', Object.values(learned).some((v) => /privacidad/i.test(v.label)), false);
+  expect('NO aprendió datos del perfil (correo)', Object.values(learned).some((v) => /correo/i.test(v.label)), false);
+
+  // en otra visita (otro formulario), lo aprendido se llena solo
+  await gen.goto(GURL);
+  await gen.locator('#wdaf-root .fab').click();
+  await gen.locator('#wdaf-root .card .stats').waitFor({ timeout: 90000 });
+  expect('Usa lo aprendido: licencia', await g('#lic'), 'Sí');
+  expect('Usa lo aprendido: por qué', await g('#why'), /diseño mecánico/);
+  expect('Aviso de privacidad sigue sin marcar', await gen.$eval('#priv', (e) => e.getAttribute('aria-checked')), 'false');
+  await gen.screenshot({ path: path.join(here, 'e2e-result-generic.png'), fullPage: true });
+
+  // ---------- Escenario 4: página que NO es de empleo ----------
+  const blog = await ctx.newPage();
+  await blog.goto(`http://blog.example.org:${PORT}/fixture-blog.html`);
+  await blog.waitForTimeout(2500);
+  expect('Blog: sin botón flotante', await blog.locator('#wdaf-root .fab').isVisible().catch(() => false), false);
+  await blog.fill('#c', 'Qué rico pastel');
+  await blog.click('#go');
+  await blog.waitForTimeout(800);
+  const learned2 = await sw.evaluate(async () => (await chrome.storage.local.get('learned')).learned || {});
+  expect('Blog: no aprende nada', Object.values(learned2).some((v) => /comentario/i.test(v.label)), false);
+
   // ---------- Popup y opciones cargan sin errores ----------
   const extId = sw.url().split('/')[2];
   for (const pg of ['src/popup/popup.html', 'src/options/options.html']) {
@@ -196,6 +259,7 @@ try {
     if (pg.includes('popup')) expect('Popup muestra direcciones', await p2.$$eval('#address option', (o) => o.map((x) => x.textContent).join('|')), 'Monterrey|Puebla');
     if (pg.includes('options')) {
       expect('Opciones: editor con perfil', await p2.$eval('#editor', (e) => JSON.parse(e.value).personal.firstName), 'Arith');
+      expect('Opciones: lista respuestas aprendidas', await p2.textContent('#learned'), /licencia/i);
       expect('Opciones: Puebla completa', /Puebla/.test(await p2.textContent('#warnings')), false);
       await p2.setViewportSize({ width: 1000, height: 900 });
       await p2.screenshot({ path: path.join(here, 'e2e-options.png') });

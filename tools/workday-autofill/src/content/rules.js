@@ -12,6 +12,7 @@
   const ANY_VALUE = [...TEXT, ...CHOICE];
   const DATE = ['date-month', 'date-year', 'date-day', 'date-native'];
 
+  const first = (v) => (Array.isArray(v) ? v[0] : v);
   const pick = (...vals) => vals.find((v) => v != null && v !== '' && !(Array.isArray(v) && !v.length));
 
   /** "2024-07" -> {year:'2024', month:'07'}; "2024" -> {year:'2024'} */
@@ -22,13 +23,18 @@
     return { year: m[1], month: m[2] ? m[2].padStart(2, '0') : null, day: m[3] ? m[3].padStart(2, '0') : null };
   }
 
+  function fullName(p) {
+    const per = p.personal || {};
+    return [per.firstName, per.middleName, pick(per.lastNameFull, [per.lastName, per.secondLastName].filter(Boolean).join(' '))].filter(Boolean).join(' ');
+  }
+
   function dateValue(f, raw) {
     const d = parseDate(raw);
     if (!d) return null;
     // segmentos (MM / AAAA / DD): se pasa la fecha completa; el widget llena todo el grupo
     const part = { 'date-year': 'year', 'date-month': 'month', 'date-day': 'day' }[f.kind];
     if (part) return d[part] ? { date: d, part } : null;
-    if (f.kind === 'date-native') return `${d.year}-${d.month || '01'}-${d.day || '01'}`;
+    if (f.kind === 'date-native') return f.el.type === 'month' ? `${d.year}-${d.month || '01'}` : `${d.year}-${d.month || '01'}-${d.day || '01'}`;
     return null;
   }
 
@@ -42,7 +48,22 @@
     { name: 'Correo', label: /\b(e ?mail|correo)\b/, tokens: /\bemail\b/, kinds: TEXT, value: (c) => c.p.personal.email },
     { name: 'Apellido materno', label: /(second(ary)?|maternal|mother s) (last|family) name|apellido materno|segundo apellido/, tokens: /(secondary|second|maternal) (last|family) name|last name 2|family name 2/, kinds: TEXT, value: (c) => c.p.personal.secondLastName },
     { name: 'Segundo nombre', label: /middle name|segundo nombre|otros nombres/, tokens: /middle name/, kinds: TEXT, value: (c) => c.p.personal.middleName },
-    { name: 'Nombre', label: /first name|given names?|primer nombre|nombre de pila|^nombres?( s)?$/, tokens: /first name|given name/, kinds: TEXT, value: (c) => c.p.personal.firstName },
+    {
+      name: 'Nombre completo',
+      label: /full (legal )?name|nombre completo|nombre y apellidos?|apellidos y nombres?|your (full )?name|^(legal )?name$|^tu nombre$|^candidate name$/,
+      tokens: /\bfull name\b|^name$/,
+      exclude: /company|empresa|school|escuela|universi|reference|referencia|emergency|emergencia|contact|contacto|user ?name|usuario|file|archivo/,
+      kinds: TEXT,
+      value: (c, f) => (c.hasLastName && /^(legal )?name$/.test(norm(f.label)) ? c.p.personal.firstName : fullName(c.p)),
+    },
+    {
+      name: 'Nombre',
+      label: /first name|given names?|primer nombre|nombre de pila|^nombres?( s)?$/,
+      tokens: /first name|given name/,
+      exclude: /company|empresa|school|escuela|universi|reference|referencia|emergency|emergencia|user ?name|usuario/,
+      kinds: TEXT,
+      value: (c) => (c.hasLastName ? c.p.personal.firstName : fullName(c.p)),
+    },
     {
       name: 'Apellido',
       label: /last name|family name|surname|apellidos?|primer apellido/,
@@ -85,6 +106,14 @@
     { name: 'Dirección línea 3', label: /address line 3|linea 3|direccion 3/, tokens: /address line 3/, kinds: TEXT, value: (c) => c.addr?.line3 },
     { name: 'Dirección línea 2', label: /address line 2|linea 2|direccion (linea )?2|address 2/, tokens: /address line 2/, kinds: TEXT, value: (c) => c.addr?.line2 },
     { name: 'Dirección línea 1', label: /address line 1|^address$|^direccion$|^domicilio|calle y numero|street address|direccion (linea )?1|^street$/, tokens: /address line 1/, kinds: TEXT, value: (c, f) => (f.kind === 'textarea' ? pick(c.addr?.full, c.addr?.line1) : c.addr?.line1) },
+    {
+      name: 'Ubicación actual',
+      label: /current location|^location$|^ubicacion( actual)?$|where are you (currently )?(located|based)|lugar de residencia|residencia actual|^residencia$|^location city$|city and state|ciudad y estado/,
+      tokens: /^location$|current location/,
+      kinds: [...TEXT, 'combobox', ...CHOICE],
+      value: (c) => (c.addr ? [[first(c.addr.city), first(c.addr.state), first(c.addr.country)].filter(Boolean).join(', '), first(c.addr.city)] : null),
+    },
+    { name: 'Estado civil', label: /marital status|estado civil/, kinds: [...CHOICE, 'text'], value: (c) => c.p.personal.maritalStatus },
     { name: 'Municipio', label: /municipality|municipio|delegacion|alcaldia|county/, tokens: /municipality|county|region subdivision 1/, kinds: [...TEXT, ...CHOICE], value: (c) => c.addr?.municipality },
     { name: 'Ciudad', label: /\bcity\b|ciudad|localidad|\btown\b|poblacion/, tokens: /\bcity\b/, kinds: [...TEXT, ...CHOICE], value: (c) => c.addr?.city },
     { name: 'Código postal', label: /postal|\bzip\b|codigo postal|^c ?p$/, tokens: /postal|\bzip\b/, kinds: TEXT, value: (c) => c.addr?.postalCode },
@@ -97,6 +126,18 @@
       kinds: CHOICE,
       value: (c) => pick(c.p.preferences?.previousWorker, 'No'),
     },
+    { name: 'Fecha de nacimiento', label: /date of birth|birth ?date|fecha de nacimiento|^nacimiento$/, tokens: /birth ?date|date of birth|bday/, kinds: [...TEXT, ...DATE], value: (c, f) => (DATE.includes(f.kind) ? dateValue(f, c.p.personal.dateOfBirth) : c.p.personal.dateOfBirth) },
+    { name: 'CURP', label: /\bcurp\b/, tokens: /\bcurp\b/, kinds: TEXT, value: (c) => c.p.personal.curp },
+    { name: 'RFC', label: /\brfc\b/, tokens: /\brfc\b/, kinds: TEXT, value: (c) => c.p.personal.rfc },
+    { name: 'NSS', label: /\bnss\b|numero de seguro social|seguro social|imss/, tokens: /\bnss\b/, kinds: TEXT, value: (c) => c.p.personal.nss },
+    { name: 'Empresa actual', label: /current (company|employer)|empresa actual|empleador actual|most recent (company|employer)|ultima empresa|empresa (donde trabajas|anterior)|^company$|^empresa$/, kinds: [...TEXT, 'combobox'], value: (c) => first(c.p.experience?.[0]?.company) },
+    { name: 'Puesto actual', label: /current (job )?title|current (position|role)|puesto actual|cargo actual|ultimo puesto|most recent (job )?title/, kinds: [...TEXT, 'combobox'], value: (c) => first(c.p.experience?.[0]?.title) },
+    { name: 'Años de experiencia', label: /years of (relevant |professional |work )?experience|anos de experiencia|how many years/, kinds: [...TEXT, ...CHOICE], value: (c) => c.p.preferences?.yearsExperience },
+    { name: 'Universidad', label: /^(school|university|college|institution)( name)?$|universidad|escuela|institucion educativa|centro de estudios|alma mater|school or university/, kinds: [...TEXT, 'combobox', ...CHOICE], value: (c) => c.p.education?.[0]?.school },
+    { name: 'Carrera', label: /field of study|\bmajor\b|carrera|area de estudio|discipline|especialidad|programa academico|que estudias(te)?/, kinds: [...TEXT, 'combobox', ...CHOICE], value: (c) => c.p.education?.[0]?.fieldOfStudy },
+    { name: 'Grado académico', label: /^degree$|degree (type|level|obtained)|grado (academico|de estudios|maximo)|nivel (de estudios|academico|educativo|maximo de estudios)|escolaridad/, kinds: [...CHOICE, ...TEXT, 'combobox'], value: (c) => c.p.education?.[0]?.degree },
+    { name: 'Promedio', label: /\bgpa\b|grade point|promedio|grade average/, kinds: TEXT, value: (c) => c.p.education?.[0]?.gpa },
+    { name: 'Graduación', label: /graduation|graduacion|egreso|expected (to )?graduat|fecha de termino de (tus )?estudios|ano de termino/, kinds: [...TEXT, ...DATE, ...CHOICE], value: (c, f) => { const e = c.p.education?.[0]?.end; return DATE.includes(f.kind) ? dateValue(f, e) : TEXT.includes(f.kind) ? e : parseDate(e)?.year; } },
     { name: 'Nacionalidad', label: /nationality|nacionalidad|citizenship|ciudadania/, kinds: [...CHOICE, 'text'], value: (c) => c.p.personal.nationality },
     { name: 'LinkedIn', label: /linked ?in/, tokens: /linked ?in/, kinds: TEXT, value: (c) => c.p.personal.linkedin },
     { name: 'GitHub', label: /github/, tokens: /github/, kinds: TEXT, value: (c) => c.p.personal.github },
@@ -164,8 +205,13 @@
 
   const SECTION_PROFILE_KEY = { experience: 'experience', education: 'education', languages: 'languages', websites: 'websites', certifications: 'certifications' };
 
+  // Casillas de aceptación legal: siempre las decides tú
+  const CONSENT = /acepto|i agree|agree (to|with)|consent|consiento|terms|terminos|condiciones|privacy|privacidad|aviso de privacidad|certify|certifico|declaro|acknowledge|autorizo|i authorize|i confirm|confirmo que|bajo protesta/;
+
   function ruleMatches(rule, f) {
-    if (rule.kinds && !rule.kinds.includes(f.kind)) return false;
+    // un combobox (autocompletar) acepta reglas de lista o de texto
+    const kind = f.kind === 'combobox' && rule.kinds && !rule.kinds.includes('combobox') ? (rule.kinds.includes('dropdown') ? 'dropdown' : 'text') : f.kind;
+    if (rule.kinds && !rule.kinds.includes(kind)) return false;
     const label = norm(f.label + (f.kind === 'checkbox' && f.optionText ? ' ' + f.optionText : ''));
     if (rule.exclude && rule.exclude.test(label + ' ' + f.tokens)) return false;
     if (rule.test) return rule.test(f);
@@ -194,12 +240,44 @@
   }
 
   /** Devuelve { rule, value } o null si no sabemos qué poner. value === null => saltar a propósito. */
+  const isBlank = (v) => v == null || v === '' || (Array.isArray(v) && !v.filter((x) => x != null && x !== '').length) || (v && v.multi && !v.multi.length);
+
+  /** Respuesta aprendida de lo que tú escribiste antes en otro formulario. */
+  function learnedFor(ctx, f, fuzzy) {
+    const L = ctx.learned;
+    if (!L || !f.label) return null;
+    const key = norm(f.label);
+    let hit = L[key];
+    if (!hit && fuzzy) {
+      let best = 0;
+      for (const [k, v] of Object.entries(L)) {
+        const sc = WD.utils.similarity(k, key);
+        if (sc > best && sc >= 0.85) {
+          best = sc;
+          hit = v;
+        }
+      }
+    }
+    if (!hit) return null;
+    let v = hit.value;
+    if (f.kind === 'checkbox') v = v === true || /^(yes|si|true|1)$/.test(norm(first(v)));
+    else if (TEXT.includes(f.kind) && Array.isArray(v)) v = v.join(', ');
+    else if (f.kind === 'multiselect' && Array.isArray(v)) v = { multi: v };
+    return { rule: 'Aprendido', value: v };
+  }
+
+  const isConsent = (f) => (f.kind === 'checkbox' || f.kind === 'radio') && CONSENT.test(norm(f.label + ' ' + (f.optionText || '')));
+
   function resolve(ctx, f) {
     if (!f.section) {
+      if (isConsent(f)) return { rule: 'Aceptación (tú decides)', value: null };
       const ans = answerFor(ctx, f);
       if (ans) return ans;
       const rule = TOP.find((r) => ruleMatches(r, f));
-      return rule ? { rule: rule.name, value: rule.value(ctx, f), early: !!rule.early } : null;
+      const built = rule ? { rule: rule.name, value: rule.value(ctx, f), early: !!rule.early } : null;
+      // el perfil manda; lo aprendido sólo cubre huecos (preguntas que el perfil no tiene)
+      if (built && (built.value === null || !isBlank(built.value))) return built;
+      return learnedFor(ctx, f, false) || learnedFor(ctx, f, true) || built;
     }
     const entries = ctx.p[SECTION_PROFILE_KEY[f.section]] || [];
     const entry = entries[f.entryIndex];
@@ -208,5 +286,5 @@
     return rule ? { rule: rule.name, value: rule.value(ctx, f, entry) } : null;
   }
 
-  WD.rules = { resolve, parseDate, TOP, SECTION };
+  WD.rules = { resolve, parseDate, isConsent, isBlank, CONSENT, TOP, SECTION };
 })();

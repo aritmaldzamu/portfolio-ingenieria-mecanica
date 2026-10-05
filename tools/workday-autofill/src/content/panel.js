@@ -87,7 +87,7 @@
     return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   }
 
-  const STATUS_TEXT = { failed: 'No pude seleccionarlo', nodata: 'Falta el dato en tu perfil', unknown: 'No reconocí esta pregunta' };
+  const STATUS_TEXT = { failed: 'No pude seleccionarlo', nodata: 'Falta el dato en tu perfil', unknown: 'Pregunta nueva: contéstala y la recordaré' };
 
   /** items: [{ f, status: filled|kept|failed|nodata|unknown, rule, note }] */
   function render(items, { message } = {}) {
@@ -119,11 +119,12 @@
       ${optional.length ? `<details><summary>${optional.length} campos opcionales no reconocidos</summary><ul>${optional.map((i, n) => li(i, n, 'o')).join('')}</ul></details>` : ''}
       <div class="actions">
         <button class="btn" data-a="again">Volver a llenar</button>
+        <button class="btn" data-a="learn" title="Guarda lo que contestaste a mano para llenarlo solo la próxima vez">💾 Recordar mis respuestas</button>
         <button class="btn" data-a="copy">Copiar preguntas sin respuesta</button>
         <button class="btn" data-a="diag">Copiar diagnóstico</button>
         <button class="btn" data-a="clear">Quitar marcas</button>
       </div>
-      <div class="note">Verde = lo llené yo. Naranja = revísalo tú. Nunca doy clic en Next/Submit.</div>`;
+      <div class="note">Verde = lo llené yo. Naranja = revísalo tú. Contesta los naranjas y lo recordaré para la próxima. Nunca doy clic en Next/Submit.</div>`;
     card.querySelector('.x').onclick = () => {
       card.hidden = true;
       clearMarks();
@@ -138,6 +139,10 @@
     });
     card.querySelector('[data-a="again"]').onclick = () => WD.fill?.();
     card.querySelector('[data-a="clear"]').onclick = clearMarks;
+    card.querySelector('[data-a="learn"]').onclick = async (ev) => {
+      const n = await WD.learn.snapshot();
+      ev.target.textContent = n ? `💾 Guardé ${n} respuesta(s) ✔` : '💾 Nada nuevo que guardar';
+    };
     card.querySelector('[data-a="diag"]').onclick = async (ev) => {
       // estructura de los campos problemáticos (sin valores escritos) para poder ajustar reglas
       const html = (el) =>
