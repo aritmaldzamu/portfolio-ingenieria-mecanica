@@ -82,6 +82,17 @@
     return '';
   }
 
+  /** Texto del grupo que contiene las listas Mes y Año de una misma fecha ("Fecha de inicio"). */
+  function dateContext(el) {
+    let a = el.parentElement;
+    for (let i = 0; i < 3 && a; i++, a = a.parentElement) {
+      if (a.querySelectorAll('select, [role="combobox"], input, button[aria-haspopup]').length >= 2) break;
+    }
+    if (!a) return '';
+    const own = [...a.children].filter((c) => !c.matches(HAS_FIELD) && !c.querySelector(HAS_FIELD)).map(text).join(' ');
+    return own || nearbyText(a);
+  }
+
   /** Devuelve { label, raw } — raw conserva el "*" de obligatorio. */
   function resolveLabel(el, container) {
     const tries = [];
@@ -200,6 +211,8 @@
     if (type === 'date' || type === 'month') return 'date-native';
     // fecha escrita como texto con formato en el placeholder: "mm/dd/yyyy", "dd/mm/aaaa", "MM/YYYY"
     if (DATE_FMT_RE.test((el.getAttribute('placeholder') || el.getAttribute('data-format') || '').trim())) return 'date-text';
+    // lista desplegable hecha con un input de sólo lectura: se abre con clic y se elige
+    if (el.readOnly && (role === 'combobox' || el.hasAttribute('aria-haspopup') || el.hasAttribute('aria-owns'))) return 'dropdown';
     if (aid === 'searchBox' || el.closest('[data-automation-id="multiselectInputContainer"]') || el.getAttribute('data-uxi-widget-type') === 'selectinput') return 'multiselect';
     if (role === 'combobox' || el.getAttribute('aria-autocomplete') === 'list' || el.getAttribute('aria-autocomplete') === 'both') return 'combobox';
     if (['text', 'email', 'tel', 'url', 'number', 'search', ''].includes(type)) return 'text';
@@ -261,7 +274,11 @@
         g.required = g.required || isRequired(el, container, raw);
         continue;
       }
-      out.push({ el, kind, label, tokens, container, required: isRequired(el, container, raw), optionText: kind === 'checkbox' ? optionLabel(el) : '', ...loc });
+      // pista extra (aria-label/placeholder) para listas Mes/Año dentro de "Fecha de inicio"
+      const hint = norm([el.getAttribute('aria-label'), el.getAttribute('placeholder'), el.getAttribute('title'), el.tagName === 'SELECT' ? el.options[0]?.text : ''].filter(Boolean).join(' '));
+      // listas Mes/Año: el contexto ("Fecha de inicio") suele estar en el texto del grupo
+      const ctx = /\b(month|mes|year|ano)\b/.test(hint + ' ' + norm(label)) ? norm(dateContext(el)) : '';
+      out.push({ el, kind, label, hint, ctx, tokens, container, required: isRequired(el, container, raw), optionText: kind === 'checkbox' ? optionLabel(el) : '', ...loc });
     }
     // índice de entrada dentro de su sección, en orden del documento
     const bySection = {};
@@ -308,7 +325,7 @@
       case 'select':
         return !el.value || el.selectedIndex <= 0;
       case 'dropdown': {
-        const t = norm(text(el) || el.getAttribute('aria-label') || '');
+        const t = norm((el.tagName === 'INPUT' ? el.value : text(el)) || (el.tagName === 'INPUT' ? '' : el.getAttribute('aria-label')) || '');
         return !t || PLACEHOLDER_RE.test(t) || /^(none|ninguno|\-+)$/.test(t) || norm(t) === norm(f.label);
       }
       case 'multiselect':
@@ -334,7 +351,7 @@
       case 'select':
         return el.options[el.selectedIndex]?.text?.trim() || null;
       case 'dropdown':
-        return text(el) || null;
+        return (el.tagName === 'INPUT' ? el.value : text(el)) || null;
       case 'multiselect': {
         const p = pillTexts(f);
         return p.length > 1 ? p : p[0] || null;

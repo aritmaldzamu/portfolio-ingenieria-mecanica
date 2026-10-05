@@ -263,7 +263,8 @@ try {
   console.log('   educación:', eduT.join(' || '));
   expect('ORC Educación guardada (2)', eduT.length, 2);
   expect('ORC Educación: Mecatrónica y Biomédica', eduT.join(' '), /Mechatronics.*Biomedical/);
-  expect('ORC Educación fecha MM/YYYY', eduT.join(' '), /12\/2026/);
+  expect('ORC Educación fin con listas Mes/Año', eduT[0] || '', /December · 2026/);
+  expect('ORC Educación 2 inicio con lista Año', eduT[1] || '', /2020/);
   expect('ORC CV', await orc.textContent('#res-name'), /CV_Prueba\.pdf/);
   const pressed = (id) => orc.$eval(`#${id} [aria-pressed="true"]`, (b) => b.textContent).catch(() => '');
   expect('ORC Autorizado en México = Yes', await pressed('q1'), 'Yes');
@@ -275,6 +276,12 @@ try {
   expect('ORC Nunca envió', await orc.evaluate(() => window.__submitted), 0);
   console.log('--- panel ---\n' + (await orc.locator('#wdaf-root .card').innerText()) + '\n-------------');
   await orc.screenshot({ path: path.join(here, 'e2e-result-oracle.png'), fullPage: true });
+  // exportar estructura: archivo descargado sin datos personales
+  const [dl] = await Promise.all([orc.waitForEvent('download'), orc.locator('#wdaf-root [data-a="export"]').click()]);
+  const exported = fs.readFileSync(await dl.path(), 'utf8');
+  expect('Exportar: incluye campos detectados', exported, /CAMPOS DETECTADOS/);
+  expect('Exportar: sin correo', exported.includes('maldonado.zamudio.arith'), false);
+  expect('Exportar: sin apellido', /Maldonado|2219744717|66446/.test(exported), false);
   // volver a llenar no debe duplicar tarjetas
   await orc.locator('#wdaf-root [data-a="again"]').click();
   await orc.waitForTimeout(500);

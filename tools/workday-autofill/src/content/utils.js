@@ -51,7 +51,9 @@
 
   /** Visible o, si es un input oculto con un widget visible alrededor (radios/checkbox estilizados). */
   function isUsable(el) {
-    if (el.disabled || el.readOnly || el.getAttribute('aria-disabled') === 'true') return false;
+    if (el.disabled || el.getAttribute('aria-disabled') === 'true') return false;
+    // un input de sólo lectura que abre un menú (Oracle cx-select, Oracle JET) sí se puede usar
+    if (el.readOnly && !(el.getAttribute('role') === 'combobox' || el.hasAttribute('aria-haspopup') || el.hasAttribute('aria-owns') || el.hasAttribute('aria-controls'))) return false;
     if (isVisible(el)) return true;
     if (el.type === 'radio' || el.type === 'checkbox' || el.type === 'file') {
       const host = el.closest('label, [data-automation-id^="formField"], div');

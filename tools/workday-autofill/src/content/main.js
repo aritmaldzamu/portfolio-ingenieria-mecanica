@@ -284,11 +284,51 @@
 
   WD.fill = fill;
 
+  // ---------- exportar estructura (para soporte), sin datos personales ----------
+  async function exportStructure() {
+    const { profile } = await chrome.storage.local.get('profile');
+    const { fields } = scan();
+    const root = fields.length > 1 ? commonAncestor(fields.map((f) => f.el)) : document.body;
+    const clone = root.cloneNode(true);
+    clone.querySelectorAll('script, style, svg, img, picture, video, iframe, canvas, noscript, link, #wdaf-root').forEach((n) => n.remove());
+    for (const n of clone.querySelectorAll('*')) {
+      for (const a of [...n.attributes]) if (/^(value|style|src|srcset|href|d|on\w+)$/i.test(a.name)) n.removeAttribute(a.name);
+      if (n.tagName === 'TEXTAREA') n.textContent = '';
+    }
+    // contenido de web components (Shadow DOM), que cloneNode no copia
+    const shadows = [];
+    for (const host of root.querySelectorAll('*')) if (host.shadowRoot) shadows.push(`<!-- shadow de <${host.tagName.toLowerCase()} id="${host.id}"> -->\n${host.shadowRoot.innerHTML}`);
+    let html = clone.outerHTML + '\n' + shadows.join('\n');
+    // quitar datos personales que aparezcan como texto (tarjetas guardadas, correo mostrado…)
+    const per = profile?.personal || {};
+    const secrets = [per.firstName, per.middleName, per.lastName, per.secondLastName, per.lastNameFull, per.email, per.phone?.number, per.curp, per.rfc, per.nss, per.dateOfBirth];
+    for (const a of profile?.addresses || []) secrets.push(a.street, a.exteriorNumber, a.neighborhood, a.postalCode, a.line1, a.line2, a.full);
+    for (const sec of secrets.flat().filter((x) => typeof x === 'string' && x.trim().length >= 3).sort((a, b) => b.length - a.length)) {
+      html = html.split(sec).join('[DATO]');
+    }
+    const summary = fields.map((f) => ({ tipo: f.kind, etiqueta: f.label, pista: f.hint || '', tokens: f.tokens, seccion: f.section, obligatorio: f.required }));
+    const doc = `<!-- Estructura exportada por Autollenado ${chrome.runtime.getManifest().version} · ${location.host}${location.pathname} · ${new Date().toISOString()} -->\n<!-- CAMPOS DETECTADOS:\n${JSON.stringify(summary, null, 1).replace(/--/g, '- -')}\n-->\n${html}`;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([doc], { type: 'text/html' }));
+    a.download = `estructura-${location.hostname}.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    return { ok: true, fields: fields.length };
+  }
+  WD.exportStructure = exportStructure;
+
   // ---------- mensajes desde popup / atajo ----------
   chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     if (msg?.type === 'WDAF_PING') {
       sendResponse({ ok: true });
       return false;
+    }
+    if (msg?.type === 'WDAF_EXPORT') {
+      // sólo el marco con campos responde (los demás callan para no ganar la respuesta)
+      if (!scan().fields.length && window !== window.top) return false;
+      exportStructure().then(sendResponse, (e) => sendResponse({ error: String(e) }));
+      return true;
     }
     if (msg?.type === 'WDAF_FILL') {
       fill().then(sendResponse, (e) => sendResponse({ error: String(e) }));

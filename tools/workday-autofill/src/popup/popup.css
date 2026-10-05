@@ -12,3 +12,4 @@ header { display: flex; justify-content: space-between; align-items: baseline; m
 .check { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
 footer { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line); }
 a { color: var(--accent); }
+.secondary { width: 100%; margin-top: 12px; padding: 7px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--fg); cursor: pointer; font: inherit; }

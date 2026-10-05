@@ -134,7 +134,8 @@
   async function setDropdown(f, value) {
     const wanted = asList(value);
     const btn = f.el;
-    const before = norm(text(btn));
+    const shown = () => norm(btn.tagName === 'INPUT' ? btn.value : text(btn));
+    const before = shown();
     const listbox = await openListbox(btn);
     if (!listbox) return { ok: false, note: 'No se abrió la lista' };
     const { best, seen } = await findOption(listbox, wanted);
@@ -146,13 +147,13 @@
     }
     best.el.scrollIntoView({ block: 'nearest' });
     realClick(best.el);
-    await waitFor(() => !isVisible(listbox) || norm(text(btn)) !== before, { timeout: 1500 });
+    await waitFor(() => !isVisible(listbox) || shown() !== before, { timeout: 1500 });
     await sleep(120);
     if (isVisible(listbox)) {
       press(listbox, 'Escape');
       await closePopups();
     }
-    const now = norm(text(btn) || btn.getAttribute('aria-label') || '');
+    const now = norm((btn.tagName === 'INPUT' ? btn.value : text(btn)) || btn.getAttribute('aria-label') || '');
     return similarity(now, best.text) >= 0.6 || now.includes(norm(best.text));
   }
 

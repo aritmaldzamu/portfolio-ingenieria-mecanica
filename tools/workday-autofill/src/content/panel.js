@@ -123,6 +123,7 @@
         <button class="btn" data-a="learn" title="Guarda lo que contestaste a mano para llenarlo solo la próxima vez">💾 Recordar mis respuestas</button>
         <button class="btn" data-a="copy">Copiar preguntas sin respuesta</button>
         <button class="btn" data-a="diag">Copiar diagnóstico</button>
+        <button class="btn" data-a="export" title="Guarda la estructura del formulario (sin tus datos) para enviarla y mejorar la extensión">📄 Descargar estructura</button>
         <button class="btn" data-a="clear">Quitar marcas</button>
       </div>
       <div class="note">Verde = lo llené yo. Naranja = revísalo tú. Contesta los naranjas y lo recordaré para la próxima. Nunca doy clic en Next/Submit.</div>`;
@@ -140,6 +141,10 @@
     });
     card.querySelector('[data-a="again"]').onclick = () => WD.fill?.();
     card.querySelector('[data-a="clear"]').onclick = clearMarks;
+    card.querySelector('[data-a="export"]').onclick = async (ev) => {
+      await WD.exportStructure();
+      ev.target.textContent = '📄 Descargado ✔ (está en Descargas)';
+    };
     card.querySelector('[data-a="learn"]').onclick = async (ev) => {
       const n = await WD.learn.snapshot();
       ev.target.textContent = n ? `💾 Guardé ${n} respuesta(s) ✔` : '💾 Nada nuevo que guardar';

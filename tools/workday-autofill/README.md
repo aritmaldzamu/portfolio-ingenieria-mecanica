@@ -17,6 +17,8 @@ y nunca marca casillas de aceptación (aviso de privacidad, términos y condicio
 - **Secciones "Agregar → Guardar"** (Oracle/Ford, SuccessFactors, iCIMS): agrega cada experiencia o
   educación, la llena, da **Guardar** en ese mini formulario y sigue con la siguiente. Si ya está
   guardada, no la duplica. Ese Guardar es solo de la entrada; el Next/Submit de la página sigue siendo tuyo.
+- **Listas que se abren con clic** aunque el campo sea de solo lectura (Oracle `cx-select`, Oracle JET), y
+  **fechas con listas Mes / Año**.
 - **Preguntas Sí/No como botones** y **fechas escritas con formato** (`mm/dd/yyyy`, `dd/mm/aaaa`, `MM/YYYY`).
 - **Etiquetas de cualquier tipo:** `<label>`, ARIA, el título de la pregunta o el texto suelto junto al campo.
 - **Inglés y español.**
@@ -132,6 +134,13 @@ node tests/run-e2e.mjs   # requiere playwright
 ```
 
 Verifica más de 130 puntos: que llene bien, que aprenda y reutilice tus respuestas, que no duplique entradas ni desmarque nada al volver a llenar y que **nunca** dé clic en Next o Enviar.
+
+## Cuando un sitio no se llena bien
+
+En el panel o en el ícono ⚡, usa **📄 Descargar estructura**. Guarda en Descargas un archivo
+`estructura-<sitio>.html` con el esqueleto del formulario: campos, etiquetas, botones y clases.
+**No incluye tus datos**: borra lo escrito y cambia tu nombre, correo, teléfono y dirección por `[DATO]`.
+Con ese archivo se puede ajustar la extensión a ese sitio en específico.
 
 ## Limitaciones conocidas
 

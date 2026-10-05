@@ -49,10 +49,26 @@
     return null;
   }
 
+  const MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const MONTHS_ES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  const LIST = ['dropdown', 'select', 'combobox'];
+  const isMonthList = (f) => LIST.includes(f.kind) && /\b(month|mes|mm)\b/.test((f.hint || '') + ' ' + norm(f.label) + ' ' + f.tokens);
+  const isYearList = (f) => LIST.includes(f.kind) && /\b(year|ano|yyyy|aaaa)\b/.test((f.hint || '') + ' ' + norm(f.label) + ' ' + f.tokens);
+  /** Valor para una lista Mes o Año: "07" -> ["07","7","July","Jul","Julio"]. */
+  function listDateValue(f, raw) {
+    const d = parseDate(raw);
+    if (!d) return null;
+    if (isYearList(f)) return d.year;
+    if (!d.month) return null;
+    const m = Number(d.month);
+    return [d.month, String(m), MONTHS_EN[m - 1], MONTHS_EN[m - 1].slice(0, 3), MONTHS_ES[m - 1], MONTHS_ES[m - 1].slice(0, 3)];
+  }
+  const isDateList = (f) => isMonthList(f) || isYearList(f);
+
   const START = /\b(from|start|desde|inicio|de inicio|first year attended|fecha de ingreso)\b/;
   const END = /\b(to|end|hasta|fin|termino|last year attended|graduation|graduacion|egreso|expected)\b/;
-  const isStart = (f) => /\b(start date|first year attended|from)\b/.test(f.tokens) || START.test(norm(f.label));
-  const isEnd = (f) => /\b(end date|last year attended|to)\b/.test(f.tokens) || END.test(norm(f.label));
+  const isStart = (f) => /\b(start date|first year attended|from)\b/.test(f.tokens) || START.test(norm(f.label)) || START.test(f.ctx || '');
+  const isEnd = (f) => /\b(end date|last year attended|to)\b/.test(f.tokens) || END.test(norm(f.label)) || (!START.test(norm(f.label)) && END.test(f.ctx || ''));
 
   // ---------- campos sueltos (no dentro de una sección repetible) ----------
   const TOP = [
@@ -177,6 +193,8 @@
       { name: 'Trabajo actual', label: /currently work|i currently|actualmente|trabajo aqui|empleo actual|current(ly)? (job|role|position)/, tokens: /currently work/, kinds: ['checkbox'], value: (c, f, e) => !!e.current },
       { name: 'Fecha fin', test: isEnd, kinds: DATE, value: (c, f, e) => (e.current ? null : dateValue(f, e.end)) },
       { name: 'Fecha inicio', test: isStart, kinds: DATE, value: (c, f, e) => dateValue(f, e.start) },
+      { name: 'Fecha fin (lista)', test: (f) => isDateList(f) && isEnd(f), kinds: LIST, value: (c, f, e) => (e.current ? null : listDateValue(f, e.end)) },
+      { name: 'Fecha inicio (lista)', test: (f) => isDateList(f) && isStart(f), kinds: LIST, value: (c, f, e) => listDateValue(f, e.start) },
       { name: 'Descripción', label: /description|responsibilit|descripcion|funciones|logros|achievements|duties/, tokens: /description/, kinds: ['textarea', 'text'], value: (c, f, e) => e.description },
     ],
     education: [
@@ -186,6 +204,8 @@
       { name: 'Promedio', label: /\bgpa\b|grade average|promedio|overall result|calificacion/, tokens: /grade average|gpa/, kinds: TEXT, value: (c, f, e) => e.gpa },
       { name: 'Fecha fin', test: isEnd, kinds: DATE, value: (c, f, e) => dateValue(f, e.end) },
       { name: 'Fecha inicio', test: isStart, kinds: DATE, value: (c, f, e) => dateValue(f, e.start) },
+      { name: 'Fecha fin (lista)', test: (f) => isDateList(f) && isEnd(f), kinds: LIST, value: (c, f, e) => listDateValue(f, e.end) },
+      { name: 'Fecha inicio (lista)', test: (f) => isDateList(f) && isStart(f), kinds: LIST, value: (c, f, e) => listDateValue(f, e.start) },
     ],
     languages: [
       { name: 'Idioma nativo', label: /native|fluent|nativo|lengua materna/, kinds: ['checkbox'], value: (c, f, e) => !!e.native },

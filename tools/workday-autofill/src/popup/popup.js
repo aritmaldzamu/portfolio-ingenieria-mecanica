@@ -54,4 +54,18 @@ $('fill').onclick = async () => {
   else out.textContent = `✔ ${r?.filled ?? 0} campos llenados · ⚠ ${r?.pending ?? 0} pendientes. Revisa el panel en la página.`;
 };
 
+$('export').onclick = async () => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const out = $('result');
+  out.hidden = false;
+  try {
+    const r = await chrome.tabs.sendMessage(tab.id, { type: 'WDAF_EXPORT' });
+    out.classList.toggle('err', !!r?.error);
+    out.textContent = r?.error ? r.error : `📄 Guardé "estructura-…html" en Descargas (${r?.fields ?? 0} campos). Mándamela para ajustar este sitio.`;
+  } catch (e) {
+    out.classList.add('err');
+    out.textContent = 'Recarga la página y vuelve a intentar.';
+  }
+};
+
 load();
