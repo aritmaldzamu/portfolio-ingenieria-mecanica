@@ -22,7 +22,7 @@ Pegas **solo el texto de una vacante** en Gemini y te regresa: veredicto (aplica
 
 El PDF lleva enlaces reales, igual que tus originales: LinkedIn y portafolio con `https://`, correo con `mailto:` y teléfono con `tel:`.
 
-La letra del cuerpo se ajusta sola entre 10.4 y 9.4 pt para llenar una página, como en tus PDFs. Si aun así no cabe, el generador te avisa.
+La letra del cuerpo se ajusta sola entre 10.4 y 9.8 pt para llenar una página, como en tus PDFs. Si aun así no cabe, el generador te avisa.
 
 ## Cada vez que cambies tus CVs
 

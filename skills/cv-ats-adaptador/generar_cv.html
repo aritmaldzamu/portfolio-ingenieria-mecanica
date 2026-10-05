@@ -87,14 +87,16 @@
     color: #1d1d1f;
     overflow: hidden;
     position: relative;
+    font-variant-ligatures: none; /* "fi" sin ligadura: el ATS lee "firmware", no "ﬁrmware" */
   }
-  .cv .head { position: relative; padding-bottom: 1.5pt; }
+  /* Sin position en el texto: así el PDF guarda el texto en orden de lectura (nombre → … → habilidades). */
+  .cv .head { padding-bottom: 1.5pt; }
   .cv .head.with-photo { padding-right: 76pt; }
   .cv .photo {
     display: none;
     position: absolute;
-    top: 2.4pt;
-    right: 0;
+    top: 37.2pt;
+    right: 43pt;
     width: 63.7pt;
     height: 79.5pt;
     object-fit: cover;
@@ -129,18 +131,15 @@
   .cv .tools { line-height: 0; }
   .cv .detail { line-height: 10.2pt; }
   .cv ul { margin: 0; padding: 0; list-style: none; }
-  .cv li { position: relative; padding-left: 11.2pt; }
+  .cv li { padding-left: 11.2pt; }
   .cv li + li { margin-top: 0.1225em; }
   .cv li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.52em;
-    width: 3pt;
-    height: 3pt;
-    border-radius: 50%;
-    background: #1d1d1f;
+    content: "•";
+    display: inline-block;
+    width: 11.2pt;
+    margin-left: -11.2pt;
   }
+  .cv .nw { white-space: nowrap; }
   .cv .skill + .skill { margin-top: 0.1225em; }
   .cv .skill b { color: #0b2545; }
 
@@ -214,6 +213,9 @@ function inline(s) {
   h = h.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
   h = h.replace(/\|\s*_(.+?)_(?=\s*$)/g, '<span class="tools">| $1</span>');
   h = h.replace(/(^|[\s(])_(.+?)_(?=$|[\s),.;:])/g, '$1<i>$2</i>');
+  // No partir palabras con guion al final del renglón ("flat-panel", "follow-up"):
+  // algunos ATS las leen como "flatpanel" y la palabra clave ya no coincide.
+  h = h.replace(/(^|>)([^<]+)/g, (m, a, t) => a + t.replace(/[^\s-]+(-[^\s-]+)+/g, (w) => `<span class="nw">${w}</span>`));
   return h;
 }
 
@@ -246,7 +248,7 @@ function contactLine(line, withPhoto) {
   return `<p class="contact">${parts.map(linkify).join('<span class="sep">|</span>')}</p>`;
 }
 
-const TAMANOS = [10.4, 10.2, 10, 9.8, 9.6, 9.4];
+const TAMANOS = [10.4, 10.2, 10, 9.8]; // menos de 9.8 pt ya cuesta leerlo: mejor recortar texto
 const LIMITE_PT = 756;
 
 // Dónde termina el texto, en puntos desde el borde superior de la hoja.
@@ -305,7 +307,7 @@ function render() {
     p.after(rest);
   }
 
-  // Igual que en tus PDFs: la letra del cuerpo se ajusta (10.4 → 9.4 pt) para llenar exactamente 1 página.
+  // Igual que en tus PDFs: la letra del cuerpo se ajusta (10.4 → 9.8 pt) para llenar exactamente 1 página.
   const cv = $("cv");
   let size = TAMANOS[0];
   for (size of TAMANOS) {
