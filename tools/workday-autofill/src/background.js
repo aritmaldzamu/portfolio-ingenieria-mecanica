@@ -29,6 +29,37 @@ chrome.runtime.onInstalled.addListener(async () => {
   await chrome.storage.local.set({ profile });
 });
 
+/**
+ * CVs incluidos en la extensión (carpeta cvs/): se cargan solos. Uno que borres en
+ * Opciones no vuelve a aparecer en la siguiente actualización.
+ */
+chrome.runtime.onInstalled.addListener(async () => {
+  const { resumes = [], settings = {} } = await chrome.storage.local.get(['resumes', 'settings']);
+  const seen = new Set(settings.bundledCvs || []);
+  const list = await (await fetch(chrome.runtime.getURL('cvs/cvs.json'))).json();
+  let added = 0;
+  for (const cv of list) {
+    if (seen.has(cv.file) || resumes.some((r) => r.name === cv.file)) {
+      seen.add(cv.file);
+      continue;
+    }
+    const buf = await (await fetch(chrome.runtime.getURL(`cvs/${cv.file}`))).arrayBuffer();
+    const bytes = new Uint8Array(buf);
+    let bin = '';
+    for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    resumes.push({ name: cv.file, label: cv.label, type: 'application/pdf', size: bytes.length, dataB64: btoa(bin), bundled: true });
+    seen.add(cv.file);
+    added++;
+  }
+  const next = { ...settings, bundledCvs: [...seen] };
+  // si no tenías CV elegido, usar el recomendado
+  if (added && settings.activeResume == null) {
+    next.activeResume = Math.max(0, resumes.findIndex((r) => r.name === list[0].file));
+    next.uploadResume = true;
+  }
+  await chrome.storage.local.set({ resumes, settings: next });
+});
+
 async function activeTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   return tab;

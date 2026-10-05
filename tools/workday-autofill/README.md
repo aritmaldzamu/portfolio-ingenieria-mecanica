@@ -52,13 +52,13 @@ Reglas para que no aprenda de más:
 
 En Chrome es igual, pero en `chrome://extensions`.
 
-La primera vez se carga automáticamente el perfil de `profile.example.json`, que ya trae los datos de tu CV.
+La extensión ya trae tus datos: al instalarla carga sola tu perfil (`profile.example.json`) y tus 3 CVs (`cvs/`). No tienes que capturar ni subir nada.
 
 ## Configuración (una sola vez)
 
 Clic derecho en el ícono → **Opciones** (o "Editar perfil y CVs" en el popup):
 
-- **CVs:** sube tus PDFs (por ejemplo el de inglés y el de español). En el popup eliges cuál se sube.
+- **CVs:** ya vienen cargados tres CVs: inglés de diseño mecánico (el recomendado), inglés de automatización y español. En el popup eliges cuál se sube. Si quieres otro, agrégalo aquí.
 - **Datos (JSON):** revisa y completa. Lo que falta hoy:
   - Dirección de **Puebla** (`addresses[1]`): calle, número, colonia, CP, `line1`.
   - Año de inicio de Mecatrónica (`education[0].start`).

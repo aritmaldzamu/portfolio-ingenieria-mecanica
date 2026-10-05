@@ -53,13 +53,19 @@ try {
   let [sw] = ctx.serviceWorkers();
   if (!sw) sw = await ctx.waitForEvent('serviceworker');
   // esperar a que onInstalled cargue el perfil de ejemplo y agregar un CV de prueba
-  await sw.evaluate(async () => {
-    for (let i = 0; i < 50; i++) {
-      const { profile } = await chrome.storage.local.get('profile');
-      if (profile) break;
+  const bundled = await sw.evaluate(async () => {
+    for (let i = 0; i < 80; i++) {
+      const { profile, settings } = await chrome.storage.local.get(['profile', 'settings']);
+      if (profile && settings?.bundledCvs?.length) break;
       await new Promise((r) => setTimeout(r, 100));
     }
-    await chrome.storage.local.set({ resumes: [{ name: 'CV_Prueba.pdf', type: 'application/pdf', size: 8, dataB64: btoa('%PDF-1.4') }] });
+    return (await chrome.storage.local.get('resumes')).resumes || [];
+  });
+  expect('CVs incluidos cargados solos (3)', bundled.length, 3);
+  expect('CV recomendado primero', bundled[0]?.name, 'Resume_Arith_Maldonado_2026.pdf');
+  expect('CV incluido es PDF real', atob(bundled[0]?.dataB64 || '').slice(0, 5) === '%PDF-' ? 'PDF' : bundled[0]?.dataB64?.slice(0, 8), 'PDF');
+  await sw.evaluate(async () => {
+    await chrome.storage.local.set({ resumes: [{ name: 'CV_Prueba.pdf', type: 'application/pdf', size: 8, dataB64: btoa('%PDF-1.4') }], settings: { activeResume: 0, uploadResume: true } });
   });
 
   const page = await ctx.newPage();

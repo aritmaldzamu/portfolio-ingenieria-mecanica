@@ -15,7 +15,7 @@ async function load() {
   const res = $('resume');
   res.innerHTML = '';
   res.add(new Option('No subir CV', '-1'));
-  resumes.forEach((r, i) => res.add(new Option(r.name, i)));
+  resumes.forEach((r, i) => res.add(new Option(r.label || r.name, i)));
   res.value = settings.uploadResume && resumes.length ? settings.activeResume : -1;
 
   for (const k of ['overwrite', 'floatingButton', 'autoOnStep', 'addCertifications']) $(k).checked = !!settings[k];

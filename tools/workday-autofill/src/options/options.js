@@ -150,7 +150,7 @@ async function renderResumes() {
   resumes.forEach((r, i) => {
     const li = document.createElement('li');
     li.innerHTML = `<span></span><button>Quitar</button>`;
-    li.querySelector('span').textContent = `${r.name} · ${(r.size / 1024).toFixed(0)} KB`;
+    li.querySelector('span').textContent = `${r.label ? r.label + ' — ' : ''}${r.name} · ${(r.size / 1024).toFixed(0)} KB`;
     li.querySelector('button').onclick = async () => {
       resumes.splice(i, 1);
       await chrome.storage.local.set({ resumes });
