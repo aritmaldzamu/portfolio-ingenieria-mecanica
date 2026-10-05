@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "Autollenado de Solicitudes de Empleo",
   "short_name": "Autollenado",
-  "version": "2.0.0",
-  "description": "Llena formularios de empleo en cualquier sitio (Workday, Greenhouse, Lever, SuccessFactors, páginas de empresas, Google Forms…) y aprende tus respuestas. Tú revisas y das Next.",
+  "version": "2.1.0",
+  "description": "Llena formularios de empleo en cualquier sitio (Workday, Oracle/Ford, Greenhouse, Lever, SuccessFactors, páginas de empresas, Google Forms…) y aprende tus respuestas. Tú revisas y das Next.",
   "permissions": [
     "storage",
     "unlimitedStorage",

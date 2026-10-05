@@ -238,7 +238,7 @@
   }
 
   // ---------------- checkbox / radio ----------------
-  const checked = (el) => !!el.checked || el.getAttribute('aria-checked') === 'true';
+  const checked = (el) => !!el.checked || el.getAttribute('aria-checked') === 'true' || el.getAttribute('aria-pressed') === 'true';
   const clickTarget = (el) => (isVisible(el) ? el : WD.utils.labelFor(el) || el.closest('label') || el);
 
   async function setCheckbox(f, want) {
@@ -398,6 +398,7 @@
     switch (f.kind) {
       case 'text':
       case 'textarea':
+      case 'date-text':
         return setText(f, value);
       case 'select':
         return setSelect(f, value);

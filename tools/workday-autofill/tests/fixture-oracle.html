@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ford Careers - Candidate Experience</title>
+<!-- Imita Oracle Recruiting Cloud (Candidate Experience), que usa Ford:
+     - experiencia/educación: "Add Experience" abre UN formulario con Save/Cancel; al guardar queda una tarjeta
+     - preguntas Sí/No como botones "píldora" con aria-pressed
+     - fechas como texto con placeholder mm/dd/yyyy o MM/YYYY
+     - listas tipo oj-select-single: input role=combobox con menú flotante al escribir -->
+<style>
+  body { font-family: sans-serif; max-width: 760px; margin: 20px auto; }
+  .apply-flow-block { border: 1px solid #ccc; padding: 10px; margin: 14px 0; }
+  .input-row { margin: 8px 0; }
+  .input-row__label { display: block; font-weight: 600; }
+  .oj-listbox-drop { position: absolute; background: #fff; border: 1px solid #888; z-index: 9; min-width: 240px; }
+  .oj-listbox-drop [role="option"] { padding: 4px 8px; cursor: pointer; }
+  .cx-select-pill-section { border: 1px solid #888; border-radius: 14px; padding: 4px 12px; margin-right: 6px; background: #fff; cursor: pointer; }
+  .cx-select-pill-section[aria-pressed="true"] { background: #1a5fb4; color: #fff; }
+  .tile { background: #f2f6fb; padding: 6px 10px; margin: 6px 0; }
+</style>
+</head>
+<body>
+<h1>Practicante - Ingeniería de Manufactura</h1>
+<button type="button" class="job-fav" aria-pressed="false" title="Save job">♥</button>
+
+<div class="apply-flow-block"><h2>Contact Information</h2>
+  <div class="input-row"><label class="input-row__label" for="firstName-1">First Name</label><input id="firstName-1" name="firstName" aria-required="true"></div>
+  <div class="input-row"><label class="input-row__label" for="lastName-2">Last Name</label><input id="lastName-2" name="lastName" aria-required="true"></div>
+  <div class="input-row"><label class="input-row__label" for="email-3">Email</label><input id="email-3" name="email" type="email"></div>
+  <div class="input-row"><label class="input-row__label" for="cc-4">Country Code</label>
+    <input id="cc-4" class="oj-inputsearch-input" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" data-options="+1 United States|+52 Mexico|+49 Germany|+55 Brazil"></div>
+  <div class="input-row"><label class="input-row__label" for="phone-5">Phone Number</label><input id="phone-5" name="phoneNumber" type="tel"></div>
+</div>
+
+<div class="apply-flow-block"><h2>Address</h2>
+  <div class="input-row"><label class="input-row__label" for="ctry-6">Country</label>
+    <input id="ctry-6" role="combobox" aria-autocomplete="list" data-options="Mexico|United States|Canada|Brazil"></div>
+  <div class="input-row"><label class="input-row__label" for="addr1-7">Address Line 1</label><input id="addr1-7" name="addressLine1"></div>
+  <div class="input-row"><label class="input-row__label" for="addr2-8">Address Line 2</label><input id="addr2-8" name="addressLine2"></div>
+  <div class="input-row"><label class="input-row__label" for="city-9">City</label><input id="city-9" name="townOrCity"></div>
+  <div class="input-row"><label class="input-row__label" for="st-10">State</label>
+    <input id="st-10" role="combobox" aria-autocomplete="list" data-options="Coahuila|Jalisco|Nuevo León|Puebla|Sonora"></div>
+  <div class="input-row"><label class="input-row__label" for="zip-11">ZIP Code</label><input id="zip-11" name="postalCode"></div>
+</div>
+
+<div class="apply-flow-block" id="exp-block"><h2>Experience</h2><div class="tiles"></div>
+  <button type="button" class="add" data-kind="exp">Add Experience</button></div>
+
+<div class="apply-flow-block" id="edu-block"><h2>Education</h2><div class="tiles"></div>
+  <button type="button" class="add" data-kind="edu">Add Education</button></div>
+
+<div class="apply-flow-block"><h2>Supporting Documents</h2>
+  <div class="input-row"><label class="input-row__label" for="res-12">Resume</label><input type="file" id="res-12" name="resume"><span id="res-name"></span></div>
+</div>
+
+<div class="apply-flow-block"><h2>Application Questions</h2>
+  <fieldset class="q" id="q1"><legend>Are you legally authorized to work in Mexico?</legend>
+    <button type="button" class="cx-select-pill-section" aria-pressed="false">Yes</button><button type="button" class="cx-select-pill-section" aria-pressed="false">No</button></fieldset>
+  <fieldset class="q" id="q2"><legend>Have you previously worked for Ford Motor Company?</legend>
+    <button type="button" class="cx-select-pill-section" aria-pressed="false">Yes</button><button type="button" class="cx-select-pill-section" aria-pressed="false">No</button></fieldset>
+  <fieldset class="q" id="q3"><legend>Are you willing to relocate?</legend>
+    <button type="button" class="cx-select-pill-section" aria-pressed="false">Yes</button><button type="button" class="cx-select-pill-section" aria-pressed="false">No</button></fieldset>
+  <div class="input-row"><label class="input-row__label" for="avail-13">Date available to start</label><input id="avail-13" placeholder="mm/dd/yyyy"></div>
+</div>
+
+<div class="apply-flow-block"><h2>E-Signature</h2>
+  <div class="input-row"><label class="input-row__label" for="sig-14">Full Name</label><input id="sig-14" name="fullName"></div>
+  <label><input type="checkbox" id="agree"> I agree with the terms and conditions</label>
+</div>
+
+<button type="button" id="submit">Submit</button>
+
+<script>
+  window.__submitted = 0;
+  document.getElementById('submit').addEventListener('click', () => window.__submitted++);
+  const strip = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+  // oj-select-single: menú flotante al escribir
+  function wireCombo(input) {
+    if (input.dataset.wired) return;
+    input.dataset.wired = '1';
+    const all = input.dataset.options.split('|');
+    let drop;
+    const close = () => { drop?.remove(); drop = null; };
+    input.addEventListener('input', () => {
+      close();
+      const toks = strip(input.value).split(/[^a-z0-9+]+/).filter((t) => t.length >= 2);
+      const hits = all.filter((o) => toks.some((t) => strip(o).includes(t)));
+      if (!hits.length) return;
+      drop = document.createElement('ul');
+      drop.className = 'oj-listbox-drop';
+      drop.setAttribute('role', 'listbox');
+      const r = input.getBoundingClientRect();
+      drop.style.left = r.left + scrollX + 'px';
+      drop.style.top = r.bottom + scrollY + 'px';
+      for (const h of hits) {
+        const li = document.createElement('li');
+        li.setAttribute('role', 'option');
+        li.textContent = h;
+        li.addEventListener('mousedown', (e) => e.preventDefault());
+        li.addEventListener('click', () => { input.value = h; input.dataset.chosen = h; close(); });
+        drop.appendChild(li);
+      }
+      document.body.appendChild(drop);
+    });
+    input.addEventListener('blur', () => setTimeout(close, 150));
+  }
+  document.querySelectorAll('input[data-options]').forEach(wireCombo);
+
+  // píldoras Sí/No
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.cx-select-pill-section');
+    if (!b) return;
+    b.parentElement.querySelectorAll('.cx-select-pill-section').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  });
+  document.querySelector('.job-fav').addEventListener('click', (e) => e.currentTarget.setAttribute('aria-pressed', 'true'));
+
+  // "Add Experience" / "Add Education": un formulario con Save/Cancel; al guardar queda una tarjeta
+  let seq = 100;
+  const FORMS = {
+    exp: () => `
+      <div class="input-row"><label class="input-row__label" for="jt-${seq}">Job Title</label><input id="jt-${seq}" name="jobTitle"></div>
+      <div class="input-row"><label class="input-row__label" for="em-${seq}">Employer Name</label><input id="em-${seq}" name="employerName"></div>
+      <div class="input-row"><label class="input-row__label" for="sd-${seq}">Start Date</label><input id="sd-${seq}" placeholder="mm/dd/yyyy"></div>
+      <div class="input-row"><label class="input-row__label" for="ed-${seq}">End Date</label><input id="ed-${seq}" placeholder="mm/dd/yyyy"></div>
+      <div class="input-row"><label class="input-row__label" for="rs-${seq}">Responsibilities</label><textarea id="rs-${seq}"></textarea></div>`,
+    edu: () => `
+      <div class="input-row"><label class="input-row__label" for="sc-${seq}">School</label>
+        <input id="sc-${seq}" role="combobox" aria-autocomplete="list" data-options="Universidad Iberoamericana Puebla|Universidad Iberoamericana Ciudad de México|Universidad de las Américas Puebla|Tecnológico de Monterrey"></div>
+      <div class="input-row"><label class="input-row__label" for="dg-${seq}">Degree</label>
+        <select id="dg-${seq}"><option value=""></option><option>High School Diploma</option><option>Bachelor's Degree</option><option>Master's Degree</option></select></div>
+      <div class="input-row"><label class="input-row__label" for="mj-${seq}">Major</label><input id="mj-${seq}"></div>
+      <div class="input-row"><label class="input-row__label" for="es-${seq}">Start Date</label><input id="es-${seq}" placeholder="MM/YYYY"></div>
+      <div class="input-row"><label class="input-row__label" for="ee-${seq}">End Date</label><input id="ee-${seq}" placeholder="MM/YYYY"></div>`,
+  };
+  document.querySelectorAll('button.add').forEach((btn) => btn.addEventListener('click', () => {
+    const block = btn.closest('.apply-flow-block');
+    if (block.querySelector('.entry-form')) return;
+    const form = document.createElement('div');
+    form.className = 'entry-form';
+    setTimeout(() => {
+      form.innerHTML = `<div class="fields">${FORMS[btn.dataset.kind]()}</div><div class="actions"><button type="button" class="cancel">Cancel</button><button type="button" class="save">Save</button></div>`;
+      seq++;
+      block.insertBefore(form, btn);
+      btn.hidden = true;
+      form.querySelectorAll('input[data-options]').forEach(wireCombo);
+      form.querySelector('.cancel').onclick = () => { form.remove(); btn.hidden = false; };
+      form.querySelector('.save').onclick = () => {
+        const v = [...form.querySelectorAll('input, select, textarea')].map((x) => (x.tagName === 'SELECT' ? x.options[x.selectedIndex]?.text : x.value));
+        if (!v[0]) return; // validación: el primer campo es obligatorio
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.textContent = v.filter(Boolean).slice(0, 4).join(' · ');
+        block.querySelector('.tiles').appendChild(tile);
+        form.remove();
+        btn.hidden = false;
+      };
+    }, 250);
+  }));
+
+  document.getElementById('res-12').addEventListener('change', (e) => (document.getElementById('res-name').textContent = [...e.target.files].map((f) => f.name).join(', ')));
+</script>
+</body>
+</html>

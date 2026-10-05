@@ -10,7 +10,7 @@
   const TEXT = ['text', 'textarea'];
   const CHOICE = ['dropdown', 'select', 'multiselect', 'radio'];
   const ANY_VALUE = [...TEXT, ...CHOICE];
-  const DATE = ['date-month', 'date-year', 'date-day', 'date-native'];
+  const DATE = ['date-month', 'date-year', 'date-day', 'date-native', 'date-text'];
 
   const first = (v) => (Array.isArray(v) ? v[0] : v);
   const pick = (...vals) => vals.find((v) => v != null && v !== '' && !(Array.isArray(v) && !v.length));
@@ -34,6 +34,17 @@
     // segmentos (MM / AAAA / DD): se pasa la fecha completa; el widget llena todo el grupo
     const part = { 'date-year': 'year', 'date-month': 'month', 'date-day': 'day' }[f.kind];
     if (part) return d[part] ? { date: d, part } : null;
+    if (f.kind === 'date-text') {
+      // respeta el formato del placeholder: mm/dd/yyyy, dd/mm/aaaa, MM/YYYY…
+      const fmt = (f.el.getAttribute('placeholder') || f.el.getAttribute('data-format') || 'mm/dd/yyyy').trim();
+      return fmt.replace(/yyyy|aaaa|yy|mm|dd/gi, (t) => {
+        const k = t.toLowerCase();
+        if (k === 'yyyy' || k === 'aaaa') return d.year;
+        if (k === 'yy') return d.year.slice(2);
+        if (k === 'mm') return d.month || '01';
+        return d.day || '01';
+      });
+    }
     if (f.kind === 'date-native') return f.el.type === 'month' ? `${d.year}-${d.month || '01'}` : `${d.year}-${d.month || '01'}-${d.day || '01'}`;
     return null;
   }
@@ -46,7 +57,7 @@
   // ---------- campos sueltos (no dentro de una sección repetible) ----------
   const TOP = [
     { name: 'Correo', label: /\b(e ?mail|correo)\b/, tokens: /\bemail\b/, kinds: TEXT, value: (c) => c.p.personal.email },
-    { name: 'Apellido materno', label: /(second(ary)?|maternal|mother s) (last|family) name|apellido materno|segundo apellido/, tokens: /(secondary|second|maternal) (last|family) name|last name 2|family name 2/, kinds: TEXT, value: (c) => c.p.personal.secondLastName },
+    { name: 'Apellido materno', label: /(second(ary)?|maternal|mother s) (last|family) name|apellido materno|segundo apellido/, tokens: /(secondary|second|maternal) (last|family) name/, kinds: TEXT, value: (c) => c.p.personal.secondLastName },
     { name: 'Segundo nombre', label: /middle name|segundo nombre|otros nombres/, tokens: /middle name/, kinds: TEXT, value: (c) => c.p.personal.middleName },
     {
       name: 'Nombre completo',

@@ -39,7 +39,7 @@ const userDir = fs.mkdtempSync(path.join(os.tmpdir(), 'wdaf-'));
 const ctx = await chromium.launchPersistentContext(userDir, {
   channel: 'chromium',
   headless: true,
-  args: [`--disable-extensions-except=${extDir}`, `--load-extension=${extDir}`, `--host-resolver-rules=MAP ${HOST} 127.0.0.1, MAP careers.acme-example.com 127.0.0.1, MAP blog.example.org 127.0.0.1`],
+  args: [`--disable-extensions-except=${extDir}`, `--load-extension=${extDir}`, `--host-resolver-rules=MAP ${HOST} 127.0.0.1, MAP careers.acme-example.com 127.0.0.1, MAP blog.example.org 127.0.0.1, MAP efds.fa.em5.oraclecloud.com 127.0.0.1`],
 });
 
 const failures = [];
@@ -235,6 +235,52 @@ try {
   expect('Usa lo aprendido: por qué', await g('#why'), /diseño mecánico/);
   expect('Aviso de privacidad sigue sin marcar', await gen.$eval('#priv', (e) => e.getAttribute('aria-checked')), 'false');
   await gen.screenshot({ path: path.join(here, 'e2e-result-generic.png'), fullPage: true });
+
+  // ---------- Escenario Oracle Recruiting Cloud (Ford) ----------
+  console.log('\n=== Escenario Oracle Recruiting Cloud (Ford) ===');
+  const orc = await ctx.newPage();
+  orc.on('pageerror', (e) => console.log('[page exception]', e.message));
+  await orc.goto(`http://efds.fa.em5.oraclecloud.com:${PORT}/fixture-oracle.html`);
+  await orc.locator('#wdaf-root .fab').waitFor({ state: 'visible', timeout: 10000 });
+  await orc.locator('#wdaf-root .fab').click();
+  await orc.locator('#wdaf-root .card .stats').waitFor({ timeout: 120000 });
+  const o = (sel) => orc.$eval(sel, (el) => el.value);
+  const tiles = (id) => orc.$$eval(`#${id} .tile`, (t) => t.map((x) => x.textContent));
+  expect('ORC First Name', await o('#firstName-1'), 'Arith');
+  expect('ORC Last Name (ambos apellidos)', await o('#lastName-2'), 'Maldonado Zamudio');
+  expect('ORC Country Code', await o('#cc-4'), '+52 Mexico');
+  expect('ORC Phone', await o('#phone-5'), '2219744717');
+  expect('ORC Country', await o('#ctry-6'), 'Mexico');
+  expect('ORC Address Line 1', await o('#addr1-7'), 'C. San Simón 1214');
+  expect('ORC City', await o('#city-9'), 'San Nicolás de los Garza');
+  expect('ORC State', await o('#st-10'), 'Nuevo León');
+  expect('ORC ZIP', await o('#zip-11'), '66446');
+  const expT = await tiles('exp-block');
+  console.log('   experiencia:', expT.join(' || '));
+  expect('ORC Experiencia guardada (1)', expT.length, 1);
+  expect('ORC Experiencia con fechas mm/dd/yyyy', expT[0] || '', /Punto Focal.*07\/01\/2024.*12\/01\/2024/);
+  const eduT = await tiles('edu-block');
+  console.log('   educación:', eduT.join(' || '));
+  expect('ORC Educación guardada (2)', eduT.length, 2);
+  expect('ORC Educación: Mecatrónica y Biomédica', eduT.join(' '), /Mechatronics.*Biomedical/);
+  expect('ORC Educación fecha MM/YYYY', eduT.join(' '), /12\/2026/);
+  expect('ORC CV', await orc.textContent('#res-name'), /CV_Prueba\.pdf/);
+  const pressed = (id) => orc.$eval(`#${id} [aria-pressed="true"]`, (b) => b.textContent).catch(() => '');
+  expect('ORC Autorizado en México = Yes', await pressed('q1'), 'Yes');
+  expect('ORC Trabajó antes en Ford = No', await pressed('q2'), 'No');
+  expect('ORC Reubicarse = Yes', await pressed('q3'), 'Yes');
+  expect('ORC Firma (nombre completo)', await o('#sig-14'), 'Arith Maldonado Zamudio');
+  expect('ORC Términos sin marcar', await orc.$eval('#agree', (e) => e.checked), false);
+  expect('ORC Botón ♥ intacto', await orc.$eval('.job-fav', (e) => e.getAttribute('aria-pressed')), 'false');
+  expect('ORC Nunca envió', await orc.evaluate(() => window.__submitted), 0);
+  console.log('--- panel ---\n' + (await orc.locator('#wdaf-root .card').innerText()) + '\n-------------');
+  await orc.screenshot({ path: path.join(here, 'e2e-result-oracle.png'), fullPage: true });
+  // volver a llenar no debe duplicar tarjetas
+  await orc.locator('#wdaf-root [data-a="again"]').click();
+  await orc.waitForTimeout(500);
+  await orc.locator('#wdaf-root .card .stats').waitFor({ timeout: 120000 });
+  expect('ORC Re-llenar no duplica experiencia', (await tiles('exp-block')).length, 1);
+  expect('ORC Re-llenar no duplica educación', (await tiles('edu-block')).length, 2);
 
   // ---------- Escenario 4: página que NO es de empleo ----------
   const blog = await ctx.newPage();

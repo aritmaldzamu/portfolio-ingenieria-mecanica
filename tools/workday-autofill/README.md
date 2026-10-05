@@ -1,6 +1,6 @@
 # ⚡ Autollenado de solicitudes de empleo — extensión para Edge/Chrome
 
-Llena formularios de empleo **en cualquier sitio**: Workday, Greenhouse, Lever, SuccessFactors,
+Llena formularios de empleo **en cualquier sitio**: Workday, Oracle Recruiting Cloud (Ford y otros), Greenhouse, Lever, SuccessFactors,
 iCIMS, Taleo, SmartRecruiters, bolsas de trabajo, páginas propias de las empresas y Google Forms.
 Usa tu perfil (datos, dirección de Monterrey o Puebla, experiencia, educación, idiomas, skills, CV)
 y **aprende tus respuestas**: si una pregunta no está en tu perfil, la contestas una vez a mano y
@@ -14,6 +14,10 @@ y nunca marca casillas de aceptación (aviso de privacidad, términos y condicio
 - **Campos nativos y personalizados:** texto, listas, radios, casillas, fechas (incluidos los segmentos
   MM/AAAA de Workday), carga de CV, autocompletar (ubicación, universidad, react-select), listas que
   se abren con clic, radios y listas de Google Forms, y campos dentro de web components (Shadow DOM).
+- **Secciones "Agregar → Guardar"** (Oracle/Ford, SuccessFactors, iCIMS): agrega cada experiencia o
+  educación, la llena, da **Guardar** en ese mini formulario y sigue con la siguiente. Si ya está
+  guardada, no la duplica. Ese Guardar es solo de la entrada; el Next/Submit de la página sigue siendo tuyo.
+- **Preguntas Sí/No como botones** y **fechas escritas con formato** (`mm/dd/yyyy`, `dd/mm/aaaa`, `MM/YYYY`).
 - **Etiquetas de cualquier tipo:** `<label>`, ARIA, el título de la pregunta o el texto suelto junto al campo.
 - **Inglés y español.**
 - **Nombre completo o separado** según lo pida el formulario. Lo mismo con el teléfono: con lada aparte o con +52 incluido.
@@ -114,9 +118,10 @@ por ejemplo `["Bachelor's Degree", "Licenciatura"]`.
 
 ## Pruebas
 
-`tests/` incluye cuatro formularios de prueba:
+`tests/` incluye cinco formularios de prueba:
 - Workday con el layout nuevo, en inglés.
 - Workday con el layout antiguo, en español y con la dirección de Puebla.
+- Oracle Recruiting Cloud, como el de Ford: Agregar → Guardar, botones Sí/No, fechas `mm/dd/yyyy` y listas flotantes.
 - Un formulario propio de una empresa, con autocompletar, react-select, Google Forms, Shadow DOM y aviso de privacidad.
 - Un blog que **no** es de empleo, donde la extensión no debe aparecer ni aprender nada.
 
@@ -126,7 +131,7 @@ También incluye una prueba de punta a punta que carga la extensión real en Chr
 node tests/run-e2e.mjs   # requiere playwright
 ```
 
-Verifica más de 100 puntos: que llene bien, que aprenda y reutilice tus respuestas, que no duplique entradas ni desmarque nada al volver a llenar y que **nunca** dé clic en Next o Enviar.
+Verifica más de 130 puntos: que llene bien, que aprenda y reutilice tus respuestas, que no duplique entradas ni desmarque nada al volver a llenar y que **nunca** dé clic en Next o Enviar.
 
 ## Limitaciones conocidas
 

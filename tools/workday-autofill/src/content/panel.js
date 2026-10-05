@@ -90,7 +90,7 @@
   const STATUS_TEXT = { failed: 'No pude seleccionarlo', nodata: 'Falta el dato en tu perfil', unknown: 'Pregunta nueva: contéstala y la recordaré' };
 
   /** items: [{ f, status: filled|kept|failed|nodata|unknown, rule, note }] */
-  function render(items, { message } = {}) {
+  function render(items, { message, notes = [] } = {}) {
     const r = ensure();
     clearMarks();
     const card = r.querySelector('.card');
@@ -115,6 +115,7 @@
         <span class="pill warn">⚠ ${pending.length} pendientes</span>
         ${kept.length ? `<span class="pill muted">${kept.length} ya tenían valor</span>` : ''}
       </div>
+      ${notes.map((n) => `<div class="note" style="color:#166534;margin:0 0 6px">✔ ${esc(n)}</div>`).join('')}
       ${pending.length ? `<ul>${pending.map((i, n) => li(i, n, 'p')).join('')}</ul>` : '<div>Todo lo reconocido quedó lleno. Revisa y da <b>Next</b>.</div>'}
       ${optional.length ? `<details><summary>${optional.length} campos opcionales no reconocidos</summary><ul>${optional.map((i, n) => li(i, n, 'o')).join('')}</ul></details>` : ''}
       <div class="actions">

@@ -10,11 +10,11 @@
   // Secciones repetibles. `id` cubre ids de Workday (workExperience-29--jobTitle)
   // y `heading` cubre formularios donde sólo hay título visible.
   const SECTIONS = [
-    { key: 'experience', id: /^(work ?experience|experience|employment)$/, heading: /work experience|employment history|experiencia (laboral|profesional)|historial laboral|empleos? anteriores/ },
+    { key: 'experience', id: /^(work ?experience|experience|employment)$/, heading: /work experience|employment history|experiencia (laboral|profesional)|historial laboral|empleos? anteriores|(?<!candidate )\bexperience( history)?( \d+)?$|^experiencia( \d+)?$|agregar experiencia|anadir experiencia/ },
     { key: 'education', id: /^education$/, heading: /\beducation\b|educacion|formacion academica|estudios/ },
     { key: 'languages', id: /^languages?$/, heading: /\blanguages?\b|idiomas?/ },
     { key: 'websites', id: /^(web ?address|websites?)$/, heading: /\bwebsites?\b|sitios? web|paginas? web/ },
-    { key: 'certifications', id: /^certifications?$/, heading: /certifications?|certificaciones|licenses?|licencias/ },
+    { key: 'certifications', id: /^certifications?$/, heading: /certifications?|certificaciones|certificados|licenses?|licencias/ },
   ];
 
   const ENTRY_ID_RE = /^([a-zA-Z]+)-(\d+)--/;
@@ -47,14 +47,18 @@
       .trim();
   }
 
-  const isRoleRadio = (el) => el.type === 'radio' || el.getAttribute('role') === 'radio';
+  // botones tipo "píldora" Sí/No (Oracle Recruiting Cloud, etc.) se comportan como radios
+  const isPill = (el) => el.hasAttribute?.('aria-pressed') && !el.hasAttribute('aria-haspopup');
+  const isRoleRadio = (el) => el.type === 'radio' || el.getAttribute('role') === 'radio' || isPill(el);
   const isRoleCheckbox = (el) => el.type === 'checkbox' || el.getAttribute('role') === 'checkbox';
-  const isChecked = (el) => !!el.checked || el.getAttribute('aria-checked') === 'true';
+  const isChecked = (el) => !!el.checked || el.getAttribute('aria-checked') === 'true' || el.getAttribute('aria-pressed') === 'true';
+  const pillGroup = (el) => el.closest('fieldset, [role="radiogroup"], [role="group"]') || el.parentElement?.parentElement || el.parentElement;
 
   /** Contenedor del campo: en Workday cada campo vive en data-automation-id="formField-…". */
   function fieldContainer(el) {
     return (
       el.closest('[data-automation-id^="formField"]') ||
+      (isPill(el) && pillGroup(el)) ||
       (isRoleRadio(el) && el.closest('[role="radiogroup"]')) ||
       el.closest('fieldset') ||
       el.parentElement
@@ -90,8 +94,8 @@
     const wrapLabel = el.closest('label');
     if (wrapLabel && !radio && !box) tries.push(text(wrapLabel));
     if (radio) {
-      const rg = el.closest('[role="radiogroup"]');
-      if (rg) tries.push(labelledByText(rg) || rg.getAttribute('aria-label') || nearbyText(rg));
+      const rg = el.closest('[role="radiogroup"]') || (isPill(el) && pillGroup(el));
+      if (rg) tries.push(labelledByText(rg) || rg.getAttribute('aria-label') || text(rg.querySelector(':scope > legend')) || nearbyText(rg));
     }
     if (container && container.matches?.('[data-automation-id^="formField"]')) {
       const lab = container.querySelector('label, legend, [data-automation-id="richText"]');
@@ -123,6 +127,23 @@
     return el.getAttribute('aria-label') || el.getAttribute('data-value') || labelledByText(el) || text(el) || el.value || '';
   }
 
+  const HEAD_SEL = ':scope > h2, :scope > h3, :scope > h4, :scope > legend, :scope > [role="heading"], :scope > div > h2, :scope > div > h3, :scope > div > h4, :scope > header h2, :scope > header h3';
+
+  /**
+   * Título propio de un bloque. Si el bloque contiene otros títulos del mismo nivel
+   * que NO son de esa sección (p.ej. el formulario entero), no es el bloque de la sección.
+   */
+  function ownHeading(n) {
+    const h = n.querySelector(HEAD_SEL);
+    if (!h) return '';
+    const t = text(h);
+    const key = sectionFromHeading(t);
+    if (!key) return '';
+    const peers = [...n.querySelectorAll(h.tagName)];
+    if (peers.some((x) => x !== h && sectionFromHeading(text(x)) !== key)) return '';
+    return t;
+  }
+
   /** Sección y número de entrada (experiencia 1, 2…) del campo. */
   function locateSection(el) {
     // 1) ids de Workday: workExperience-29--jobTitle
@@ -138,7 +159,7 @@
     let entryKey = null;
     for (let n = el.parentElement; n && n !== document.body; n = n.parentElement) {
       const aid = n.getAttribute('data-automation-id') || '';
-      const title = labelledByText(n) || (n.matches('[role="group"], section, fieldset') ? text(n.querySelector(':scope > h2, :scope > h3, :scope > h4, :scope > div > h3, :scope > div > h4, :scope > legend')) : '');
+      const title = labelledByText(n) || ownHeading(n);
       const key = sectionFromHeading(title) || sectionFromIdPrefix(aid.replace(/Section$/, '').replace(/[-_]?\d+$/, ''));
       if (!key) continue;
       const numbered = title.match(/(\d+)\s*$/) || aid.match(/(\d+)$/);
@@ -155,6 +176,8 @@
     return { section: null, entryKey: null, entryEl: null };
   }
 
+  const DATE_FMT_RE = /^(mm|dd|yyyy|aaaa|yy)([\/\-. ](mm|dd|yyyy|aaaa|yy)){1,2}$/i;
+
   function kindOf(el) {
     const aid = el.getAttribute('data-automation-id') || '';
     const tag = el.tagName;
@@ -162,7 +185,7 @@
     if (tag === 'SELECT') return 'select';
     if (tag === 'TEXTAREA') return 'textarea';
     if (tag !== 'INPUT') {
-      if (role === 'radio') return 'radio';
+      if (role === 'radio' || isPill(el)) return 'radio';
       if (role === 'checkbox') return 'checkbox';
       if (role === 'textbox' && el.isContentEditable) return null;
       return 'dropdown'; // button/div con listbox
@@ -175,6 +198,8 @@
     if (/dateSectionYear/i.test(aid) || /dateSectionYear/i.test(el.id)) return 'date-year';
     if (/dateSectionDay/i.test(aid) || /dateSectionDay/i.test(el.id)) return 'date-day';
     if (type === 'date' || type === 'month') return 'date-native';
+    // fecha escrita como texto con formato en el placeholder: "mm/dd/yyyy", "dd/mm/aaaa", "MM/YYYY"
+    if (DATE_FMT_RE.test((el.getAttribute('placeholder') || el.getAttribute('data-format') || '').trim())) return 'date-text';
     if (aid === 'searchBox' || el.closest('[data-automation-id="multiselectInputContainer"]') || el.getAttribute('data-uxi-widget-type') === 'selectinput') return 'multiselect';
     if (role === 'combobox' || el.getAttribute('aria-autocomplete') === 'list' || el.getAttribute('aria-autocomplete') === 'both') return 'combobox';
     if (['text', 'email', 'tel', 'url', 'number', 'search', ''].includes(type)) return 'text';
@@ -200,6 +225,8 @@
     '[role="listbox"][aria-expanded]',
     '[role="radio"]:not(input)',
     '[role="checkbox"]:not(input)',
+    'button[aria-pressed]',
+    '[role="button"][aria-pressed]',
   ].join(',');
 
   /** Lista de campos visibles. Radios se agrupan (por name o por radiogroup) en un solo campo. */
@@ -223,7 +250,7 @@
       const tokens = [el.id, el.name, el.getAttribute('data-automation-id'), el.getAttribute('autocomplete'), container?.getAttribute?.('data-automation-id')].filter(Boolean).map(splitTokens).join(' ');
       const loc = locateSection(el);
       if (kind === 'radio') {
-        const gkey = (el.type === 'radio' && el.name) || el.closest('[role="radiogroup"]') || container || label;
+        const gkey = (el.type === 'radio' && el.name) || (isPill(el) && pillGroup(el)) || el.closest('[role="radiogroup"]') || container || label;
         if (!radioGroups.has(gkey)) {
           const f = { el, kind, label, tokens, container, options: [], required: false, ...loc };
           radioGroups.set(gkey, f);
@@ -244,6 +271,8 @@
       if (!list.includes(f.entryKey)) list.push(f.entryKey);
       f.entryIndex = list.indexOf(f.entryKey);
     }
+    // botones de alternar sueltos (negritas, favoritos…) no son preguntas: exigir ≥2 opciones
+    for (let i = out.length - 1; i >= 0; i--) if (isPill(out[i].el) && out[i].options.length < 2) out.splice(i, 1);
     return { fields: out, entryCounts: Object.fromEntries(Object.entries(bySection).map(([k, v]) => [k, v.length])) };
   }
 
@@ -274,7 +303,8 @@
       case 'date-year':
       case 'date-day':
       case 'date-native':
-        return !el.value || /^(mm|yyyy|aaaa|dd)$/i.test(el.value.trim());
+      case 'date-text':
+        return !el.value || /^(mm|yyyy|aaaa|dd)$/i.test(el.value.trim()) || DATE_FMT_RE.test(el.value.trim());
       case 'select':
         return !el.value || el.selectedIndex <= 0;
       case 'dropdown': {
@@ -322,5 +352,5 @@
     }
   }
 
-  WD.fields = { scan, isEmpty, readValue, isChecked, sectionFromHeading, SECTIONS, fieldContainer };
+  WD.fields = { scan, isEmpty, readValue, isChecked, sectionFromHeading, SECTIONS, fieldContainer, DATE_FMT_RE };
 })();
