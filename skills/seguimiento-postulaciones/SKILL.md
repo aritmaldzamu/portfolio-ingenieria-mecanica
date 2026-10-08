@@ -1,6 +1,6 @@
 ---
 name: seguimiento-postulaciones
-description: Lleva el seguimiento de las postulaciones de trabajo de Arith leyendo su Gmail — detecta confirmaciones, rechazos, entrevistas, pruebas técnicas, ofertas y postulaciones sin respuesta — y mantiene actualizado su documento "Seguimiento de postulaciones — Arith". Úsala cuando pregunte "¿cómo van mis postulaciones?", "¿quién me rechazó?", "revisa mi correo de vacantes", "actualiza mi seguimiento", "¿qué pasó con <empresa>?", o cuando diga que aplicó, descartó o tuvo entrevista en alguna vacante.
+description: Lleva el seguimiento de las postulaciones de trabajo de Arith leyendo su Gmail — detecta confirmaciones, rechazos, entrevistas, pruebas técnicas, ofertas y postulaciones sin respuesta — y mantiene actualizado su documento "Seguimiento de postulaciones — Arith". Úsala cuando pregunte "¿cómo van mis postulaciones?", "¿quién me rechazó?", "revisa mi correo de vacantes", "actualiza mi seguimiento", "¿qué pasó con Schneider?" (o cualquier empresa), o cuando diga que aplicó, descartó o tuvo entrevista en alguna vacante.
 ---
 
 # Seguimiento de postulaciones (Gmail → documento de seguimiento)
