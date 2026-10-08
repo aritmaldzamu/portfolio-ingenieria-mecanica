@@ -10,9 +10,17 @@ La memoria compartida entre `buscador-vacantes` y `seguimiento-postulaciones`.
 4. **Vacantes → Configurar / reparar hoja**. La primera vez Google pide permisos: *Revisar permisos → tu cuenta → Configuración avanzada → Ir a (no seguro) → Permitir*. Es tu propio script; solo toca esta hoja.
 5. (Opcional) **Vacantes → Activar revisión diaria automática**: cada día a las 7:00 pasa a "Sin respuesta" lo que lleva 21+ días en "Aplicado".
 
-Se crean dos pestañas:
+Se crean dos pestañas y un Google Doc:
 - **Vacantes**: una fila por vacante, con lista desplegable y color por Estado, filtro y orden automático (Oferta → En proceso → Por aplicar → Aplicado → …, luego por Score).
 - **Historial**: cada alta y cambio de estado con fecha.
+- **Doc `Tracker_Vacantes_Arith_Gemini`** (en la misma carpeta): copia de texto del tracker que **leen las skills**, porque Gemini lee Google Docs de Drive mucho mejor que hojas de cálculo. Se actualiza solo al importar un bloque y con la revisión diaria; también con **Vacantes → Actualizar copia para Gemini (Doc)**. No lo edites a mano.
+
+### Si Gemini dice "No pude acceder a tu hoja"
+
+1. Corre **Vacantes → Actualizar copia para Gemini (Doc)** (la primera vez pide permisos nuevos de Drive y Docs: acéptalos) y revisa que el Doc aparezca en tu Drive.
+2. En Gemini → Configuración → **Apps**: **Google Workspace** activado con maldonado.zamudio.arith@gmail.com (la misma cuenta dueña del Doc).
+3. Empieza el mensaje con `@Google Drive`, por ejemplo: `@Google Drive @Gmail ¿cómo van mis postulaciones?`.
+4. Si aun así falla, adjunta el Doc en el mensaje con **+ → Drive → Tracker_Vacantes_Arith_Gemini**: con el archivo adjunto siempre lo lee.
 
 ## Columnas
 

@@ -55,11 +55,15 @@ Con cualquier mensaje ("busca vacantes", "búsqueda profunda", "¿qué hay en Qu
 
 ## Fase 0. Contexto (siempre, antes de buscar)
 
-1. **Tracker:** busca en Google Drive la hoja **`Tracker_Vacantes_Arith`** (pestaña `Vacantes`). Lee todas las filas: columnas `ID`, `Empresa`, `Puesto`, `Ciudad`, `Link`, `Estado`. Arma la lista "ya conocidas".
+1. **Tracker:** léelo en este orden y quédate con el primero que funcione:
+   1. Si Arith **adjuntó** un archivo del tracker en el chat, usa ese.
+   2. Busca con **@Google Drive** el Google Doc **`Tracker_Vacantes_Arith_Gemini`** (copia de texto que la hoja actualiza sola). Trae un bloque `BLOQUE_TRACKER v1` con todas las vacantes.
+   3. Si no está, busca la hoja **`Tracker_Vacantes_Arith`** (pestaña `Vacantes`).
+   Lee todas las filas: `ID`, `Empresa`, `Puesto`, `Ciudad`, `Link`, `Estado`. Arma la lista "ya conocidas".
 2. **Gmail (últimos 30 días):** busca confirmaciones de postulación (`"thank you for applying"`, `"application received"`, `"gracias por tu postulación"`, `"tu solicitud se envió"`, `"your application was sent"`). Arma la lista "ya aplicadas" (empresa + puesto).
 3. **Gmail (últimas 72 h):** busca `entrevista`, `interview`, `assessment`, `prueba técnica`, `next steps`. Si algo pide acción con fecha límite, va en "⚠️ Requiere acción".
 
-Si no puedes abrir el tracker o Gmail, **sigue igual** y dilo en la primera línea del resultado (por ejemplo: "No pude leer el tracker: deduplicado solo con Gmail"). Sugiere adjuntar la hoja con **+ → Drive** en el siguiente mensaje.
+Si no puedes abrir el tracker o Gmail, **sigue igual** y dilo en **una sola línea corta** al inicio (por ejemplo: "⚠️ Tracker no leído: deduplicado solo con Gmail. Adjunta el Doc `Tracker_Vacantes_Arith_Gemini` con + → Drive."). No repitas el aviso en otras secciones.
 
 ## Fase 1. Bolsas de trabajo (LinkedIn, Indeed, OCC, Computrabajo)
 

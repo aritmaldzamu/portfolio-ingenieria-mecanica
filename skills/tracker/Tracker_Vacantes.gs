@@ -14,6 +14,10 @@
 const HOJA = 'Vacantes';
 const HOJA_LOG = 'Historial';
 const DIAS_SIN_RESPUESTA = 21;
+// Gemini lee Google Docs de Drive mucho mejor que hojas de cálculo: el script
+// mantiene este Doc como copia de texto del tracker para las skills.
+const DOC_GEMINI = 'Tracker_Vacantes_Arith_Gemini';
+const COLUMNAS_DOC = ['ID', 'Empresa', 'Puesto', 'Ciudad', 'Estado', 'Fecha estado', 'Score', 'Próxima acción', 'Fecha límite', 'Link'];
 
 const COLUMNAS = [
   'ID', 'Fecha encontrada', 'Empresa', 'Puesto', 'Ciudad', 'Modalidad', 'País', 'Fuente',
@@ -69,6 +73,7 @@ function onOpen() {
     .addItem('Importar bloque de Gemini…', 'abrirImportador')
     .addItem(`Marcar "Sin respuesta" (${DIAS_SIN_RESPUESTA}+ días)`, 'marcarSinRespuesta')
     .addSeparator()
+    .addItem('Actualizar copia para Gemini (Doc)', 'actualizarDocGemini')
     .addItem('Configurar / reparar hoja', 'configurarHoja')
     .addItem('Activar revisión diaria automática', 'activarRevisionDiaria')
     .addToUi();
@@ -156,10 +161,12 @@ function importarBloque(texto) {
   }
   registrar_(res.historial);
   ordenarHoja_(hoja, encabezado);
+  const doc = actualizarDocGeminiSeguro_();
 
   return [
     `Filas leídas: ${res.filasLeidas}`,
     `Nuevas: ${res.nuevas} · Actualizadas: ${res.actualizadas} · Sin cambios: ${res.sinCambios}`,
+    doc,
     res.errores.length ? '\nAvisos:\n' + res.errores.join('\n') : '',
   ].join('\n');
 }
@@ -174,6 +181,7 @@ function marcarSinRespuesta() {
     hoja.getRange(2, 1, datos.length, encabezado.length).setValues(res.datos);
     registrar_(res.historial);
   }
+  actualizarDocGeminiSeguro_();
   try {
     SpreadsheetApp.getUi().alert(`Marcadas como "Sin respuesta": ${res.historial.length}`);
   } catch (e) {
@@ -187,6 +195,46 @@ function activarRevisionDiaria() {
     .forEach(t => ScriptApp.deleteTrigger(t));
   ScriptApp.newTrigger('marcarSinRespuesta').timeBased().everyDays(1).atHour(7).create();
   SpreadsheetApp.getUi().alert('Listo: cada día a las 7:00 se marcarán las postulaciones sin respuesta.');
+}
+
+/** Crea o reescribe el Google Doc que leen las skills de Gemini. */
+function actualizarDocGemini() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const encabezado = configurarHoja();
+  const hoja = ss.getSheetByName(HOJA);
+  const datos = hoja.getLastRow() > 1
+    ? hoja.getRange(2, 1, hoja.getLastRow() - 1, encabezado.length).getValues()
+    : [];
+  const ahora = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm');
+
+  const props = PropertiesService.getDocumentProperties();
+  let doc = null;
+  try {
+    const id = props.getProperty('docGeminiId');
+    if (id && !DriveApp.getFileById(id).isTrashed()) doc = DocumentApp.openById(id);
+  } catch (e) {
+    doc = null; // lo borraron o no hay acceso: se crea otro
+  }
+  if (!doc) {
+    doc = DocumentApp.create(DOC_GEMINI);
+    props.setProperty('docGeminiId', doc.getId());
+    // Lo deja en la misma carpeta que la hoja.
+    const archivo = DriveApp.getFileById(doc.getId());
+    const carpetas = DriveApp.getFileById(ss.getId()).getParents();
+    if (carpetas.hasNext()) archivo.moveTo(carpetas.next());
+  }
+  doc.getBody().setText(textoParaGemini_(encabezado, datos, ahora, ss.getUrl()));
+  doc.saveAndClose();
+  return doc.getUrl();
+}
+
+function actualizarDocGeminiSeguro_() {
+  try {
+    actualizarDocGemini();
+    return `Copia para Gemini actualizada (Doc "${DOC_GEMINI}").`;
+  } catch (e) {
+    return `No se pudo actualizar el Doc "${DOC_GEMINI}": ${e.message}`;
+  }
 }
 
 function registrar_(historial) {
@@ -423,6 +471,28 @@ function generarId_(v) {
     .split(' ').filter(Boolean).slice(0, 8).join('-');
 }
 
+/** Texto del Doc para Gemini: resumen + todas las filas en formato BLOQUE_TRACKER. */
+function textoParaGemini_(encabezado, datos, ahora, urlHoja) {
+  const idx = {};
+  encabezado.forEach((c, i) => { idx[c] = i; });
+  const conteo = {};
+  datos.forEach(f => { const e = f[idx['Estado']] || 'Sin estado'; conteo[e] = (conteo[e] || 0) + 1; });
+  const limpiar = v => String(v === null || v === undefined ? '' : (v instanceof Date ? aISO_(v) : v))
+    .replace(/[|\r\n]+/g, ' / ').trim();
+  return [
+    'TRACKER DE VACANTES DE ARITH — copia de texto para Gemini',
+    `Actualizado: ${ahora}. Lo genera automáticamente la hoja Tracker_Vacantes_Arith; no lo edites a mano.`,
+    urlHoja ? `Hoja original: ${urlHoja}` : '',
+    '',
+    `Total: ${datos.length} vacantes · ` + ESTADOS.filter(e => conteo[e]).map(e => `${e}: ${conteo[e]}`).join(' · '),
+    '',
+    'BLOQUE_TRACKER v1',
+    COLUMNAS_DOC.join(' | '),
+    ...datos.map(f => COLUMNAS_DOC.map(c => (idx[c] === undefined ? '' : limpiar(f[idx[c]]))).join(' | ')),
+    'FIN_BLOQUE',
+  ].join('\n');
+}
+
 function marcarSinRespuesta_(encabezado, datosOriginales, hoy, dias) {
   const datos = datosOriginales.map(f => f.slice());
   const iE = encabezado.indexOf('Estado');
@@ -487,5 +557,5 @@ function columnaALetra_(n) {
 }
 
 if (typeof module !== 'undefined') {
-  module.exports = { fusionarBloque_, marcarSinRespuesta_, claveLink_, generarId_, COLUMNAS };
+  module.exports = { fusionarBloque_, marcarSinRespuesta_, textoParaGemini_, claveLink_, generarId_, COLUMNAS };
 }

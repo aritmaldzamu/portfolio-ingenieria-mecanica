@@ -13,12 +13,17 @@ Con cualquier mensaje del usuario ("¿cómo van mis postulaciones?", "¿quién m
 
 ## Paso 0. Leer el tracker compartido
 
-Busca en Google Drive la hoja **`Tracker_Vacantes_Arith`** (pestaña `Vacantes`). La llena la skill `buscador-vacantes` y la actualizas tú. Lee todas las filas, sobre todo `ID`, `Empresa`, `Puesto`, `Ciudad`, `Link`, `Estado`, `Fecha estado`.
+Léelo en este orden y quédate con el primero que funcione:
+1. Si Arith **adjuntó** un archivo del tracker en el chat, usa ese.
+2. Busca con **@Google Drive** el Google Doc **`Tracker_Vacantes_Arith_Gemini`** (copia de texto que la hoja actualiza sola). Trae un bloque `BLOQUE_TRACKER v1` con todas las vacantes.
+3. Si no está, busca la hoja **`Tracker_Vacantes_Arith`** (pestaña `Vacantes`).
+
+La llena la skill `buscador-vacantes` y la actualizas tú. Lee todas las filas, sobre todo `ID`, `Empresa`, `Puesto`, `Ciudad`, `Link`, `Estado`, `Fecha estado`.
 
 - Úsala para **reconocer** de qué vacante habla cada correo y **reutilizar su `ID`**.
 - Te dice qué vacantes están en `Por aplicar` (encontradas pero sin aplicar) y en `Aplicado` / `En proceso` (las que debes buscar en Gmail).
 
-Si no puedes abrir el tracker, sigue solo con Gmail y dilo en la primera línea del resultado. Sugiere adjuntar la hoja con **+ → Drive** en el siguiente mensaje.
+Si no puedes abrir el tracker, sigue solo con Gmail y dilo en **una sola línea corta** al inicio (por ejemplo: "⚠️ Tracker no leído: solo Gmail. Adjunta el Doc `Tracker_Vacantes_Arith_Gemini` con + → Drive."). No repitas el aviso en otras secciones.
 
 ## Paso 1. Buscar en Gmail
 
