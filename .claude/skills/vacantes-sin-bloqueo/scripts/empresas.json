@@ -1,0 +1,229 @@
+{
+  "_como_usar": "Lista de empresas objetivo de Arith y su portal de reclutamiento (ATS). Las de confianza 'descubrir' se omiten en 'ats' y salen en 'pendientes_descubrir'. Cuando encuentres el portal de una, cámbiala a uno de: greenhouse/lever/ashby/smartrecruiters (campo id), workday (campo url = https://<tenant>.wdN.myworkdayjobs.com/<sitio>), oracle (campos host y site) y pon confianza 'media' o 'alta'. Si no puedes guardar este archivo, pasa el portal con --workday/--smartrecruiters/etc.",
+  "empresas": [
+    {
+      "nombre": "Bosch (incluye Bosch Rexroth)",
+      "ats": "smartrecruiters",
+      "id": "BoschGroup",
+      "pais": "mx",
+      "confianza": "alta",
+      "nota": "Tablero público careers.smartrecruiters.com/BoschGroup; filtrar por país mx."
+    },
+    {
+      "nombre": "General Motors",
+      "ats": "workday",
+      "url": "https://generalmotors.wd5.myworkdayjobs.com/Careers_GM",
+      "confianza": "media",
+      "nota": "Fuentes de terceros también citan gm.wd5.myworkdayjobs.com (Careers_Salaried / Careers_Hourly) para México. Si este falla, prueba ese y actualiza."
+    },
+    {
+      "nombre": "Amazon (RME / Mexico)",
+      "ats": "amazon",
+      "lugar": "Mexico",
+      "confianza": "media",
+      "nota": "Endpoint de búsqueda pública amazon.jobs/en/search.json; si cambia, usa la página amazon.jobs."
+    },
+    {
+      "nombre": "Rockwell Automation",
+      "ats": "workday",
+      "url": null,
+      "confianza": "descubrir",
+      "pista": "Probable rockwellautomation.wd1.myworkdayjobs.com/<sitio>: confirma el nombre del sitio desde rockwellautomation.com > Careers > View Jobs."
+    },
+    {
+      "nombre": "Siemens",
+      "ats": "propio",
+      "portal": "https://jobs.siemens.com",
+      "confianza": "descubrir",
+      "pista": "Portal propio jobs.siemens.com; busca 'site:jobs.siemens.com automation Mexico'."
+    },
+    {
+      "nombre": "Schneider Electric",
+      "ats": "descubrir",
+      "portal": "https://www.se.com/mx/es/about-us/careers/",
+      "confianza": "descubrir",
+      "pista": "Las vacantes externas suelen mandar a su portal; terceros dicen SuccessFactors. Confírmalo."
+    },
+    {
+      "nombre": "ABB",
+      "ats": "descubrir",
+      "portal": "https://careers.abb",
+      "confianza": "descubrir",
+      "pista": "Busca 'site:careers.abb Mexico automation'."
+    },
+    {
+      "nombre": "Fanuc México",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Fanuc México careers México\" y \"Fanuc México myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Yaskawa",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Yaskawa careers México\" y \"Yaskawa myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Omron",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Omron careers México\" y \"Omron myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Emerson",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Emerson careers México\" y \"Emerson myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Honeywell",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Honeywell careers México\" y \"Honeywell myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "SEW-Eurodrive",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"SEW-Eurodrive careers México\" y \"SEW-Eurodrive myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "SMC",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"SMC careers México\" y \"SMC myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Festo",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Festo careers México\" y \"Festo myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "KUKA",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"KUKA careers México\" y \"KUKA myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Comau",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Comau careers México\" y \"Comau myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Dürr",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Dürr careers México\" y \"Dürr myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "FFT",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"FFT careers México\" y \"FFT myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "ATS Automation",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"ATS Automation careers México\" y \"ATS Automation myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "JR Automation",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"JR Automation careers México\" y \"JR Automation myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Whirlpool",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Whirlpool careers México\" y \"Whirlpool myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Mabe",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Mabe careers México\" y \"Mabe myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Caterpillar",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Caterpillar careers México\" y \"Caterpillar myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "John Deere",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"John Deere careers México\" y \"John Deere myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Carrier",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Carrier careers México\" y \"Carrier myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Daikin",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Daikin careers México\" y \"Daikin myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Kimberly-Clark",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Kimberly-Clark careers México\" y \"Kimberly-Clark myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Procter & Gamble",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Procter & Gamble careers México\" y \"Procter & Gamble myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "PepsiCo",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"PepsiCo careers México\" y \"PepsiCo myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Coca-Cola FEMSA",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Coca-Cola FEMSA careers México\" y \"Coca-Cola FEMSA myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Grupo Modelo / AB InBev",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Grupo Modelo / AB InBev careers México\" y \"Grupo Modelo / AB InBev myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Nestlé",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Nestlé careers México\" y \"Nestlé myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Mars",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Mars careers México\" y \"Mars myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Ford",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Ford careers México\" y \"Ford myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    },
+    {
+      "nombre": "Stellantis",
+      "ats": "descubrir",
+      "confianza": "descubrir",
+      "pista": "Busca \"Stellantis careers México\" y \"Stellantis myworkdayjobs\" / \"smartrecruiters\" / \"successfactors\"; anota el portal aquí."
+    }
+  ]
+}
