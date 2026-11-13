@@ -463,8 +463,11 @@
       if (r.activo === false || !r.proxima) continue;
       let guard = 0;
       while (D(r.proxima) <= D(hoy) && guard++ < 200) {
+        // Id determinista: si dos dispositivos generan el mismo recurrente, al sincronizar no se duplica.
+        const id = 'mov_rec_' + r.id + '_' + r.proxima;
+        if (estado.movimientos.some(m => m.id === id)) { r.proxima = siguienteFecha(r, r.proxima); continue; }
         estado.movimientos.push({
-          id: nuevoId(), fecha: r.proxima, tipo: r.tipo, monto: Number(r.monto) || 0,
+          id, fecha: r.proxima, tipo: r.tipo, monto: Number(r.monto) || 0,
           categoriaId: r.categoriaId, cuentaId: r.cuentaId, cuentaDestinoId: r.cuentaDestinoId || null,
           nota: r.nombre, papas: Number(r.papas) || 0, recurrenteId: r.id, creado: Date.now() + n,
         });

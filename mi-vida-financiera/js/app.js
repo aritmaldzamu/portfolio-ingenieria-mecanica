@@ -72,6 +72,15 @@
         if (ok) this._avisoError = false;
       };
       if (inmediato) go(); else this._tGuardar = setTimeout(go, 250);
+      if (window.Sync) window.Sync.programar();
+    },
+    /** Reemplaza el estado con el que llegó de otro dispositivo (sin volver a programar sincronización). */
+    reemplazarEstado(nuevo) {
+      this.estado = E.normalizar(nuevo);
+      F.setMoneda(this.estado.config.moneda);
+      this.recalcular();
+      E.guardar(this.estado);
+      this.render(false);
     },
 
     /* ---------- Navegación ---------- */
@@ -121,12 +130,23 @@
       const hayDatos = this.estado.cuentas.length || this.estado.movimientos.length;
       const atrasado = hayDatos && (d == null || d > 14);
       const txt = d == null ? 'Sin respaldo' : d === 0 ? 'Respaldo: hoy' : `Último respaldo hace ${d} ${d === 1 ? 'día' : 'días'}`;
-      UI.$('#aviso-respaldo').innerHTML = hayDatos ? `<button class="aviso-respaldo ${atrasado ? 'atrasado' : ''}" data-accion="exportar-json" title="Exportar respaldo JSON">${UI.icono(atrasado ? 'alert' : 'download')}<span class="txt">${txt}</span></button>` : '';
-      UI.$('#sidebar-pie').innerHTML = `<div class="respaldo-mini">
-          <div class="fila-flex" style="gap:8px">${UI.icono('lock', 'ico-sm')}<b>Tus datos no salen de aquí</b></div>
-          <span>Se guardan solo en este navegador. ${d == null ? 'Aún no has respaldado.' : `Último respaldo: ${d === 0 ? 'hoy' : 'hace ' + d + ' días'}.`}</span>
-          <button class="btn btn-sm" data-accion="exportar-json">${UI.icono('download')}Exportar respaldo</button>
-        </div>`;
+      const sync = window.Sync && window.Sync.resumen();
+      if (sync) {
+        UI.$('#aviso-respaldo').innerHTML = `<button class="aviso-respaldo ${sync.clase}" data-accion="ir" data-ruta="config" title="Sincronización con GitHub">${UI.icono(sync.icono, sync.girar ? 'girando' : '')}<span class="txt">${sync.texto}</span></button>`;
+        UI.$('#sidebar-pie').innerHTML = `<div class="respaldo-mini">
+            <div class="fila-flex" style="gap:8px">${UI.icono('refresh', 'ico-sm')}<b>Sincronización activa</b></div>
+            <span>Tus cambios se guardan en tu repositorio privado de GitHub y aparecen en tus otros dispositivos. ${UI.esc(sync.texto)}.</span>
+            <button class="btn btn-sm" data-accion="sincronizar-ahora">${UI.icono('refresh')}Sincronizar ahora</button>
+          </div>`;
+      } else {
+        UI.$('#aviso-respaldo').innerHTML = hayDatos ? `<button class="aviso-respaldo ${atrasado ? 'atrasado' : ''}" data-accion="exportar-json" title="Exportar respaldo JSON">${UI.icono(atrasado ? 'alert' : 'download')}<span class="txt">${txt}</span></button>` : '';
+        UI.$('#sidebar-pie').innerHTML = `<div class="respaldo-mini">
+            <div class="fila-flex" style="gap:8px">${UI.icono('lock', 'ico-sm')}<b>Tus datos no salen de aquí</b></div>
+            <span>Se guardan solo en este navegador. ${d == null ? 'Aún no has respaldado.' : `Último respaldo: ${d === 0 ? 'hoy' : 'hace ' + d + ' días'}.`}</span>
+            <button class="btn btn-sm" data-accion="exportar-json">${UI.icono('download')}Exportar respaldo</button>
+            <a class="btn btn-sm btn-fantasma" href="#/config">${UI.icono('refresh')}Sincronizar dispositivos</a>
+          </div>`;
+      }
       const priv = this.estado.config.ocultarMontos;
       document.body.classList.toggle('privado', !!priv);
       UI.$('#btn-privado').innerHTML = UI.icono(priv ? 'eyeOff' : 'eye');
@@ -155,7 +175,7 @@
           try { datos = JSON.parse(lector.result); } catch (e) { UI.toast('El archivo no es un JSON válido.', { error: true }); return; }
           const est = datos && datos.estado ? datos.estado : datos;
           if (!est || !Array.isArray(est.cuentas) || !est.config) { UI.toast('Ese archivo no parece un respaldo de Mi Vida Financiera.', { error: true }); return; }
-          const ok = await UI.confirmar({ titulo: 'Importar respaldo', mensaje: `Se reemplazarán tus datos actuales por los del archivo <b>${UI.esc(f.name)}</b> (${est.cuentas.length} cuentas, ${(est.movimientos || []).length} movimientos).`, textoOk: 'Importar y reemplazar' });
+          const ok = await UI.confirmar({ titulo: 'Importar respaldo', mensaje: `Se reemplazarán tus datos actuales por los del archivo <b>${UI.esc(f.name)}</b> (${est.cuentas.length} cuentas, ${(est.movimientos || []).length} movimientos).${window.Sync && window.Sync.activo ? ' <b>También se reemplazarán en tus otros dispositivos</b> (GitHub guarda la versión anterior en su historial).' : ''}`, textoOk: 'Importar y reemplazar' });
           if (!ok) return;
           this.estado = E.normalizar(est);
           this.recalcular(); this.guardar(true); this.render(true);
@@ -178,7 +198,7 @@
       UI.toast('CSV de movimientos descargado.');
     },
     async borrarTodo() {
-      const ok = await UI.confirmar({ titulo: 'Borrar todos los datos', peligro: true, escribir: 'BORRAR', mensaje: 'Se eliminarán todas tus cuentas, apartados, movimientos y configuración de este navegador. <b>No se puede deshacer</b>; exporta un respaldo antes si lo necesitas.', textoOk: 'Borrar todo' });
+      const ok = await UI.confirmar({ titulo: 'Borrar todos los datos', peligro: true, escribir: 'BORRAR', mensaje: 'Se eliminarán todas tus cuentas, apartados, movimientos y configuración de este navegador. <b>No se puede deshacer</b>; exporta un respaldo antes si lo necesitas.' + (window.Sync && window.Sync.activo ? ' <b>Como tienes la sincronización activa, también se borrarán en tus otros dispositivos</b> (el historial del repositorio de GitHub conserva la versión anterior).' : ''), textoOk: 'Borrar todo' });
       if (!ok) return;
       const tema = this.estado.config.tema;
       this.estado = E.estadoVacio(); this.estado.config.tema = tema;
@@ -187,7 +207,7 @@
     },
     async cargarDemo() {
       if (this.estado.cuentas.length || this.estado.movimientos.length) {
-        const ok = await UI.confirmar({ titulo: 'Cargar datos de ejemplo', mensaje: 'Esto <b>reemplaza</b> tus datos actuales por datos de ejemplo. Si quieres conservarlos, exporta un respaldo primero.', textoOk: 'Reemplazar con ejemplo' });
+        const ok = await UI.confirmar({ titulo: 'Cargar datos de ejemplo', mensaje: 'Esto <b>reemplaza</b> tus datos actuales por datos de ejemplo. Si quieres conservarlos, exporta un respaldo primero.' + (window.Sync && window.Sync.activo ? ' <b>Ojo: con la sincronización activa también se reemplazarán en tus otros dispositivos.</b>' : ''), textoOk: 'Reemplazar con ejemplo' });
         if (!ok) return;
       }
       const tema = this.estado.config.tema;
@@ -257,6 +277,7 @@
       });
       window.addEventListener('beforeunload', () => this.guardar(true));
       this.iniciarVivo();
+      if (window.Sync) window.Sync.iniciar();
     },
   };
 
@@ -271,6 +292,7 @@
   App.accion('comando', () => { UI.cerrarModalSuperior(); window.Comando.abrir(); });
   App.accion('ir', d => App.navegar(d.ruta));
   App.accion('nuevo-rapido', () => window.Forms.movimiento({}));
+  App.accion('sincronizar-ahora', () => window.Sync && window.Sync.sincronizar());
 
   window.App = App;
   document.addEventListener('DOMContentLoaded', () => App.init());

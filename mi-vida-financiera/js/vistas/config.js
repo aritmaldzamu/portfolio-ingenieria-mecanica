@@ -16,10 +16,41 @@
     </div>`;
   }
 
+  /** Contenido de la tarjeta de sincronización. */
+  function tarjetaSync() {
+    const S = window.Sync;
+    if (S.activo) {
+      const c = S.config();
+      const r = S.resumen();
+      return `<div class="card-head"><h3>${UI.icono('refresh')}Sincronizar entre dispositivos</h3><span class="chip ${S.estado === 'error' || S.estado === 'offline' ? 'amarillo' : 'verde'}">${UI.icono(r.icono, r.girar ? 'girando' : '')}${UI.esc(r.texto)}</span></div>
+        <p class="suave">Tus datos se guardan en el repositorio privado <a href="${UI.esc(c.url || `https://github.com/${c.owner}/${c.repo}`)}" target="_blank" rel="noopener"><b>${UI.esc(c.owner)}/${UI.esc(c.repo)}</b></a>. Lo que registres aquí aparece en tus otros dispositivos (y al revés) unos segundos después; cada sincronización queda en el historial del repositorio.</p>
+        ${S.error ? `<div class="nota-caja aviso mt">${UI.icono('alert')}<span>${UI.esc(S.error)}</span></div>` : ''}
+        <div class="fila-flex mt"><button class="btn btn-primario" data-accion="sincronizar-ahora">${UI.icono('refresh')}Sincronizar ahora</button><button class="btn btn-fantasma" data-sync-desconectar>${UI.icono('x')}Desconectar este dispositivo</button></div>
+        <p class="nota mt">Para agregar otro dispositivo: abre la app ahí, ve a Configuración y conecta el mismo repositorio con el mismo token.</p>`;
+    }
+    const m = location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
+    return `<div class="card-head"><h3>${UI.icono('refresh')}Sincronizar entre dispositivos</h3><span class="chip">Desactivada</span></div>
+      <p class="suave">Para que lo que registres en el celular aparezca en la compu (y al revés), tus datos se guardan en un <b>repositorio privado de tu GitHub</b>. Se configura una sola vez:</p>
+      <ol class="pasos mt">
+        <li>Crea un repositorio <b>privado</b>: <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a> → nombre <b>mis-finanzas-datos</b> → marca <b>Private</b> → <b>Create repository</b>.</li>
+        <li>Crea un token: <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained token</a>. En <b>Repository access</b> elige <b>Only select repositories</b> → <b>mis-finanzas-datos</b>. En <b>Permissions</b> agrega <b>Contents → Read and write</b>. Pon una expiración (por ejemplo 1 año), genera y copia el token (empieza con <b>github_pat_</b>).</li>
+        <li>Pega aquí tu usuario, el repositorio y el token, y presiona <b>Conectar</b>. Después repite este paso en tu otro dispositivo.</li>
+      </ol>
+      <form class="form mt" id="sync-form" autocomplete="off">
+        <div class="campo tercio"><label for="sync-owner">Usuario de GitHub</label><input type="text" id="sync-owner" value="${UI.esc(m ? m[1] : '')}" placeholder="tu-usuario" autocapitalize="off" spellcheck="false"></div>
+        <div class="campo tercio"><label for="sync-repo">Repositorio privado</label><input type="text" id="sync-repo" value="mis-finanzas-datos" autocapitalize="off" spellcheck="false"></div>
+        <div class="campo tercio"><label for="sync-token">Token</label><input type="password" id="sync-token" placeholder="github_pat_…" autocapitalize="off" spellcheck="false"></div>
+        <div class="error-form oculto" id="sync-error" role="alert"></div>
+      </form>
+      <div class="fila-flex mt"><button class="btn btn-primario" data-sync-conectar>${UI.icono('refresh')}Conectar</button></div>
+      <p class="nota mt">El token solo da acceso a ese repositorio. Se guarda únicamente en este navegador y nunca se incluye en los respaldos JSON. Si pierdes un dispositivo, borra el token en GitHub y crea otro.</p>`;
+  }
+
   function render(a) {
     const est = a.estado, cfg = est.config;
     return `
     <div class="grid">
+      <section class="card s-12" id="sync-card">${tarjetaSync()}</section>
       <section class="card s-6">
         <div class="card-head"><h3>${UI.icono('settings')}General</h3></div>
         <div class="form">
@@ -35,8 +66,8 @@
 
       <section class="card s-6">
         <div class="card-head"><h3>${UI.icono('lock')}Respaldo y privacidad</h3></div>
-        <div class="nota-caja">${UI.icono('lock')}<span><b>Nada sale de tu dispositivo.</b> Tus datos viven solo en este navegador (localStorage). Nunca se piden números de cuenta ni de tarjeta (solo los últimos 4 dígitos, opcional). Para pasar tus datos del celular a la computadora: exporta el JSON aquí e impórtalo allá.</span></div>
-        <dl class="dl mt"><dt>Último respaldo</dt><dd>${cfg.ultimoRespaldo ? F.fecha(cfg.ultimoRespaldo.slice(0, 10), 'media') + ` (hace ${a.diasDesdeRespaldo()} días)` : 'Nunca'}</dd><dt>Cuentas · movimientos</dt><dd>${est.cuentas.length} · ${est.movimientos.length + est.flujosApartado.length}</dd></dl>
+        <div class="nota-caja">${UI.icono('lock')}<span>${window.Sync.activo ? '<b>Tus datos se guardan en este navegador y en tu repositorio privado de GitHub</b> (sincronización activa).' : '<b>Nada sale de tu dispositivo.</b> Tus datos viven solo en este navegador (localStorage). Para tenerlos en el celular y en la compu activa la sincronización de arriba.'} Nunca se piden números de cuenta ni de tarjeta (solo los últimos 4 dígitos, opcional).</span></div>
+        <dl class="dl mt"><dt>Último respaldo</dt><dd>${cfg.ultimoRespaldo ? F.fecha(cfg.ultimoRespaldo.slice(0, 10), 'media') + (a.diasDesdeRespaldo() === 0 ? ' (hoy)' : ` (hace ${a.diasDesdeRespaldo()} días)`) : 'Nunca'}</dd><dt>Cuentas · movimientos</dt><dd>${est.cuentas.length} · ${est.movimientos.length + est.flujosApartado.length}</dd></dl>
         <div class="fila-flex mt"><button class="btn btn-primario" data-accion="exportar-json">${UI.icono('download')}Exportar todo (JSON)</button><button class="btn" data-accion="importar-json">${UI.icono('upload')}Importar JSON</button><button class="btn" data-accion="exportar-csv">${UI.icono('file')}Movimientos a CSV</button></div>
         <div class="divisor"></div>
         <div class="fila-flex"><button class="btn" data-accion="cargar-demo">${UI.icono('sparkles')}Cargar datos de ejemplo</button><button class="btn btn-peligro" data-accion="borrar-todo">${UI.icono('trash')}Borrar todo</button></div>
@@ -90,7 +121,45 @@
     </div>`;
   }
 
+  function montarSync(a) {
+    const card = document.getElementById('sync-card');
+    if (!card) return;
+    UI.pintarIconos(card);
+    const btn = card.querySelector('[data-sync-conectar]');
+    if (btn) btn.addEventListener('click', async () => {
+      const err = card.querySelector('#sync-error');
+      const datos = { owner: card.querySelector('#sync-owner').value, repo: card.querySelector('#sync-repo').value, token: card.querySelector('#sync-token').value };
+      if (!datos.owner.trim() || !datos.repo.trim() || !datos.token.trim()) { err.textContent = 'Llena usuario, repositorio y token.'; err.classList.remove('oculto'); return; }
+      btn.disabled = true; btn.innerHTML = `${UI.icono('refresh', 'girando')}Conectando…`;
+      try {
+        const ok = await window.Sync.conectar(datos);
+        if (ok) UI.toast('¡Listo! Este dispositivo ya está sincronizado.');
+        a.render(false);
+      } catch (e) {
+        err.textContent = e.message || String(e); err.classList.remove('oculto');
+        btn.disabled = false; btn.innerHTML = `${UI.icono('refresh')}Conectar`;
+      }
+    });
+    const des = card.querySelector('[data-sync-desconectar]');
+    if (des) des.addEventListener('click', async () => {
+      const ok = await UI.confirmar({ titulo: 'Desconectar este dispositivo', mensaje: 'Este dispositivo dejará de sincronizar. Tus datos se quedan aquí y en GitHub; el token se borra de este navegador.', textoOk: 'Desconectar' });
+      if (ok) { window.Sync.desconectar(); a.render(false); UI.toast('Sincronización desactivada en este dispositivo.'); }
+    });
+  }
+
+  /** Actualiza solo la tarjeta de sincronización (sin repintar toda la vista). */
+  window.VistaConfig = {
+    pintarSync() {
+      const a = window.App;
+      const card = document.getElementById('sync-card');
+      if (!card || a.ruta !== 'config' || card.querySelector('#sync-token:focus, #sync-owner:focus, #sync-repo:focus') || (card.querySelector('[data-sync-conectar]') && card.querySelector('[data-sync-conectar]').disabled)) return;
+      card.innerHTML = tarjetaSync();
+      montarSync(a);
+    },
+  };
+
   function despues(a, cont) {
+    montarSync(a);
     const fechas = { inflacion: 'inflacionFecha', umaDiaria: 'umaFecha', retencionISR: 'retencionFecha', tasaReferencia: 'tasaReferenciaFecha' };
     cont.querySelectorAll('[data-cfg-num]').forEach(i => i.addEventListener('change', () => a.mutar(e => {
       const k = i.dataset.cfgNum; e.config[k] = Number(i.value) || 0;

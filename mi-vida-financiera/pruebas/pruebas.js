@@ -12,6 +12,7 @@
   const E = nodo ? require('../js/estado.js') : raiz.Estado;
   const Demo = nodo ? require('../js/demo.js') : raiz.Demo;
   const C = nodo ? require('../js/consejos.js') : raiz.Consejos;
+  const S = nodo ? require('../js/sincronizacion.js') : raiz.Sync;
 
   const resultados = [];
   function prueba(nombre, fn) {
@@ -231,6 +232,36 @@
     if (!(c.patrimonio > 0)) throw new Error('patrimonio');
     for (const [cid, v] of Object.entries(c.sinAsignar)) if (v < -1 && (c.asignado[cid] || 0) > 0) throw new Error('sobregiro ' + cid + ' ' + v);
     if (!C.alertas(demo, c).length) throw new Error('sin alertas');
+  });
+
+  /* ---------- Sincronización (fusión de tres vías) ---------- */
+  prueba('Sincronización: cambios distintos en celular y compu se conservan ambos', () => {
+    const base = { movimientos: [{ id: 'a', monto: 1 }], config: { nombre: 'A', tema: 'oscuro' } };
+    const cel = { movimientos: [{ id: 'a', monto: 1 }, { id: 'cel', monto: 5 }], config: { nombre: 'A', tema: 'claro' } };
+    const pc = { movimientos: [{ id: 'a', monto: 2 }, { id: 'pc', monto: 7 }], config: { nombre: 'B', tema: 'oscuro' } };
+    const r = S.fusionar(base, cel, pc);
+    igual(r.movimientos.map(m => m.id).sort().join(','), 'a,cel,pc');
+    igual(r.movimientos.find(m => m.id === 'a').monto, 2, 'edición remota:');
+    igual(r.config.nombre, 'B'); igual(r.config.tema, 'claro', 'tema es por dispositivo:');
+  });
+  prueba('Sincronización: lo borrado en un dispositivo se borra en el otro', () => {
+    const base = { movimientos: [{ id: 'a' }, { id: 'b' }] };
+    const r = S.fusionar(base, { movimientos: [{ id: 'a' }, { id: 'b' }] }, { movimientos: [{ id: 'a' }] });
+    igual(r.movimientos.length, 1);
+    const r2 = S.fusionar(base, { movimientos: [{ id: 'b' }] }, { movimientos: [{ id: 'a' }, { id: 'b' }] });
+    igual(r2.movimientos.map(m => m.id).join(), 'b');
+  });
+  prueba('Sincronización: presupuesto por categoría se fusiona llave por llave', () => {
+    const base = { presupuesto: { montos: { x: 1, y: 1 } } };
+    const r = S.fusionar(base, { presupuesto: { montos: { x: 5, y: 1 } } }, { presupuesto: { montos: { x: 1, y: 9 } } });
+    igual(r.presupuesto.montos.x, 5); igual(r.presupuesto.montos.y, 9);
+  });
+  prueba('Recurrentes generados en dos dispositivos no se duplican', () => {
+    const e1 = Demo.generar('2026-11-13'), e2 = JSON.parse(JSON.stringify(e1));
+    M.generarRecurrentes(e1, '2026-12-20', () => 'x' + Math.random());
+    M.generarRecurrentes(e2, '2026-12-20', () => 'y' + Math.random());
+    const r = S.fusionar(Demo.generar('2026-11-13'), e1, e2);
+    igual(r.movimientos.length, e1.movimientos.length);
   });
 
   /* ---------- Reporte ---------- */

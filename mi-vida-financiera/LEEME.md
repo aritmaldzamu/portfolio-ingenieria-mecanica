@@ -12,26 +12,45 @@ Atajo: en computadora presiona **`/`** para el registro rápido en texto (por ej
 
 ## Tus datos y cómo respaldarlos
 
-- Todo se guarda **solo en este navegador** (localStorage), con autoguardado. Nada se envía a ningún servidor y nunca se piden números de cuenta o de tarjeta (solo los últimos 4 dígitos, opcional).
+- Todo se guarda en este navegador (localStorage), con autoguardado. Si activas la sincronización, también en tu repositorio privado de GitHub; nada más se envía a ningún otro lado. Nunca se piden números de cuenta o de tarjeta (solo los últimos 4 dígitos, opcional).
 - Si borras los datos del navegador, usas modo incógnito o cambias de navegador, **no verás tus datos**. Por eso respalda seguido:
   - **Configuración → Exportar todo (JSON)** descarga un archivo con todo.
   - **Importar JSON** restaura ese archivo (reemplaza lo que haya).
   - **Movimientos a CSV** para abrirlos en Excel o Google Sheets.
 - Arriba verás "Último respaldo hace X días"; se pone amarillo si pasan más de 14 días.
 
-## Pasar tus datos del celular a la computadora (o al revés)
+## Usarla en el celular y en la compu con los mismos datos (sincronización)
 
-1. En el celular: **Más → Configuración → Exportar todo (JSON)**. Se descarga `mi-vida-financiera-AAAA-MM-DD.json`.
-2. Mándate ese archivo (por ejemplo por correo a ti mismo, WhatsApp "a mí mismo", Drive o un cable).
-3. En la computadora abre `index.html` → **Configuración → Importar JSON** y elige el archivo.
+La app vive en https://aritmaldzamu.github.io/portfolio-ingenieria-mecanica/mi-vida-financiera/ (después de hacer merge a `main`). En el celular ábrela y agrégala a la pantalla de inicio (iPhone: Compartir → "Agregar a inicio"; Android: ⋮ → "Agregar a pantalla principal").
 
-Cada navegador guarda su propia copia; no se sincronizan solos. Usa siempre el último respaldo como "versión buena".
+Para que lo que registres en un dispositivo aparezca en el otro, los datos se guardan en un **repositorio privado de tu GitHub**. Configuración de una sola vez:
 
-> Para abrirla en el celular necesitas la carpeta en el teléfono (algunos exploradores de archivos de Android abren `index.html` directo) o publicarla en algún hosting estático (por ejemplo GitHub Pages). Aunque la página esté en internet, **los datos siguen guardándose solo en tu teléfono**.
+1. Crea un repositorio **privado** en https://github.com/new con nombre `mis-finanzas-datos` (marca *Private*).
+2. Crea un token en https://github.com/settings/personal-access-tokens/new:
+   - *Repository access* → *Only select repositories* → `mis-finanzas-datos`.
+   - *Permissions* → *Repository permissions* → *Contents* → **Read and write**.
+   - Elige una expiración (por ejemplo 1 año), genera y copia el token (empieza con `github_pat_`). Guárdalo en un lugar seguro.
+3. En la app: **Configuración → Sincronizar entre dispositivos** → escribe tu usuario, `mis-finanzas-datos` y el token → **Conectar**.
+4. Repite el paso 3 en tu otro dispositivo con el mismo token. Si el primero ya tenía datos, elige **"Usar los datos de GitHub"**.
+
+Cómo funciona:
+- Al registrar algo se sincroniza a los ~2 segundos; al abrir la app (o volver a ella) y cada minuto trae lo del otro dispositivo.
+- Si cambias cosas distintas en el celular y en la compu, se conservan ambas. Si cambias lo mismo en los dos, gana el último que sincroniza.
+- Sin internet sigue funcionando; se sincroniza al volver la conexión.
+- Cada sincronización es un commit en el repositorio, así que tienes historial y puedes recuperar versiones anteriores desde GitHub.
+- El token se guarda solo en el navegador de cada dispositivo y **no** se incluye en los respaldos JSON. Si pierdes un dispositivo, borra el token en GitHub y crea otro.
+- La app se niega a sincronizar con un repositorio público.
+- El tema claro/oscuro y "ocultar montos" son preferencias de cada dispositivo (no se sincronizan).
+
+## Pasar tus datos sin sincronización (manual)
+
+1. En un dispositivo: **Configuración → Exportar todo (JSON)**.
+2. Mándate el archivo (correo, WhatsApp a ti mismo, Drive…).
+3. En el otro: **Configuración → Importar JSON** (reemplaza lo que haya).
 
 ## Pruebas
 
-- `pruebas/pruebas.html` (doble clic) o `node pruebas/pruebas.js` verifican interés compuesto diario, tasas escalonadas y con tope, promociones, GAT nominal y real, ISR y deducción PPR, amortización, el cálculo de apartados por periodos de tasa y el parser de texto.
+- `pruebas/pruebas.html` (doble clic) o `node pruebas/pruebas.js` verifican interés compuesto diario, tasas escalonadas y con tope, promociones, GAT nominal y real, ISR y deducción PPR, amortización, el cálculo de apartados por periodos de tasa, el parser de texto y la fusión de la sincronización.
 
 ## Decisiones que tomé (puedes cambiarlas)
 
