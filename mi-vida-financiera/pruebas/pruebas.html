@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pruebas · Mi Vida Financiera</title>
+  <style>
+    :root { color-scheme: dark; --bg: #0a0b10; --surface: #12141c; --text: #eceef4; --muted: #8a91a3; --ok: #2fd197; --mal: #ff6b81; }
+    body { margin: 0; padding: 24px 16px; background: var(--bg); color: var(--text); font: 14px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+    main { max-width: 860px; margin: 0 auto; }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    p { color: var(--muted); margin: 0 0 16px; }
+    .resumen { padding: 12px 16px; border-radius: 12px; background: var(--surface); font-weight: 600; margin-bottom: 16px; }
+    ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+    li { padding: 8px 12px; border-radius: 8px; background: var(--surface); }
+    li.ok::before { content: '✔  '; color: var(--ok); }
+    li.mal::before { content: '✘  '; color: var(--mal); }
+    li small { display: block; color: var(--mal); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Pruebas de cálculos</h1>
+    <p>Interés compuesto, tasas escalonadas, GAT real, ISR, deducción PPR, amortización, motor de apartados y parser de texto. También se pueden correr con <code>node pruebas/pruebas.js</code>.</p>
+    <div class="resumen" id="resumen">Ejecutando…</div>
+    <ul id="lista"></ul>
+  </main>
+  <script src="../js/finanzas.js"></script>
+  <script src="../js/formato.js"></script>
+  <script src="../js/motor.js"></script>
+  <script src="../js/estado.js"></script>
+  <script src="../js/parser.js"></script>
+  <script src="../js/consejos.js"></script>
+  <script src="../js/demo.js"></script>
+  <script src="pruebas.js"></script>
+  <script>
+    (function () {
+      var r = window.Pruebas.resultados, mal = window.Pruebas.fallidas.length;
+      var esc = function (s) { return String(s).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+      document.getElementById('resumen').textContent = (r.length - mal) + ' de ' + r.length + ' pruebas correctas' + (mal ? ' · ' + mal + ' fallaron' : '');
+      document.getElementById('resumen').style.color = mal ? 'var(--mal)' : 'var(--ok)';
+      document.getElementById('lista').innerHTML = r.map(function (x) { return '<li class="' + (x.ok ? 'ok' : 'mal') + '">' + esc(x.nombre) + (x.ok ? '' : '<small>' + esc(x.error) + '</small>') + '</li>'; }).join('');
+    })();
+  </script>
+</body>
+</html>

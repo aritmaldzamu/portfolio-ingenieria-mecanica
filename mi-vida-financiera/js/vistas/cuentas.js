@@ -110,12 +110,13 @@
 
   function filaMov(a, m, cuentaId) {
     const cat = a.categoria(m.categoriaId);
-    let signo = m.tipo === 'ingreso' ? 1 : m.tipo === 'gasto' ? -1 : (m.cuentaDestinoId === cuentaId ? 1 : -1);
+    const neutral = m.tipo === 'transferencia' && cuentaId !== m.cuentaId && cuentaId !== m.cuentaDestinoId;
+    const signo = m.tipo === 'ingreso' ? 1 : m.tipo === 'gasto' ? -1 : (m.cuentaDestinoId === cuentaId ? 1 : -1);
     const monto = m.tipo === 'gasto' ? M.parteMia(m) : m.monto;
     const ico = m.tipo === 'transferencia' ? 'swap' : (cat ? cat.icono : 'dots');
     const color = m.tipo === 'transferencia' ? 'var(--blue)' : (cat ? cat.color : '#888');
     const titulo = m.nota || (m.tipo === 'transferencia' ? `${a.nombreCuenta(m.cuentaId)} → ${a.nombreCuenta(m.cuentaDestinoId)}` : (cat ? cat.nombre : 'Movimiento'));
-    return `<div class="fila clic" data-accion="editar-movimiento" data-id="${m.id}">${UI.burbuja(ico, color, 'sm')}<div class="fila-txt"><div class="fila-titulo">${UI.esc(titulo)}</div><div class="fila-sub">${F.fecha(m.fecha, 'media')}${cat && m.nota ? ' · ' + UI.esc(cat.nombre) : ''}${m.papas ? ` · <span class="chip azul">${m.papas} % papás</span>` : ''}</div></div><div class="fila-der num">${UI.m(signo * monto, { color: true, signo: true })}</div></div>`;
+    return `<div class="fila clic" data-accion="editar-movimiento" data-id="${m.id}">${UI.burbuja(ico, color, 'sm')}<div class="fila-txt"><div class="fila-titulo">${UI.esc(titulo)}</div><div class="fila-sub">${F.fecha(m.fecha, 'media')}${cat && m.nota ? ' · ' + UI.esc(cat.nombre) : ''}${m.papas ? ` · <span class="chip azul">${m.papas} % papás</span>` : ''}</div></div><div class="fila-der num">${neutral ? UI.m(monto) : UI.m(signo * monto, { color: true, signo: true })}</div></div>`;
   }
 
   function despues(a) {

@@ -46,15 +46,15 @@
   }
 
   function filaCat(a, f, ant) {
-    return `<div class="fila" style="align-items:center;flex-wrap:wrap">
+    return `<div class="fila" style="align-items:center">
       ${UI.burbuja(f.cat.icono, f.cat.color, 'sm')}
       <div class="fila-txt" style="min-width:130px">
         <div class="fila-titulo">${UI.esc(f.cat.nombre)}</div>
-        <div class="fila-sub">${UI.m(f.gastado, { dec: 0 })} gastado${f.papas ? ` · <span style="color:var(--blue)">${F.dinero(f.papas, { dec: 0 })} papás</span>` : ''} · mes ant. ${F.dinero(ant || 0, { dec: 0 })}</div>
+        <div class="fila-sub pres-sub">${UI.m(f.gastado, { dec: 0 })} gastado${f.presupuesto > 0 ? `<span class="solo-movil-inline"> · <b class="${f.restante < 0 ? 'rojo-txt' : 'verde-txt'}">${f.restante < 0 ? 'te pasaste ' + F.dinero(-f.restante, { dec: 0 }) : 'quedan ' + F.dinero(f.restante, { dec: 0 })}</b></span>` : ''}${f.papas ? ` · <span style="color:var(--blue)">${F.dinero(f.papas, { dec: 0 })} papás</span>` : ''}<span class="solo-escritorio-inline"> · mes ant. ${F.dinero(ant || 0, { dec: 0 })}</span></div>
         <div class="mt-s">${UI.barra(f.presupuesto > 0 ? f.pct : (f.gastado > 0 ? 100 : 0), { semaforo: true })}</div>
       </div>
-      <div style="width:130px" class="input-pre"><span>$</span><input type="text" inputmode="decimal" data-presupuesto="${f.cat.id}" value="${f.presupuesto ? F.numero(f.presupuesto) : ''}" placeholder="0" aria-label="Presupuesto ${UI.esc(f.cat.nombre)}"></div>
-      <div class="fila-der num" style="width:110px">${f.presupuesto > 0 ? (f.restante >= 0 ? `<span class="verde-txt">${UI.m(f.restante, { dec: 0 })}</span><div class="fila-sub">disponible</div>` : `<span class="rojo-txt">${UI.m(f.restante, { dec: 0 })}</span><div class="fila-sub">te pasaste</div>`) : '<span class="tenue">—</span>'}</div>
+      <div style="width:130px" class="input-pre pres-in"><span>$</span><input type="text" inputmode="decimal" data-presupuesto="${f.cat.id}" value="${f.presupuesto ? F.numero(f.presupuesto) : ''}" placeholder="0" aria-label="Presupuesto ${UI.esc(f.cat.nombre)}"></div>
+      <div class="fila-der num solo-escritorio" style="width:110px">${f.presupuesto > 0 ? (f.restante >= 0 ? `<span class="verde-txt">${UI.m(f.restante, { dec: 0 })}</span><div class="fila-sub">disponible</div>` : `<span class="rojo-txt">${UI.m(f.restante, { dec: 0 })}</span><div class="fila-sub">te pasaste</div>`) : '<span class="tenue">—</span>'}</div>
     </div>`;
   }
 

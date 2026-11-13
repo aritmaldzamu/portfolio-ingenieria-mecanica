@@ -215,7 +215,7 @@
       const items = NAV.flatMap(g => g.items).filter(i => !['dashboard', 'apartados', 'movimientos'].includes(i.r));
       const md = UI.modal({
         titulo: 'Más secciones', icono: 'grid',
-        cuerpo: `<div class="tarjetas" style="grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">${items.map(i => `<a class="card card-sm fila-flex" href="#/${i.r}" style="gap:10px;color:var(--text)">${UI.burbuja(i.i, 'var(--accent)', 'sm')}<b style="font-weight:600;font-size:13px">${i.t}</b></a>`).join('')}</div>
+        cuerpo: `<div class="tarjetas" style="grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">${items.map(i => `<a class="card card-sm fila-flex" href="#/${i.r}" style="gap:10px;color:var(--text);flex-wrap:nowrap">${UI.burbuja(i.i, 'var(--accent)', 'sm')}<b style="font-weight:600;font-size:13px">${i.t}</b></a>`).join('')}</div>
           <div class="divisor"></div>
           <div class="fila-flex"><button class="btn" data-accion="comando">${UI.icono('sparkles')}Registro rápido</button><button class="btn" data-accion="tema">${UI.icono('sun')}Tema</button><button class="btn" data-accion="exportar-json">${UI.icono('download')}Respaldo</button></div>`,
         alMontar(el, api) { el.querySelectorAll('a').forEach(a => a.addEventListener('click', () => api.cerrar())); },

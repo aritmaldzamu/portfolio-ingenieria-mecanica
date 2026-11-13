@@ -34,7 +34,7 @@
           <td class="der num">${m.tipo === 'transferencia' ? UI.m(m.monto) : UI.m(v, { color: true, signo: true })}${m.papas ? `<div class="fila-sub">de ${F.dinero(m.monto)}</div>` : ''}</td></tr>`;
       }).join('')}
     </tbody></table></div>
-    <div class="solo-movil lista">${vis.map(m => window.VistaCuentas.filaMov(a, m, m.cuentaDestinoId)).join('')}</div>
+    <div class="solo-movil lista">${vis.map(m => window.VistaCuentas.filaMov(a, m, null)).join('')}</div>
     ${lista.length > f.limite ? `<div class="fila-flex mt" style="justify-content:center"><button class="btn" data-mas>Ver más (${lista.length - f.limite} restantes)</button></div>` : ''}`;
   }
 

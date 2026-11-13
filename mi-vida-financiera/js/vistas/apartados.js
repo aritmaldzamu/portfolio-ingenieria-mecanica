@@ -107,11 +107,15 @@
 
       <section class="card s-7">
         <div class="card-head"><h3>${UI.icono('receipt')}Depósitos y movimientos</h3><span class="sub">cada depósito guarda su tasa</span></div>
-        ${flujos.length ? `<div class="tabla-wrap"><table class="tabla"><thead><tr><th>Fecha</th><th>Movimiento</th><th class="der">Monto</th><th class="der">Tasa</th><th class="der">Valor hoy</th><th class="der">Ganado</th><th></th></tr></thead><tbody>
+        ${flujos.length ? `<div class="solo-movil lista">${flujos.map(f => {
+            const entra = f.tipo === 'deposito' || f.apartadoDestinoId === ap.id;
+            const lote = ca.lotes.find(x => x.ref === f && (entra ? x.monto > 0 : x.monto < 0));
+            return `<div class="fila"><div class="fila-txt"><div class="fila-titulo">${f.tipo === 'deposito' ? 'Depósito' : f.tipo === 'retiro' ? 'Retiro' : (entra ? 'Traspaso recibido' : 'Traspaso enviado')} · ${UI.esc(a.nombreCuenta(f.cuentaId))}</div><div class="fila-sub">${F.fecha(f.fecha, 'media')}${f.tipo === 'deposito' && f.tasa != null ? ' · ' + F.pct(f.tasa) : ''}${lote && entra ? ' · ganado <span class="verde-txt">' + F.dinero(lote.ganado) + '</span>' : ''}</div></div><div class="fila-der num ${entra ? 'verde-txt' : 'rojo-txt'}">${UI.m(entra ? f.monto : -f.monto, { signo: true })}</div><button class="btn-icono sm" data-accion="borrar-flujo" data-id="${f.id}" aria-label="Eliminar">${UI.icono('trash')}</button></div>`;
+          }).join('')}</div><div class="tabla-wrap solo-escritorio"><table class="tabla"><thead><tr><th>Fecha</th><th>Cuenta</th><th class="der">Monto</th><th class="der">Tasa</th><th class="der">Valor hoy</th><th class="der">Ganado</th><th></th></tr></thead><tbody>
           ${flujos.map(f => {
             const l = lotesPorRef.get(f);
             const entra = f.tipo === 'deposito' || f.apartadoDestinoId === ap.id;
-            const desc = f.tipo === 'deposito' ? `Depósito en ${UI.esc(a.nombreCuenta(f.cuentaId))}` : f.tipo === 'retiro' ? `Retiro de ${UI.esc(a.nombreCuenta(f.cuentaId))}` : (entra ? `Desde ${UI.esc((a.apartado(f.apartadoId) || {}).nombre || 'otro apartado')}` : `Hacia ${UI.esc((a.apartado(f.apartadoDestinoId) || {}).nombre || 'otro apartado')}`);
+            const desc = f.tipo === 'deposito' ? `${UI.esc(a.nombreCuenta(f.cuentaId))}` : f.tipo === 'retiro' ? `Retiro · ${UI.esc(a.nombreCuenta(f.cuentaId))}` : (entra ? `Desde ${UI.esc((a.apartado(f.apartadoId) || {}).nombre || 'otro apartado')}` : `Hacia ${UI.esc((a.apartado(f.apartadoDestinoId) || {}).nombre || 'otro apartado')}`);
             const lote = ca.lotes.find(x => x.ref === f && (entra ? x.monto > 0 : x.monto < 0)) || l;
             return `<tr><td>${F.fecha(f.fecha, 'media')}</td><td>${desc}</td><td class="der ${entra ? 'verde-txt' : 'rojo-txt'}">${UI.m(entra ? f.monto : -f.monto, { signo: true })}</td><td class="der">${f.tipo === 'deposito' && f.tasa != null ? F.pct(f.tasa) : '—'}</td><td class="der">${lote && entra ? UI.m(lote.valor) : '—'}</td><td class="der verde-txt">${lote && entra ? UI.m(lote.ganado) : '—'}</td><td><button class="btn-icono sm" data-accion="borrar-flujo" data-id="${f.id}" aria-label="Eliminar">${UI.icono('trash')}</button></td></tr>`;
           }).join('')}
