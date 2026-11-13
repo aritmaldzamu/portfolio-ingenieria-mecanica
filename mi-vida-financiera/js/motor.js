@@ -195,7 +195,18 @@
     function logEn(dia) { const s = seg(dia); return s ? s.L + (dia - s.dia) * Math.log(s.f) : 0; }
     function G(d1, d2) { return Math.exp(logEn(d2) - logEn(d1)); }
     function factorEn(dia) { const s = seg(dia); return s ? s.f : 1; }
-    return { saldoEn, G, factorEn, segmentos: segs };
+    /** Interés (o crecimiento) generado entre dos días, sin contar flujos. */
+    function interesEntre(d1, d2) {
+      let tot = 0;
+      for (let i = 0; i < segs.length; i++) {
+        const s = segs[i], fin = i + 1 < segs.length ? segs[i + 1].dia : Infinity;
+        const a = Math.max(s.dia, d1), b = Math.min(fin, d2);
+        if (b <= a) continue;
+        tot += s.saldo * Math.pow(s.f, a - s.dia) * (Math.pow(s.f, b - a) - 1);
+      }
+      return tot;
+    }
+    return { saldoEn, G, factorEn, interesEntre, segmentos: segs };
   }
 
   /* ======================= Cálculo principal ======================= */
@@ -213,7 +224,8 @@
 
     const cuentas = {}, sims = {};
     let activos = 0, deudas = 0, liquido = 0;
-    const tot = { diario: 0, mensual: 0, anual: 0 };
+    const tot = { diario: 0, mensual: 0, anual: 0, mes: 0 };
+    const dFinAnt = D(finMes(sumarMeses(inicioMes(hoy), -1)));
     let sumaPond = 0, baseRinde = 0;
 
     for (const c of estado.cuentas || []) {
@@ -238,6 +250,7 @@
         activos += saldo;
         if (esLiquida(c)) liquido += saldo;
         tot.diario += r.diario; tot.mensual += r.mensual; tot.anual += r.anual;
+        tot.mes += sim.interesEntre(dFinAnt, dHoy);
         if (saldo > 0) { sumaPond += saldo * neta; baseRinde += saldo; }
       }
     }

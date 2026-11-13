@@ -293,7 +293,11 @@
       }
       if (op.promo) {
         const tope = Number(op.promo.tope) > 0 ? Number(op.promo.tope) : Infinity;
-        rangos = [{ piso: 0, techo: tope, tasa: Number(op.promo.tasa) || 0 }]
+        // Una promoción con duración se promedia contra la tasa normal en un horizonte de un año.
+        const dias = Number(op.promo.dias) > 0 ? Math.min(Number(op.promo.dias), DIAS_ANIO) : DIAS_ANIO;
+        const base = rangos.length ? rangos[0].tasa : 0;
+        const tPromo = (Number(op.promo.tasa) || 0) * dias / DIAS_ANIO + base * (1 - dias / DIAS_ANIO);
+        rangos = [{ piso: 0, techo: tope, tasa: tPromo }]
           .concat(rangos.filter(r => r.techo > tope).map(r => ({ ...r, piso: Math.max(r.piso, tope) })));
       }
       const segs = [];
@@ -336,11 +340,20 @@
    */
   function gananciaOpcion(monto, op, meses) {
     const existente = Number(op.saldoExistente) || 0;
-    const interesExtra = tasaEfectiva(existente + monto, op.tramos, op.promo) * (existente + monto) - tasaEfectiva(existente, op.tramos, op.promo) * existente;
-    const tasaMarg = monto > 0 ? interesExtra / monto : 0;
-    const neta = tasaNeta(tasaMarg, op.retencion);
+    const marginal = (promo) => {
+      const extra = tasaEfectiva(existente + monto, op.tramos, promo) * (existente + monto) - tasaEfectiva(existente, op.tramos, promo) * existente;
+      return monto > 0 ? extra / monto : 0;
+    };
     const dias = meses * DIAS_ANIO / 12;
-    return { tasa: tasaMarg, neta, ganancia: crecer(monto, neta, dias, op.capitalizacion, op.plazo) - monto };
+    // Si hay promoción con duración, aplica solo esos días y luego la tasa normal.
+    const diasPromo = op.promo ? (Number(op.promo.dias) > 0 ? Math.min(Number(op.promo.dias), dias) : dias) : 0;
+    const tPromo = op.promo ? marginal(op.promo) : 0, tNormal = marginal(null);
+    const nPromo = tasaNeta(tPromo, op.retencion), nNormal = tasaNeta(tNormal, op.retencion);
+    let valor = monto;
+    if (diasPromo > 0) valor = crecer(valor, nPromo, diasPromo, op.capitalizacion, op.plazo);
+    valor = crecer(valor, nNormal, dias - diasPromo, op.capitalizacion, op.plazo);
+    const tasa = op.promo ? tPromo : tNormal;
+    return { tasa, neta: tasaNeta(tasa, op.retencion), ganancia: valor - monto };
   }
 
   const Finanzas = {
