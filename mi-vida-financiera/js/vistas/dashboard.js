@@ -12,6 +12,7 @@
         <div style="flex:1;min-width:240px">
           <h2 style="font-size:22px">Bienvenido a Mi Vida Financiera</h2>
           <p class="suave mt-s" style="max-width:640px">Registra a dónde metiste tu dinero, a qué tasa y para qué (coche, casa, negocio…). La app calcula sola tus rendimientos y te dice cuánto vas a tener y cuándo. <b>Todo se queda en este dispositivo.</b></p>
+          <div class="campo mt" style="max-width:320px"><label for="bienv-nombre">¿Cómo te llamas?</label><input type="text" id="bienv-nombre" value="${UI.esc(window.App.estado.config.nombre)}" placeholder="Tu nombre" autocomplete="given-name"></div>
           <div class="fila-flex mt"><button class="btn btn-primario" data-accion="nueva-cuenta">${UI.icono('plus')}Agrega tu primera cuenta</button><button class="btn" data-accion="cargar-demo">${UI.icono('sparkles')}Cargar datos de ejemplo</button><button class="btn btn-fantasma" data-accion="importar-json">${UI.icono('upload')}Importar respaldo</button></div>
         </div>
       </div>
@@ -157,7 +158,10 @@
     </div>`;
   }
 
-  function despues(app) {
+  function despues(app, cont) {
+    const nom = cont && cont.querySelector('#bienv-nombre');
+    if (nom) nom.addEventListener('change', () => { app.estado.config.nombre = nom.value.trim(); app.guardar(); app.pintarPerfil(); UI.$('#titulo').textContent = app.estado.config.nombre ? `Hola, ${app.estado.config.nombre}` : 'Inicio'; });
+    if (!app.estado.cuentas.length) return;
     const serie = M.seriePatrimonio(app.estado, app.calc, 12);
     const t = G.tema();
     G.linea(document.getElementById('g-patrimonio'), serie.map(s => F.fecha(s.fecha, 'mesCorto')), [{ label: 'Patrimonio', data: serie.map(s => Math.round(s.patrimonio * 100) / 100), color: t.acento, area: true }], { desdeCero: false, maxX: 12 });
