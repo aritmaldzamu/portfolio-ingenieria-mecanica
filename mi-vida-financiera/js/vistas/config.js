@@ -29,20 +29,25 @@
         <p class="nota mt">Para agregar otro dispositivo: abre la app ahí, ve a Configuración y conecta el mismo repositorio con el mismo token.</p>`;
     }
     const m = location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
-    return `<div class="card-head"><h3>${UI.icono('refresh')}Sincronizar entre dispositivos</h3><span class="chip">Desactivada</span></div>
-      <p class="suave">Para que lo que registres en el celular aparezca en la compu (y al revés), tus datos se guardan en un <b>repositorio privado de tu GitHub</b>. Se configura una sola vez:</p>
+    const owner = m ? m[1] : '';
+    const urlRepo = 'https://github.com/new?name=mis-finanzas-datos&visibility=private&description=' + encodeURIComponent('Datos de Mi Vida Financiera (privado)');
+    const urlToken = 'https://github.com/settings/personal-access-tokens/new?name=' + encodeURIComponent('Mi Vida Financiera') + '&description=' + encodeURIComponent('Sincronizar mis finanzas entre celular y compu') + (owner ? '&target_name=' + encodeURIComponent(owner) : '') + '&expires_in=366&contents=write';
+    return `<div class="card-head"><h3>${UI.icono('refresh')}Sincronizar celular y compu</h3><span class="chip">Desactivada</span></div>
+      <p class="suave">Para que lo que registres en el celular aparezca en la compu (y al revés), tus datos se guardan en un <b>repositorio privado de tu GitHub</b>. Son 3 pasos, una sola vez:</p>
       <ol class="pasos mt">
-        <li>Crea un repositorio <b>privado</b>: <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a> → nombre <b>mis-finanzas-datos</b> → marca <b>Private</b> → <b>Create repository</b>.</li>
-        <li>Crea un token: <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained token</a>. En <b>Repository access</b> elige <b>Only select repositories</b> → <b>mis-finanzas-datos</b>. En <b>Permissions</b> agrega <b>Contents → Read and write</b>. Pon una expiración (por ejemplo 1 año), genera y copia el token (empieza con <b>github_pat_</b>).</li>
-        <li>Pega aquí tu usuario, el repositorio y el token, y presiona <b>Conectar</b>. Después repite este paso en tu otro dispositivo.</li>
+        <li><b>Crea el repositorio privado.</b> El botón abre GitHub con todo listo (nombre <b>mis-finanzas-datos</b> y <b>Private</b>); solo presiona <b>Create repository</b>.<div class="mt-s"><a class="btn btn-sm" href="${urlRepo}" target="_blank" rel="noopener">${UI.icono('arrowUp')}1. Crear repositorio privado</a></div></li>
+        <li><b>Crea el token.</b> El botón abre GitHub con nombre, expiración y permiso de <b>Contents: Read and write</b> ya puestos. Solo revisa que en <b>Repository access</b> esté <b>Only select repositories → mis-finanzas-datos</b>, presiona <b>Generate token</b> y cópialo (empieza con <b>github_pat_</b>).<div class="mt-s"><a class="btn btn-sm" href="${urlToken}" target="_blank" rel="noopener">${UI.icono('arrowUp')}2. Crear token</a></div></li>
+        <li><b>Pega el token aquí</b> y presiona <b>Conectar</b>. Haz este paso en cada dispositivo (celular y compu) con el mismo token.</li>
       </ol>
       <form class="form mt" id="sync-form" autocomplete="off">
-        <div class="campo tercio"><label for="sync-owner">Usuario de GitHub</label><input type="text" id="sync-owner" value="${UI.esc(m ? m[1] : '')}" placeholder="tu-usuario" autocapitalize="off" spellcheck="false"></div>
-        <div class="campo tercio"><label for="sync-repo">Repositorio privado</label><input type="text" id="sync-repo" value="mis-finanzas-datos" autocapitalize="off" spellcheck="false"></div>
-        <div class="campo tercio"><label for="sync-token">Token</label><input type="password" id="sync-token" placeholder="github_pat_…" autocapitalize="off" spellcheck="false"></div>
+        <div class="campo"><label for="sync-token">Token de GitHub</label><input type="password" id="sync-token" placeholder="github_pat_…" autocapitalize="off" spellcheck="false"></div>
+        <details class="campo" ${owner ? '' : 'open'}><summary class="suave" style="cursor:pointer">Usuario y repositorio: <b>${UI.esc(owner || '—')}/mis-finanzas-datos</b> (cambiar)</summary>
+          <div class="form mt-s"><div class="campo mitad"><label for="sync-owner">Usuario de GitHub</label><input type="text" id="sync-owner" value="${UI.esc(owner)}" placeholder="tu-usuario" autocapitalize="off" spellcheck="false"></div>
+          <div class="campo mitad"><label for="sync-repo">Repositorio privado</label><input type="text" id="sync-repo" value="mis-finanzas-datos" autocapitalize="off" spellcheck="false"></div></div>
+        </details>
         <div class="error-form oculto" id="sync-error" role="alert"></div>
       </form>
-      <div class="fila-flex mt"><button class="btn btn-primario" data-sync-conectar>${UI.icono('refresh')}Conectar</button></div>
+      <div class="fila-flex mt"><button class="btn btn-primario" data-sync-conectar>${UI.icono('refresh')}3. Conectar</button></div>
       <p class="nota mt">El token solo da acceso a ese repositorio. Se guarda únicamente en este navegador y nunca se incluye en los respaldos JSON. Si pierdes un dispositivo, borra el token en GitHub y crea otro.</p>`;
   }
 

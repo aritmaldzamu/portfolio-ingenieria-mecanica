@@ -81,6 +81,7 @@
         </div>
       </section>
 
+      ${!(window.Sync && window.Sync.activo) ? `<section class="card s-12 card-sm"><div class="entre" style="flex-wrap:wrap"><div class="fila-flex" style="gap:12px;flex-wrap:nowrap">${UI.burbuja('refresh', 'var(--blue)', 'sm')}<div><b style="font-weight:600">Usa los mismos datos en tu celular y tu compu</b><div class="fila-sub" style="white-space:normal">Activa la sincronización con tu GitHub privado (3 pasos, una sola vez).</div></div></div><a class="btn btn-sm btn-primario" href="#/config">Activar</a></div></section>` : ''}
       ${mensajes.length ? `<section class="card s-12"><div class="card-head"><h3>${UI.icono('sparkles')}Tu dinero en palabras</h3></div><div class="mensajes">${mensajes.map(t => `<div class="mensaje">${UI.icono('sparkles')}<span>${t}</span></div>`).join('')}</div></section>` : ''}
 
       <section class="card s-12">
