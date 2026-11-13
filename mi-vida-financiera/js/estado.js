@@ -120,23 +120,37 @@
     return out;
   }
 
+  /* ---------- Perfiles (varias personas en el mismo dispositivo) ---------- */
+  const CLAVE_PERFILES = 'mvf:perfiles:v1';
+  function perfiles() {
+    let p = null;
+    try { p = JSON.parse(localStorage.getItem(CLAVE_PERFILES) || 'null'); } catch (e) { p = null; }
+    if (!p || !Array.isArray(p.lista) || !p.lista.length) p = { activo: 'principal', lista: [{ id: 'principal', nombre: '' }] };
+    if (!p.lista.some(x => x.id === p.activo)) p.activo = p.lista[0].id;
+    return p;
+  }
+  function guardarPerfiles(p) { try { localStorage.setItem(CLAVE_PERFILES, JSON.stringify(p)); return true; } catch (e) { return false; } }
+  /** Sufijo de las claves de localStorage del perfil activo ('' para el principal). */
+  function sufijoPerfil(id) { id = id || perfiles().activo; return id === 'principal' ? '' : ':' + id; }
+  function claveEstado(id) { return CLAVE + sufijoPerfil(id); }
+
   /* ---------- Persistencia ---------- */
   let ultimoError = null;
   function cargar() {
     try {
-      const txt = localStorage.getItem(CLAVE);
+      const txt = localStorage.getItem(claveEstado());
       if (!txt) return null;
       return normalizar(JSON.parse(txt));
     } catch (err) { ultimoError = err; return null; }
   }
   function guardar(estado) {
-    try { localStorage.setItem(CLAVE, JSON.stringify(estado)); ultimoError = null; return true; }
+    try { localStorage.setItem(claveEstado(), JSON.stringify(estado)); ultimoError = null; return true; }
     catch (err) { ultimoError = err; return false; }
   }
-  function borrar() { try { localStorage.removeItem(CLAVE); } catch (err) { ultimoError = err; } }
+  function borrar(id) { try { localStorage.removeItem(claveEstado(id)); } catch (err) { ultimoError = err; } }
 
   const Estado = {
-    CLAVE, VERSION, TABLA_ISR_2025, CATEGORIAS, CATEGORIAS_INGRESO, INSTITUCIONES,
+    CLAVE, CLAVE_PERFILES, perfiles, guardarPerfiles, sufijoPerfil, claveEstado, VERSION, TABLA_ISR_2025, CATEGORIAS, CATEGORIAS_INGRESO, INSTITUCIONES,
     nuevoId, marca, configDefecto, estadoVacio, normalizar, cargar, guardar, borrar,
     get ultimoError() { return ultimoError; },
   };

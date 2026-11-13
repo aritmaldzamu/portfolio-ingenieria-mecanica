@@ -66,6 +66,7 @@
     _tGuardar: null, _avisoError: false,
     guardar(inmediato) {
       clearTimeout(this._tGuardar);
+      if (this._cambiandoPerfil) return; // ya se cambió de persona: no escribir en el perfil nuevo
       const go = () => {
         const ok = E.guardar(this.estado);
         if (!ok && !this._avisoError) { this._avisoError = true; UI.toast('No se pudo guardar en este navegador (¿modo privado o espacio lleno?). Exporta un respaldo.', { error: true, duracion: 6000 }); }
@@ -147,6 +148,7 @@
             <a class="btn btn-sm btn-fantasma" href="#/config">${UI.icono('refresh')}Sincronizar dispositivos</a>
           </div>`;
       }
+      this.pintarPerfil();
       const priv = this.estado.config.ocultarMontos;
       document.body.classList.toggle('privado', !!priv);
       UI.$('#btn-privado').innerHTML = UI.icono(priv ? 'eyeOff' : 'eye');
@@ -154,6 +156,78 @@
       document.documentElement.setAttribute('data-theme', claro ? 'light' : 'dark');
       UI.$('#btn-tema').innerHTML = UI.icono(claro ? 'moon' : 'sun');
       const meta = document.querySelector('meta[name=theme-color]'); if (meta) meta.content = claro ? '#f4f5f9' : '#0a0b10';
+    },
+
+    /* ---------- Perfiles: varias personas en el mismo dispositivo ---------- */
+    colorPerfil(id) { let h = 0; for (const ch of String(id)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return UI.COLORES[h % UI.COLORES.length]; },
+    inicial(nombre) { return (String(nombre || '').trim()[0] || '?').toUpperCase(); },
+    pintarPerfil() {
+      const pf = E.perfiles();
+      const yo = pf.lista.find(p => p.id === pf.activo);
+      // Mantener el nombre del perfil igual al nombre de Configuración
+      if (yo && (this.estado.config.nombre || '') !== (yo.nombre || '') && this.estado.config.nombre) { yo.nombre = this.estado.config.nombre; E.guardarPerfiles(pf); }
+      const b = UI.$('#btn-perfil');
+      if (!b) return;
+      const nombre = (yo && yo.nombre) || this.estado.config.nombre || '';
+      b.textContent = nombre ? this.inicial(nombre) : '';
+      if (!nombre) b.innerHTML = UI.icono('users', 'ico-sm');
+      b.style.setProperty('--c', this.colorPerfil(pf.activo));
+      b.title = `${nombre || 'Sin nombre'} · cambiar de persona`;
+    },
+    cambiarPerfil(id) {
+      const pf = E.perfiles();
+      if (pf.activo === id) return;
+      this.guardar(true);
+      this._cambiandoPerfil = true;
+      if (window.Sync) clearTimeout(window.Sync._t);
+      pf.activo = id; E.guardarPerfiles(pf);
+      location.hash = '#/dashboard';
+      location.reload();
+    },
+    menuPerfiles() {
+      const pf = E.perfiles();
+      const md = UI.modal({
+        titulo: '¿Quién usa la app?', icono: 'users', ancho: 'angosto',
+        subtitulo: 'Cada persona tiene sus propios datos en este dispositivo.',
+        cuerpo: `<div class="lista">${pf.lista.map(p => `<div class="fila ${p.id === pf.activo ? '' : 'clic'}" data-perfil="${p.id}">
+            <span class="avatar-btn" style="--c:${this.colorPerfil(p.id)}">${UI.esc(this.inicial(p.nombre || (p.id === pf.activo ? this.estado.config.nombre : '')))}</span>
+            <div class="fila-txt"><div class="fila-titulo">${UI.esc(p.nombre || (p.id === pf.activo && this.estado.config.nombre) || 'Sin nombre')}</div><div class="fila-sub">${p.id === pf.activo ? 'Usando ahora' : 'Toca para cambiar'}</div></div>
+            ${p.id === pf.activo ? '<span class="chip verde">Activo</span>' : `<button class="btn-icono sm" data-borrar-perfil="${p.id}" aria-label="Eliminar perfil">${UI.icono('trash')}</button>`}
+          </div>`).join('')}</div>
+          <button class="btn mt" data-nuevo-perfil style="width:100%">${UI.icono('plus')}Agregar otra persona</button>
+          <p class="nota mt">Los perfiles no tienen contraseña: cualquiera con este dispositivo puede cambiar de persona. Para total privacidad, que cada quien use la app en su propio celular (mismo link).</p>`,
+        alMontar: (el, api) => {
+          el.querySelectorAll('[data-perfil]').forEach(f => f.addEventListener('click', e => { if (e.target.closest('[data-borrar-perfil]')) return; if (f.dataset.perfil !== pf.activo) { api.cerrar(); this.cambiarPerfil(f.dataset.perfil); } }));
+          el.querySelector('[data-nuevo-perfil]').addEventListener('click', () => { api.cerrar(); this.nuevoPerfil(); });
+          el.querySelectorAll('[data-borrar-perfil]').forEach(b => b.addEventListener('click', async () => {
+            const p = pf.lista.find(x => x.id === b.dataset.borrarPerfil);
+            const ok = await UI.confirmar({ titulo: `Eliminar a ${p.nombre || 'este perfil'}`, peligro: true, mensaje: 'Se borrarán sus datos de este dispositivo (si tenía sincronización, sus datos siguen en su GitHub).', textoOk: 'Eliminar perfil' });
+            if (!ok) return;
+            const sf = E.sufijoPerfil(p.id);
+            try { ['mvf:estado:v1', 'mvf:sync:v1', 'mvf:sync:base:v1'].forEach(k => localStorage.removeItem(k + sf)); } catch (e) { /* nada */ }
+            const nuevo = E.perfiles(); nuevo.lista = nuevo.lista.filter(x => x.id !== p.id); E.guardarPerfiles(nuevo);
+            api.cerrar(); this.menuPerfiles(); UI.toast('Perfil eliminado');
+          }));
+        },
+      });
+      void md;
+    },
+    nuevoPerfil() {
+      UI.formulario({
+        titulo: 'Agregar persona', icono: 'users', subtitulo: 'Tendrá sus propios datos, separados de los tuyos.',
+        campos: [{ n: 'nombre', l: '¿Cómo se llama?', req: true, ph: 'Ej. Ana' }], textoGuardar: 'Crear y cambiar',
+        onGuardar: (x) => {
+          const pf = E.perfiles();
+          // Asegura que el perfil actual quede con su nombre en la lista
+          const yo = pf.lista.find(p => p.id === pf.activo); if (yo && !yo.nombre) yo.nombre = this.estado.config.nombre || 'Yo';
+          const id = 'p' + Date.now().toString(36);
+          pf.lista.push({ id, nombre: x.nombre.trim() });
+          E.guardarPerfiles(pf);
+          const est = E.estadoVacio(); est.config.nombre = x.nombre.trim(); est.config.tema = this.estado.config.tema;
+          try { localStorage.setItem(E.claveEstado(id), JSON.stringify(est)); } catch (e) { return 'No se pudo crear el perfil (almacenamiento lleno o bloqueado).'; }
+          this.cambiarPerfil(id);
+        },
+      });
     },
 
     /* ---------- Respaldo ---------- */
@@ -210,9 +284,9 @@
         const ok = await UI.confirmar({ titulo: 'Cargar datos de ejemplo', mensaje: 'Esto <b>reemplaza</b> tus datos actuales por datos de ejemplo. Si quieres conservarlos, exporta un respaldo primero.' + (window.Sync && window.Sync.activo ? ' <b>Ojo: con la sincronización activa también se reemplazarán en tus otros dispositivos.</b>' : ''), textoOk: 'Reemplazar con ejemplo' });
         if (!ok) return;
       }
-      const tema = this.estado.config.tema;
+      const tema = this.estado.config.tema, nombre = this.estado.config.nombre;
       this.estado = E.normalizar(Demo.generar(this.hoy));
-      this.estado.config.tema = tema;
+      this.estado.config.tema = tema; this.estado.config.nombre = nombre;
       this.recalcular(); this.guardar(true); this.navegar('dashboard'); this.render(true);
       UI.toast('Datos de ejemplo cargados. Las tasas son ejemplos: verifícalas en cada app.');
     },
@@ -237,7 +311,7 @@
         titulo: 'Más secciones', icono: 'grid',
         cuerpo: `<div class="tarjetas" style="grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">${items.map(i => `<a class="card card-sm fila-flex" href="#/${i.r}" style="gap:10px;color:var(--text);flex-wrap:nowrap">${UI.burbuja(i.i, 'var(--accent)', 'sm')}<b style="font-weight:600;font-size:13px">${i.t}</b></a>`).join('')}</div>
           <div class="divisor"></div>
-          <div class="fila-flex"><button class="btn" data-accion="comando">${UI.icono('sparkles')}Registro rápido</button><button class="btn" data-accion="tema">${UI.icono('sun')}Tema</button><button class="btn" data-accion="exportar-json">${UI.icono('download')}Respaldo</button></div>`,
+          <div class="fila-flex"><button class="btn" data-accion="perfiles">${UI.icono('users')}Cambiar de persona</button><button class="btn" data-accion="comando">${UI.icono('sparkles')}Registro rápido</button><button class="btn" data-accion="tema">${UI.icono('sun')}Tema</button><button class="btn" data-accion="exportar-json">${UI.icono('download')}Respaldo</button></div>`,
         alMontar(el, api) { el.querySelectorAll('a').forEach(a => a.addEventListener('click', () => api.cerrar())); },
       });
       void md;
@@ -270,6 +344,7 @@
       });
       UI.$('#btn-comando').addEventListener('click', () => window.Comando.abrir());
       UI.$('#btn-tema').addEventListener('click', () => this.acciones.tema());
+      UI.$('#btn-perfil').addEventListener('click', () => this.menuPerfiles());
       UI.$('#btn-privado').addEventListener('click', () => { this.estado.config.ocultarMontos = !this.estado.config.ocultarMontos; this.guardar(); this.pintarRespaldo(); });
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'hidden') this.guardar(true);
@@ -292,6 +367,7 @@
   App.accion('comando', () => { UI.cerrarModalSuperior(); window.Comando.abrir(); });
   App.accion('ir', d => App.navegar(d.ruta));
   App.accion('nuevo-rapido', () => window.Forms.movimiento({}));
+  App.accion('perfiles', () => { UI.cerrarModalSuperior(); App.menuPerfiles(); });
   App.accion('sincronizar-ahora', () => window.Sync && window.Sync.sincronizar());
 
   window.App = App;

@@ -30,7 +30,7 @@ Para que lo que registres en un dispositivo aparezca en el otro, los datos se gu
    - *Repository access* → *Only select repositories* → `mis-finanzas-datos`.
    - *Permissions* → *Repository permissions* → *Contents* → **Read and write**.
    - Elige una expiración (por ejemplo 1 año), genera y copia el token (empieza con `github_pat_`). Guárdalo en un lugar seguro.
-3. En la app: **Configuración → Sincronizar entre dispositivos** → escribe tu usuario, `mis-finanzas-datos` y el token → **Conectar**.
+3. En la app: **Configuración → Sincronizar celular y compu** → pega el token → **Conectar** (tu usuario y el repositorio se detectan solos).
 4. Repite el paso 3 en tu otro dispositivo con el mismo token. Si el primero ya tenía datos, elige **"Usar los datos de GitHub"**.
 
 Cómo funciona:
@@ -41,6 +41,12 @@ Cómo funciona:
 - El token se guarda solo en el navegador de cada dispositivo y **no** se incluye en los respaldos JSON. Si pierdes un dispositivo, borra el token en GitHub y crea otro.
 - La app se niega a sincronizar con un repositorio público.
 - El tema claro/oscuro y "ocultar montos" son preferencias de cada dispositivo (no se sincronizan).
+
+## Para tu amigo, tu novia o quien quieras
+
+- **Cada quien en su celular:** que abran el mismo link. Cada navegador tiene sus propios datos, así que empiezan desde cero y nadie ve lo de nadie.
+- **Si quieren sincronizar su celular y su compu:** cada persona usa **su propia cuenta de GitHub** (gratis en https://github.com/signup) y hace los 3 pasos de *Configuración → Sincronizar celular y compu*. Al pegar el token, la app detecta sola su usuario y su repositorio. Nunca compartan un token.
+- **Varias personas en el mismo dispositivo:** toca el círculo con tu inicial (arriba a la derecha; en celular también en *Más → Cambiar de persona*) → **Agregar otra persona**. Cada perfil tiene sus datos, su presupuesto y su propia sincronización. Los perfiles no tienen contraseña: en un dispositivo compartido cualquiera puede cambiar de persona.
 
 ## Pasar tus datos sin sincronización (manual)
 

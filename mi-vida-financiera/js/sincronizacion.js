@@ -90,8 +90,8 @@
   if (typeof module !== 'undefined' && module.exports) { module.exports = Fusion; return; }
 
   /* ======================= Navegador: GitHub ======================= */
-  const CLAVE_CFG = 'mvf:sync:v1';
-  const CLAVE_BASE = 'mvf:sync:base:v1';
+  const suf = () => (raiz.Estado ? raiz.Estado.sufijoPerfil() : '');
+  const CLAVES = { get cfg() { return 'mvf:sync:v1' + suf(); }, get base() { return 'mvf:sync:base:v1' + suf(); } };
   const ARCHIVO = 'mi-vida-financiera.json';
   const API = 'https://api.github.com';
   const A = () => raiz.App;
@@ -138,7 +138,7 @@
     estado: 'apagado', // apagado | sincronizando | ok | error | offline
     error: null, ultima: null, _enCurso: false, _pendiente: false, _t: null,
 
-    config() { return leerLS(CLAVE_CFG); },
+    config() { return leerLS(CLAVES.cfg); },
     get activo() { const c = this.config(); return !!(c && c.token && c.owner && c.repo); },
     dispositivo() { return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'celular' : 'computadora'; },
 
@@ -186,7 +186,7 @@
      * resultado si cambió. modo: 'normal' | 'remoto' (usar GitHub) | 'local' (subir lo de aquí).
      */
     async sincronizar(modo) {
-      if (!this.activo) return;
+      if (!this.activo || (A() && A()._cambiandoPerfil)) return;
       if (this._enCurso) { this._pendiente = true; return; }
       this._enCurso = true; this._pendiente = false;
       this.estado = 'sincronizando'; this.error = null; this.pintar();
@@ -197,7 +197,7 @@
           const remoto = await this.leer(cfg);
           // --- sección síncrona: fusionar con el estado actual ---
           const local = JSON.parse(JSON.stringify(app.estado));
-          const base = leerLS(CLAVE_BASE);
+          const base = leerLS(CLAVES.base);
           let res;
           if (!remoto || modo === 'local') res = local;
           else if (modo === 'remoto') res = E.normalizar(remoto.datos);
@@ -211,9 +211,9 @@
             try { await this.escribir(cfg, res, remoto && remoto.sha); }
             catch (e) { if (e.codigo === 'conflicto') { modo = 'normal'; continue; } throw e; }
           }
-          escribirLS(CLAVE_BASE, res);
+          escribirLS(CLAVES.base, res);
           this.estado = 'ok'; this.ultima = new Date();
-          cfg.ultima = this.ultima.toISOString(); escribirLS(CLAVE_CFG, cfg);
+          cfg.ultima = this.ultima.toISOString(); escribirLS(CLAVES.cfg, cfg);
           break;
         }
       } catch (e) {
@@ -227,8 +227,24 @@
     },
 
     /** Conecta este dispositivo. Pregunta qué hacer si ya hay datos en ambos lados. */
+    /** Detecta el usuario y el repositorio privado a partir del token. */
+    async detectar(token, owner, repo) {
+      const cfg = { token };
+      if (!owner) owner = (await (await gh(cfg, '/user')).json()).login;
+      if (!repo) {
+        const lista = await (await gh(cfg, '/user/repos?per_page=100&sort=updated&affiliation=owner')).json();
+        const privados = (Array.isArray(lista) ? lista : []).filter(r => r.private && (!owner || (r.owner && r.owner.login.toLowerCase() === owner.toLowerCase())));
+        const r = privados.find(x => x.name.toLowerCase() === 'mis-finanzas-datos') || (privados.length === 1 ? privados[0] : null);
+        if (!r) throw new ErrorSync(privados.length ? 'Tu token tiene acceso a varios repositorios privados. Escribe cuál usar en "Usuario y repositorio".' : 'No encontré tu repositorio privado. Crea "mis-finanzas-datos" (paso 1) y, al crear el token, dale acceso a ese repositorio.', 'no_existe');
+        repo = r.name;
+      }
+      return { owner, repo };
+    },
+
     async conectar(datos) {
-      const cfg = { owner: datos.owner.trim(), repo: datos.repo.trim(), token: datos.token.trim() };
+      const token = datos.token.trim();
+      const det = await this.detectar(token, (datos.owner || '').trim(), (datos.repo || '').trim());
+      const cfg = { owner: det.owner, repo: det.repo, token };
       const info = await this.verificar(cfg);
       cfg.rama = info.rama; cfg.url = info.url;
       const remoto = await this.leer(cfg);
@@ -237,8 +253,8 @@
       let modo = 'local';
       if (remoto && remoto.datos && (remoto.datos.cuentas || []).length) modo = hayLocal ? await this.preguntarModo(remoto.datos) : 'remoto';
       if (!modo) return false;
-      escribirLS(CLAVE_CFG, cfg);
-      escribirLS(CLAVE_BASE, null);
+      escribirLS(CLAVES.cfg, cfg);
+      escribirLS(CLAVES.base, null);
       await this.sincronizar(modo);
       return true;
     },
@@ -264,7 +280,7 @@
       });
     },
 
-    desconectar() { escribirLS(CLAVE_CFG, null); escribirLS(CLAVE_BASE, null); this.estado = 'apagado'; this.error = null; this.pintar(); },
+    desconectar() { escribirLS(CLAVES.cfg, null); escribirLS(CLAVES.base, null); this.estado = 'apagado'; this.error = null; this.pintar(); },
 
     /** Texto corto del estado para la barra superior. */
     resumen() {

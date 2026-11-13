@@ -14,7 +14,9 @@
   <script>
     /* Aplica el tema guardado antes de pintar para evitar parpadeo. */
     try {
-      var g = JSON.parse(localStorage.getItem('mvf:estado:v1') || '{}');
+      var pf = JSON.parse(localStorage.getItem('mvf:perfiles:v1') || 'null');
+      var act = pf && pf.activo && pf.activo !== 'principal' ? ':' + pf.activo : '';
+      var g = JSON.parse(localStorage.getItem('mvf:estado:v1' + act) || '{}');
       document.documentElement.setAttribute('data-theme', g.config && g.config.tema === 'claro' ? 'light' : 'dark');
     } catch (e) { /* sin acceso a localStorage: tema oscuro */ }
   </script>
@@ -44,6 +46,7 @@
         </button>
         <div class="topbar-acciones">
           <span id="aviso-respaldo"></span>
+          <button class="avatar-btn" id="btn-perfil" type="button" aria-label="Cambiar de persona" title="Cambiar de persona"></button>
           <button class="btn-icono" id="btn-privado" type="button" aria-label="Ocultar montos" title="Ocultar montos"><span class="ico" data-ico="eye"></span></button>
           <button class="btn-icono" id="btn-tema" type="button" aria-label="Cambiar tema" title="Cambiar tema claro/oscuro"><span class="ico" data-ico="sun"></span></button>
         </div>

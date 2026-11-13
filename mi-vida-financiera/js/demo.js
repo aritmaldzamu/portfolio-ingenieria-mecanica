@@ -27,7 +27,6 @@
     const entre = (a, b) => Math.round((a + r() * (b - a)) / 10) * 10;
     const e = E.estadoVacio();
     e.demo = true;
-    e.config.nombre = 'Arith';
     let orden = 1;
     const o = () => orden++;
     const inicio = M.sumarMeses(M.inicioMes(hoy), -8);
@@ -205,7 +204,7 @@
 
     /* ---------- Ingresos, PPR y Afore ---------- */
     e.ingresos.fuentes = [
-      { id: 'ing_sueldo', tipo: 'sueldo', nombre: 'Sueldo (Ingeniero de controles Jr.)', bruto: 11000, neto: 9185, frecuencia: 'quincenal' },
+      { id: 'ing_sueldo', tipo: 'sueldo', nombre: 'Sueldo', bruto: 11000, neto: 9185, frecuencia: 'quincenal' },
       { id: 'ing_aguinaldo', tipo: 'aguinaldo', nombre: 'Aguinaldo (15 días)', bruto: 11000, neto: 10200, frecuencia: 'anual' },
       { id: 'ing_prima', tipo: 'prima', nombre: 'Prima vacacional (12 días × 25 %)', bruto: 2200, neto: 2200, frecuencia: 'anual' },
       { id: 'ing_freelance', tipo: 'freelance', nombre: 'Freelance CAD', bruto: 4500, neto: 4500, frecuencia: 'unico' },

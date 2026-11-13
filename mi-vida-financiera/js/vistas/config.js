@@ -28,22 +28,21 @@
         <div class="fila-flex mt"><button class="btn btn-primario" data-accion="sincronizar-ahora">${UI.icono('refresh')}Sincronizar ahora</button><button class="btn btn-fantasma" data-sync-desconectar>${UI.icono('x')}Desconectar este dispositivo</button></div>
         <p class="nota mt">Para agregar otro dispositivo: abre la app ahí, ve a Configuración y conecta el mismo repositorio con el mismo token.</p>`;
     }
-    const m = location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
-    const owner = m ? m[1] : '';
+    const owner = '';
     const urlRepo = 'https://github.com/new?name=mis-finanzas-datos&visibility=private&description=' + encodeURIComponent('Datos de Mi Vida Financiera (privado)');
-    const urlToken = 'https://github.com/settings/personal-access-tokens/new?name=' + encodeURIComponent('Mi Vida Financiera') + '&description=' + encodeURIComponent('Sincronizar mis finanzas entre celular y compu') + (owner ? '&target_name=' + encodeURIComponent(owner) : '') + '&expires_in=366&contents=write';
+    const urlToken = 'https://github.com/settings/personal-access-tokens/new?name=' + encodeURIComponent('Mi Vida Financiera') + '&description=' + encodeURIComponent('Sincronizar mis finanzas entre celular y compu') + '&expires_in=366&contents=write';
     return `<div class="card-head"><h3>${UI.icono('refresh')}Sincronizar celular y compu</h3><span class="chip">Desactivada</span></div>
-      <p class="suave">Para que lo que registres en el celular aparezca en la compu (y al revés), tus datos se guardan en un <b>repositorio privado de tu GitHub</b>. Son 3 pasos, una sola vez:</p>
+      <p class="suave">Para que lo que registres en el celular aparezca en la compu (y al revés), tus datos se guardan en un <b>repositorio privado de tu propia cuenta de GitHub</b> (si no tienes, crea una gratis en <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a>). Son 3 pasos, una sola vez:</p>
       <ol class="pasos mt">
         <li><b>Crea el repositorio privado.</b> El botón abre GitHub con todo listo (nombre <b>mis-finanzas-datos</b> y <b>Private</b>); solo presiona <b>Create repository</b>.<div class="mt-s"><a class="btn btn-sm" href="${urlRepo}" target="_blank" rel="noopener">${UI.icono('arrowUp')}1. Crear repositorio privado</a></div></li>
         <li><b>Crea el token.</b> El botón abre GitHub con nombre, expiración y permiso de <b>Contents: Read and write</b> ya puestos. Solo revisa que en <b>Repository access</b> esté <b>Only select repositories → mis-finanzas-datos</b>, presiona <b>Generate token</b> y cópialo (empieza con <b>github_pat_</b>).<div class="mt-s"><a class="btn btn-sm" href="${urlToken}" target="_blank" rel="noopener">${UI.icono('arrowUp')}2. Crear token</a></div></li>
-        <li><b>Pega el token aquí</b> y presiona <b>Conectar</b>. Haz este paso en cada dispositivo (celular y compu) con el mismo token.</li>
+        <li><b>Pega el token aquí</b> y presiona <b>Conectar</b>; tu usuario y tu repositorio se detectan solos. Haz este paso en cada dispositivo (celular y compu) con el mismo token.</li>
       </ol>
       <form class="form mt" id="sync-form" autocomplete="off">
         <div class="campo"><label for="sync-token">Token de GitHub</label><input type="password" id="sync-token" placeholder="github_pat_…" autocapitalize="off" spellcheck="false"></div>
-        <details class="campo" ${owner ? '' : 'open'}><summary class="suave" style="cursor:pointer">Usuario y repositorio: <b>${UI.esc(owner || '—')}/mis-finanzas-datos</b> (cambiar)</summary>
-          <div class="form mt-s"><div class="campo mitad"><label for="sync-owner">Usuario de GitHub</label><input type="text" id="sync-owner" value="${UI.esc(owner)}" placeholder="tu-usuario" autocapitalize="off" spellcheck="false"></div>
-          <div class="campo mitad"><label for="sync-repo">Repositorio privado</label><input type="text" id="sync-repo" value="mis-finanzas-datos" autocapitalize="off" spellcheck="false"></div></div>
+        <details class="campo"><summary class="suave" style="cursor:pointer">Opcional: usuario y repositorio (se detectan solos con tu token)</summary>
+          <div class="form mt-s"><div class="campo mitad"><label for="sync-owner">Usuario de GitHub</label><input type="text" id="sync-owner" value="" placeholder="automático" autocapitalize="off" spellcheck="false"></div>
+          <div class="campo mitad"><label for="sync-repo">Repositorio privado</label><input type="text" id="sync-repo" value="" placeholder="mis-finanzas-datos" autocapitalize="off" spellcheck="false"></div></div>
         </details>
         <div class="error-form oculto" id="sync-error" role="alert"></div>
       </form>
@@ -56,6 +55,7 @@
     return `
     <div class="grid">
       <section class="card s-12" id="sync-card">${tarjetaSync()}</section>
+      <section class="card s-12 card-sm"><div class="entre" style="flex-wrap:wrap"><div class="fila-flex" style="gap:12px;flex-wrap:nowrap">${UI.burbuja('users', 'var(--accent)', 'sm')}<div><b style="font-weight:600">Personas en este dispositivo</b><div class="fila-sub" style="white-space:normal">${window.Estado.perfiles().lista.length} ${window.Estado.perfiles().lista.length === 1 ? 'persona' : 'personas'}. Cada una con sus datos y su propia sincronización. Tu amigo o tu novia también pueden abrir el mismo link en su celular: ahí tendrán sus datos desde cero.</div></div></div><button class="btn btn-sm" data-accion="perfiles">${UI.icono('users')}Cambiar o agregar persona</button></div></section>
       <section class="card s-6">
         <div class="card-head"><h3>${UI.icono('settings')}General</h3></div>
         <div class="form">
@@ -134,7 +134,7 @@
     if (btn) btn.addEventListener('click', async () => {
       const err = card.querySelector('#sync-error');
       const datos = { owner: card.querySelector('#sync-owner').value, repo: card.querySelector('#sync-repo').value, token: card.querySelector('#sync-token').value };
-      if (!datos.owner.trim() || !datos.repo.trim() || !datos.token.trim()) { err.textContent = 'Llena usuario, repositorio y token.'; err.classList.remove('oculto'); return; }
+      if (!datos.token.trim()) { err.textContent = 'Pega tu token de GitHub.'; err.classList.remove('oculto'); return; }
       btn.disabled = true; btn.innerHTML = `${UI.icono('refresh', 'girando')}Conectando…`;
       try {
         const ok = await window.Sync.conectar(datos);
